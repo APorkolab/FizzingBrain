@@ -1,9 +1,22 @@
 # FizzingBrain
 
-3. A Quiz - guess
+    A Quiz - guess
+
 Skills: Front-end and Back-end
 Focus: Data Workflow
 Difficulty: 2/5
+
+The application excludes the file default.json, which stores the connection data for MySQL. The 'backend/config/deafult.json' file must be added and properly filled if you clone this project.
+The contents of the file are as follows:
+
+{
+"conn": {
+"host": "yourHost",
+"user": "yourUserName",
+"password": "yourPassword",
+"database": "yourDatabase"
+}
+}
 
 Creating a quiz on a subject, you know well is an excellent way to learn to master a simple data workflow to ensure that your players cannot cheat and to popularize and transmit information on a subject that you like.
 
