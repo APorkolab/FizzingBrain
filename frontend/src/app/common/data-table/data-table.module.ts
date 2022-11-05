@@ -2,9 +2,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from 'src/app/app-routing.module';
-
+import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterPipe } from 'src/app/pipe/filter.pipe';
 
@@ -15,11 +14,11 @@ const toastr = require('toastr')
 @NgModule({
   declarations: [NgxDataTableComponent, FilterPipe, SorterPipe],
   imports: [
-    CommonModule,
-    RouterModule,
-    toastr.forRoot(),
-    BrowserAnimationsModule,
     AppRoutingModule,
+    RouterModule,
+    CommonModule,
+    // toastr.forRoot(),
+    BrowserAnimationsModule,
     FormsModule
   ],
   exports: [NgxDataTableComponent, FilterPipe, SorterPipe],

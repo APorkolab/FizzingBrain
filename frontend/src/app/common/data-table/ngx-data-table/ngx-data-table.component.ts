@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { NotificationService } from 'src/app/service/notification.service';
+import { RouterModule } from '@angular/router';
 
 export interface INgxTableColumn {
   title: string;
@@ -58,7 +59,7 @@ export class NgxDataTableComponent<T extends { [x: string]: any }>
   }
 
   onDelete(entity: T) {
-    if (this.auth.user$ && this.auth.user$.value?.role === 3) {
+    if (this.auth.user$) {
       if (
         !confirm(
           'Do you really want to delete this record? This process cannot be undone.'

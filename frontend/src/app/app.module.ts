@@ -13,7 +13,6 @@ import { QuestionsComponent } from './page/questions/questions.component';
 import { UsersEditorComponent } from './page/users-editor/users-editor.component';
 import { QuestionsEditorComponent } from './page/questions-editor/questions-editor.component';
 import { FizzingbrainComponent } from './page/fizzingbrain/fizzingbrain.component';
-import { FilterPipe } from './pipe/filter.pipe';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
