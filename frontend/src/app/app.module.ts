@@ -22,6 +22,8 @@ import { AuthService } from './service/auth.service';
 import { JwtInterceptor } from './service/jwt.interceptor';
 import { ConfigService, IMenuItem } from './service/config.service';
 import { DataTableModule } from './common/data-table/data-table.module';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { DataTableModule } from './common/data-table/data-table.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    TooltipModule.forRoot(),
+    FontAwesomeModule
   ],
   exports: [FormsModule],
   providers: [
