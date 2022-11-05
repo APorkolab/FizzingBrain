@@ -1,0 +1,410 @@
+[
+  {
+    "hungarianQuestion": "Melyik évben koronázták meg II. Erzsébet angol királynőt?",
+    "englishQuestion": "In which year was Queen Elizabeth II of England crowned?",
+    "hungarianAnswer": 1953,
+    "englishAnswer": 1953,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány teáskanálnyi anyag fér egy csészébe?",
+    "englishQuestion": "How many teaspoons are in a cup?",
+    "hungarianAnswer": 48,
+    "englishAnswer": 48,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány évig tartott a trójai háború?",
+    "englishQuestion": "How many years did the Trojan War last?",
+    "hungarianAnswer": 10,
+    "englishAnswer": 10,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Milyen magas a Chrysler Building Manhattanben?",
+    "englishQuestion": "How tall is the Chrysler Building in Manhattan in meters?",
+    "hungarianAnswer": 319,
+    "englishAnswer": 319,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Charles Dickens 'Szép remények/Nagy várakozások' című műve melyik évben jelent meg először?",
+    "englishQuestion": "Charles Dickens' 'Great Expectations' was first published in what year?",
+    "hungarianAnswer": 1861,
+    "englishAnswer": 1861,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben került a mozikba a Disney Szépség és a szörnyeteg című animációs filmje?",
+    "englishQuestion": "What year was Disney's animated Beauty and the Beast in theaters?",
+    "hungarianAnswer": 1991,
+    "englishAnswer": 1991,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány év telt el a függetlenségi háború kezdete és az amerikai polgárháború vége között?",
+    "englishQuestion": "How many years passed between the beginning of the Revolutionary War and the end of the American Civil War?",
+    "hungarianAnswer": 89,
+    "englishAnswer": 89,
+    "descriptionHungarian": "1776-1865",
+    "descriptionEnglish": "1776-1865"
+  },
+  {
+    "hungarianQuestion": "Hány ízület van egy felnőtt ember lábában?",
+    "englishQuestion": "How many joints are in each adult human's foot?",
+    "hungarianAnswer": 30,
+    "englishAnswer": 30,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány fő szervrendszer található az emberi szervezetben?",
+    "englishQuestion": "How many major organ systems are in the human body?",
+    "hungarianAnswer": 11,
+    "englishAnswer": 11,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány Ford T-modell autót gyártottak a gyártás csúcsévében, 1923-ban?",
+    "englishQuestion": "How many Ford Model T cars were produced during their peak production year, 1923?",
+    "hungarianAnswer": 2011125,
+    "englishAnswer": 2011125,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hányszor hangzik el a vér szó Shakespeare klasszikus darabjában, a Macbethben?",
+    "englishQuestion": "How many times is the word: blood spoken in Shakespeare's classic play Macbeth?",
+    "hungarianAnswer": 42,
+    "englishAnswer": 42,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány másodperc 35 perc?",
+    "englishQuestion": "How many seconds are in 35 minutes?",
+    "hungarianAnswer": 2100,
+    "englishAnswer": 2100,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány másodperc 3 év?",
+    "englishQuestion": "How many seconds are in 3 years?",
+    "hungarianAnswer": 94608000,
+    "englishAnswer": 94608000,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány oldalas a Harry Potter-sorozat ötödik könyve, a Harry Potter és a Főnix Rendje?",
+    "englishQuestion": "How many pages are in the Harry Potter series' fifth book, Harry Potter and the Order of the Phoenix?",
+    "hungarianAnswer": 766,
+    "englishAnswer": 766,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány oldalas Michelle Obama - Így lettem (Becoming) című memoárja?",
+    "englishQuestion": "How many pages are in Michelle Obama's memoir Becoming?",
+    "hungarianAnswer": 448,
+    "englishAnswer": 448,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány epizódból állt az 1990-es évek népszerű szitkomjának, a Jóbarátoknak az első évada?",
+    "englishQuestion": "How many episodes were there in the first season of beloved 1990s sitcom Friends?",
+    "hungarianAnswer": 24,
+    "englishAnswer": 24,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hányan élték túl a Titanic elsüllyedését?",
+    "englishQuestion": "How many people survived the sinking of the RMS Titanic?",
+    "hungarianAnswer": 706,
+    "englishAnswer": 706,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Az IMDB szerint hány perces az eredeti kiadású, 1972-es Keresztapa 1.?",
+    "englishQuestion": "According to IMDB, how long in minutes is the 1972 original release version of The Godfather?",
+    "hungarianAnswer": 175,
+    "englishAnswer": 175,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben jelent meg az első iPhone az Egyesült Államokban?",
+    "englishQuestion": "In what year was the first iPhone released for sale in the USA?",
+    "hungarianAnswer": 2007,
+    "englishAnswer": 2007,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben halt meg Michael Jackson?",
+    "englishQuestion": "In what year did Michael Jackson die?",
+    "hungarianAnswer": 2009,
+    "englishAnswer": 2009,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány pontot szerzett Kareem Abdul-Jabbar - az NBA minden idők legjobb pontszerzője - profi karrierje során?",
+    "englishQuestion": "How many points did Kareem Abdul-Jabbar - the NBA's all-time leading scorer - score during his pro career?",
+    "hungarianAnswer": 38387,
+    "englishAnswer": 38387,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány szoba található a Fehér Házban?",
+    "englishQuestion": "How many rooms are in the White House?",
+    "hungarianAnswer": 135,
+    "englishAnswer": 135,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány győzelmet gyűjtött össze Rocky Marciano veretlen nehézsúlyú ökölvívó profi karrierje során?",
+    "englishQuestion": "How many wins did undefeated heavyweight boxer Rocky Marciano amass during his professional career?",
+    "hungarianAnswer": 49,
+    "englishAnswer": 49,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány kilométer légvonalban London és New York?",
+    "englishQuestion": "As the crow flies, how many miles is it from London to New York?",
+    "hungarianAnswer": 5584,
+    "englishAnswer": 5584,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány kilométer légvonalban Makó és Jeruzsálem?",
+    "englishQuestion": "As the crow flies, how many miles is it from Makó, Hungary to Jerusalem, Israel?",
+    "hungarianAnswer": 3285,
+    "englishAnswer": 3285,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány kilométer légvonalban Budapest és Washington?",
+    "englishQuestion": "As the crow flies, how many miles is it from Budapest, Hungary to Washington DC, United States?",
+    "hungarianAnswer": 11804,
+    "englishAnswer": 11804,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány teáskanálnyi anyag fér egy csészébe?",
+    "englishQuestion": "How many teaspoons are in a cup?",
+    "hungarianAnswer": 48,
+    "englishAnswer": 48,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány gramm testömegű egy fekete gólya?",
+    "englishQuestion": "How many grams is a black stork?",
+    "hungarianAnswer": 3000,
+    "englishAnswer": 3000,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány darab háti csigolyánk van?",
+    "englishQuestion": "How many dorsal (back) vertebrae do we have?",
+    "hungarianAnswer": 12,
+    "englishAnswer": 12,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány méter magas egy narancsfa?",
+    "englishQuestion": "How many metres tall is an orange tree?",
+    "hungarianAnswer": 8,
+    "englishAnswer": 8,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány méter hosszú egy pápaszemes kobra?",
+    "englishQuestion": "How many metres is an Indian cobra long?",
+    "hungarianAnswer": 2,
+    "englishAnswer": 2,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány számot tartalmaz egy hagyományos európai rulettkerék?",
+    "englishQuestion": "How many numbers are on a traditional European roulette wheel?",
+    "hungarianAnswer": 37,
+    "englishAnswer": 37,
+    "descriptionHungarian": "Az európai rulettkeréken 37 szám van, az amerikai rulettkeréken pedig 38 (a dupla 0 miatt).",
+    "descriptionEnglish": "There are 37 numbers on a European roulette wheel and 38 numbers on an American Roulette wheel (because of the double 0)."
+  },
+  {
+    "hungarianQuestion": "Hány liter vére van átlagosan egy embernek?",
+    "englishQuestion": "On average, how many litres of blood does a person have?",
+    "hungarianAnswer": 5,
+    "englishAnswer": 5,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Van 10 hal egy zárt akváriumban. 2 elsüllyedt, 4 elúszott, 3 meghalt. Hány hal van most az akvárium?",
+    "englishQuestion": "I have 10 fish in a closed aquarium. 2 sunk, 4 swam away, 3 died. How many fish are now in the aquarium?",
+    "hungarianAnswer": 10,
+    "englishAnswer": 10,
+    "descriptionHungarian": "Egy sem hagyta el az akváriumot.",
+    "descriptionEnglish": "Not a single one has left the aquarium."
+  },
+  {
+    "hungarianQuestion": "Ha kilencszer egymás után feldobsz egy pénzérmét és mind a kilencszer írás lesz, akkor hány százalék az esély arra, hogy tizedikre fej lesz?",
+    "englishQuestion": "If you flip a coin nine times in a row and all nine times it comes up heads, what is the percentage chance that it will come up heads on the tenth time?",
+    "hungarianAnswer": 50,
+    "englishAnswer": 50,
+    "descriptionHungarian": "A dobások egymástól függetlenek.",
+    "descriptionEnglish": "The flips are independent of each other."
+  },
+  {
+    "hungarianQuestion": "Melyik évben nyerte el Indonézia a függetlenségét Hollandiától?",
+    "englishQuestion": "In what year did Indonesia gain its independence from the Netherlands?",
+    "hungarianAnswer": 1945,
+    "englishAnswer": 1945,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": " Mennyi a nőstény Csendes-óceáni északi simabálna élettartama években kifejezve?",
+    "englishQuestion": "What is the average lifespan in years of a female North Pacific right whale?",
+    "hungarianAnswer": 70,
+    "englishAnswer": 70,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Mennyi a gepárdok várható élettartama években kifejezve?",
+    "englishQuestion": "What is the median life expectancy in years for a cheetah ?",
+    "hungarianAnswer": 12,
+    "englishAnswer": 12,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Mekkora a Holt-tenger legnagyobb mélysége méterben?",
+    "englishQuestion": "What is the maximum depth of the Dead Sea?",
+    "hungarianAnswer": 306,
+    "englishAnswer": 306,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány felesége volt VIII. Henrik angol királynak?",
+    "englishQuestion": "How many wives did King Henry VIII have?",
+    "hungarianAnswer": 6,
+    "englishAnswer": 6,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben koronázták XIV. Lajost Franciaország királyává?",
+    "englishQuestion": "What year was Louis XIV crowned the king of France?",
+    "hungarianAnswer": 1654,
+    "englishAnswer": 1654,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben koronázták meg I.Viktória, angol királynőt?",
+    "englishQuestion": "In what year was Queen Victoria of the United Kingdom crowned?",
+    "hungarianAnswer": 1838,
+    "englishAnswer": 1838,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány méter hosszú a Brooklyn Bridge?",
+    "englishQuestion": "How many meters long is the Brooklyn Bridge?",
+    "hungarianAnswer": 1834,
+    "englishAnswer": 1834,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben született a 14. dalai láma?",
+    "englishQuestion": "What year was the 14th Dalai Lama born in?",
+    "hungarianAnswer": 1935,
+    "englishAnswer": 1935,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben halt meg II. Erzsébet angol királynő?",
+    "englishQuestion": "What year was reigning English monarch Queen Elizabeth II dies in?",
+    "hungarianAnswer": 2022,
+    "englishAnswer": 2022,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Melyik évben született II. Erzsébet angol királynő?",
+    "englishQuestion": "What year was reigning English monarch Queen Elizabeth II born in?",
+    "hungarianAnswer": 1926,
+    "englishAnswer": 1926,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Milyen hosszú az 'Óz, a csodák csodája' című film percben kifejezve?",
+    "englishQuestion": "What is the run time of 'The Wizard of Oz' in minutes?",
+    "hungarianAnswer": 112,
+    "englishAnswer": 112,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Milyen hosszú az 'Elfújta a szél' című film percben kifejezve?",
+    "englishQuestion": "What is the run time in minutes of 'Gone With the Wind'?",
+    "hungarianAnswer": 238,
+    "englishAnswer": 238,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány szobával büszkélkedhet a Versailles-i kastély?",
+    "englishQuestion": "How many rooms does the Palace of Versailles boast?",
+    "hungarianAnswer": 2300,
+    "englishAnswer": 2300,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány fürdőszoba található a Fehér Házban?",
+    "englishQuestion": "How many bathrooms are in the White House?",
+    "hungarianAnswer": 35,
+    "englishAnswer": 35,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  },
+  {
+    "hungarianQuestion": "Hány yard egy mérföld?",
+    "englishQuestion": "How many yards are in a mile?",
+    "hungarianAnswer": 76,
+    "englishAnswer": 76,
+    "descriptionHungarian": "",
+    "descriptionEnglish": ""
+  }
+]

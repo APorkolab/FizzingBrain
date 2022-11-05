@@ -1,11 +1,13 @@
-require('dotenv').config();
-const config = require('config');
+const config = require('dotenv').config();
 const logger = require('./logger/logger');
 const app = require('./server');
-const port = process.env.PORT || 3306;
+const port = process.env.PORT || 3000;
+const http = require("http");
 
 
-if (!config.has('conn')) {
+const server = http.createServer(app);
+
+if (!config) {
 	logger.error('No database config found.');
 	process.exit();
 }
