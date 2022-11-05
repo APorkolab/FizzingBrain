@@ -11,24 +11,6 @@ const question = require('./model/question');
 require("dotenv").config();
 const app = express();
 
-
-// // Create connection
-// const db = mysql.createConnection({
-// 	host: host,
-// 	user: user,
-// 	password: password,
-// 	database: database
-// })
-
-
-
-// Connect
-
-
-// const sql = new Sequelize(`mysql://${user}:${password}@${host}:${port}/${database}`);
-
-
-
 const sql = new sequelize(
 	process.env.DB_NAME,
 	process.env.DB_USER,
@@ -54,16 +36,6 @@ sql.authenticate().then(() => {
 	).catch(err => logger.error(err));
 
 
-// const sql = new Sequelize(database, user,
-// 	password, {
-// 		dialect: 'mysql',
-// 		dialectOptions: {
-// 			host: host,
-// 			port: port
-// 		},
-// 	});
-
-
 //Cross Origin Resource Sharing
 app.use(cors());
 // app.use(morgan('combined', {
@@ -86,10 +58,10 @@ app.use('/user', authencticateJwt, require('./controller/user/router'));
 // app.use('/watched-movies', authencticateJwt, require('./controllers/watched-movie/router'));
 app.use('/login', require('./controller/login/router'));
 
-// app.use('/', (req, res, next) => {
-// 	console.log(req.url);
-// 	res.send('The FaMoBase v.1.0.0 backend is working!');
-// });
+app.use('/', (req, res, next) => {
+	console.log(req.url);
+	res.send('The FaMoBase v.1.0.0 backend is working!');
+});
 
 app.use((err, req, res, next) => {
 	res.status = 500;
