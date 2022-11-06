@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../model/user');
 const jwt = require('jsonwebtoken');
+const useBcrypt = require('sequelize-bcrypt');
 
 //Post
 router.post('/', async (req, res, next) => {
@@ -10,64 +11,32 @@ router.post('/', async (req, res, next) => {
 		password
 	} = req.body;
 
-	const fMember = await User.findOne({
-		email
+	const user = await User.findOne({
+		where: {
+			email: email
+		}
 	});
 
-	if (!fMember) {
+	if (!user) {
 		res.sendStatus(404);
 		return res.json({
 			error: 'This user does not exist'
 		});
 	}
 
-	// User.verifyPassword(password, (err, isMatch) => {
-	// 	if (err) {
-	// 		return res.sendStatus(403);
-	// 	}
-	// 	if (!isMatch) {
-	// 		throw new Error('Incorrect credentials!');
-	// 	}
-
-
-
-	// 	const accessToken = jwt.sign({
-	// 			email: User.email,
-	// 			role: User.role,
-	// 		}, 'AllWorkAndNoPlayMakesJackADullBoy'),
-	// 		{
-	// 			expiresIn: '1h',
-	// 		};
-
-
-	// 	res.json({
-	// 		success: true,
-	// 		accessToken,
-	// 		User
-	// 	});
-
-
-	// });
-	// return controller.findAll(req, res, next);
-
-	const valid = fMember.verifyPasswordSync(password);
+	const valid = user.authenticate(password);
 	if (valid) {
-		const accessToken = jwt.sign(
-			// _id: fMember._id,
-			// email: fMember.email,
-			// role: fMember.role,
-			{
-				email: fMember.email,
-				role: fMember.role
-			}, 'AtMySignalUnleashHell', {
-				expiresIn: '1h',
-			});
+		const accessToken = jwt.sign({
+			email: user.email,
+		}, 'AtMySignalUnleashHell', {
+			expiresIn: '1h',
+		});
 
 		res.json({
 			// success: true,
 			accessToken,
 			User: {
-				...fMember._doc,
+				...user._doc,
 				password: ''
 			},
 		});
@@ -75,5 +44,38 @@ router.post('/', async (req, res, next) => {
 		return res.sendStatus(401);
 	}
 });
+
+const authenticateUserWithemail = (user) => {
+	return new Promise((resolve, reject) => {
+		try {
+			User.findOne({
+				where: {
+					email: user.email // user email
+				}
+			}).then(async (response) => {
+				if (!response) {
+					resolve(false);
+				} else {
+					if (!response.dataValues.password ||
+						!await response.validPassword(user.password,
+							response.dataValues.password)) {
+						resolve(false);
+					} else {
+						resolve(response.dataValues)
+					}
+				}
+			})
+		} catch (error) {
+			const response = {
+				status: 500,
+				data: {},
+				error: {
+					message: "user match failed"
+				}
+			};
+			reject(response);
+		}
+	})
+}
 
 module.exports = router;

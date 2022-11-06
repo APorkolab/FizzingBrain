@@ -13,10 +13,11 @@ import { QuestionsComponent } from './page/questions/questions.component';
 import { UsersEditorComponent } from './page/users-editor/users-editor.component';
 import { QuestionsEditorComponent } from './page/questions-editor/questions-editor.component';
 import { FizzingbrainComponent } from './page/fizzingbrain/fizzingbrain.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { AuthService } from './service/auth.service';
 import { JwtInterceptor } from './service/jwt.interceptor';
@@ -24,6 +25,15 @@ import { ConfigService, IMenuItem } from './service/config.service';
 import { DataTableModule } from './common/data-table/data-table.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HeadbarComponent } from './common/headbar/headbar.component';
+import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
+
+export function HttpLoaderFactory(httpBackend: HttpBackend) {
+  return new MultiTranslateHttpLoader(httpBackend, [
+    './assets/translate/core/',
+    './assets/translate/shared/',
+  ]);
+}
 
 @NgModule({
   declarations: [
@@ -38,6 +48,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     UsersEditorComponent,
     QuestionsEditorComponent,
     FizzingbrainComponent,
+    HeadbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +63,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     TooltipModule.forRoot(),
-    FontAwesomeModule
+    FontAwesomeModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpBackend]
+      }
+    })
   ],
   exports: [FormsModule],
   providers: [
