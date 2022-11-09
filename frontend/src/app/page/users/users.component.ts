@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { User } from 'src/app/model/user';
+import { ConfigService } from 'src/app/service/config.service';
+import { NotificationService } from 'src/app/service/notification.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-users',
@@ -6,10 +11,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  columns = this.config.directorColumn;
+  list$ = this.userService.getAll();
+  entity: string = 'User';
 
-  constructor() { }
+  constructor(
+    private config: ConfigService,
+    private userService: UserService,
+    private router: Router,
+    private notifyService: NotificationService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  showSuccessDelete() {
+    this.notifyService.showSuccess(
+      `${this.entity} delete successfully!`,
+      'FaMoBase v.1.0.0'
+    );
   }
 
+  showError(err: String) {
+    this.notifyService.showError(
+      'Something went wrong. Details:' + err,
+      'FaMoBase v.1.0.0'
+    );
+  }
+
+  onSelectOne(user: User): void {
+    this.router.navigate(['/', 'users', 'edit', user.id]);
+  }
+
+  onDeleteOne(director: User) {
+    this.userService.delete(director).subscribe({
+      next: () => (this.list$ = this.userService.getAll()),
+      error: (err) => this.showError(err),
+      complete: () => this.showSuccessDelete(),
+    });
+  }
 }

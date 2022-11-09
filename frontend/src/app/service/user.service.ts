@@ -14,7 +14,7 @@ export class UserService
   extends BaseService<User> {
   constructor(http: HttpClient, config: ConfigService) {
     super(http, config);
-    this.entity = 'users';
+    this.entity = 'user';
   }
 }
 

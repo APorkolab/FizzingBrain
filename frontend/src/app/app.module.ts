@@ -27,6 +27,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeadbarComponent } from './common/headbar/headbar.component';
 import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
+import { ToastrModule } from 'ngx-toastr';
 
 export function HttpLoaderFactory(httpBackend: HttpBackend) {
   return new MultiTranslateHttpLoader(httpBackend, [
@@ -70,7 +71,15 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
         useFactory: HttpLoaderFactory,
         deps: [HttpBackend]
       }
-    })
+    }),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center',
+      onActivateTick: true,
+      closeButton: true,
+      preventDuplicates: true,
+      timeOut: 5000,
+      extendedTimeOut: 3000,
+    }),
   ],
   exports: [FormsModule],
   providers: [

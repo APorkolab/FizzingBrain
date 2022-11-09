@@ -1,44 +1,60 @@
-const sequelize = require("sequelize");
+const bcrypt = require('bcrypt');
+const Sequelize = require("sequelize");
 const db = require("../config/database");
-const useBcrypt = require('sequelize-bcrypt');
-
-const user = db.define(
-	"user", {
-		id: {
-			type: sequelize.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-			allowNull: false,
+var userSchema = db.define("user", {
+	id: {
+		// field: 'user_id',
+		autoIncrement: true,
+		primaryKey: true,
+		type: Sequelize.INTEGER
+	},
+	password: {
+		// field: 'user_password',
+		type: Sequelize.STRING,
+		allowNull: true
+	},
+	firstName: {
+		// field: 'user_firstname',
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	lastName: {
+		// field: 'user_lastname',
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	email: {
+		type: Sequelize.STRING,
+		// field: 'user_email',
+		allowNull: false
+	},
+}, {
+	// freeze name table not using *s on name
+	freezeTableName: true,
+	// dont use createdAt/update
+	timestamps: false,
+	hooks: {
+		beforeCreate: async (user) => {
+			if (user.password) {
+				const salt = await bcrypt.genSaltSync(10, 'a');
+				user.password = bcrypt.hashSync(user.password, salt);
+			}
 		},
-		firstName: {
-			type: sequelize.STRING,
-			allowNull: false
-		},
-		lastName: {
-			type: sequelize.STRING,
-			allowNull: false
-		},
-		email: {
-			type: sequelize.STRING,
-			allowNull: false,
-			unique: true
-		},
-		password: {
-			type: sequelize.STRING,
-			allowNull: false,
+		beforeUpdate: async (user) => {
+			if (user.password) {
+				const salt = await bcrypt.genSaltSync(10, 'a');
+				user.password = bcrypt.hashSync(user.password, salt);
+			}
 		}
-	}, {
-		// freeze name table not using *s on name
-		freezeTableName: true,
-		// dont use createdAt/update
-		timestamps: false,
+	},
+	instanceMethods: {
+		validPassword: (password) => {
+			return bcrypt.compareSync(password, this.password);
+		}
 	}
-);
-
-useBcrypt(user, {
-	rounds: 12, // used to generate bcrypt salt, default: 12
-	compare: 'authenticate', // method used to compare secrets, default: 'authenticate'
 });
-
-// module.exports = sql.models.User;
-module.exports = user;
+userSchema.prototype.validPassword = async (password, hash) => {
+	return await bcrypt.compareSync(password, hash);
+}
+module.exports = userSchema;
+return userSchema;

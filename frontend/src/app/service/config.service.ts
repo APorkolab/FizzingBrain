@@ -22,19 +22,14 @@ export class ConfigService {
     { link: '/family-members', title: 'Family Members', icon: 'users' },
   ];
 
-  movieTableColumns: INgxTableColumn[] = [
-    { key: '_id', title: 'ID' },
-    { key: 'foreignTitle', title: 'Foreign Title' },
-    { key: 'hungarianTitle', title: 'Hungarian Title' },
-    { key: 'director', title: 'Director' },
-    { key: 'releaseYear', title: 'Release Year' },
-    { key: 'length', title: 'Length' },
-    { key: 'genre', title: 'Genre' },
-    { key: 'imdbRank', title: 'IMDB Rank' },
-    { key: 'imdbAverage', title: 'IMDB Average' },
-    // { key: 'imdbID', title: 'IMDB ID' },
-    { key: 'mainActor1', title: 'Main Actor 1' },
-    { key: 'mainActor2', title: 'Main Actor 2' },
+  questionsColumn: INgxTableColumn[] = [
+    { key: 'id', title: 'ID' },
+    { key: 'hungarianQuestion', title: 'Hungarian question' },
+    { key: 'englishQuestion', title: 'English question' },
+    { key: 'hungarianAnswer', title: 'Hungarian answer' },
+    { key: 'englishAnswer', title: 'English answer' },
+    { key: 'descriptionHungarian', title: 'Description Hungarian' },
+    { key: 'descriptionEnglish', title: 'Description English' },
   ];
 
   watchedMoviesColumn: INgxTableColumn[] = [

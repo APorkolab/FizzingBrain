@@ -1,1 +1,3 @@
 <p>questions works!</p>
+<ngx-data-table *ngIf="list$ |async as list" [entity]="entity" [columns]="columns" [list]="list"
+	(selectOne)="onSelectOne($event)" (deleteOne)="onDeleteOne($event)"></ngx-data-table>

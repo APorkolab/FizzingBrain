@@ -12,9 +12,18 @@ module.exports = (model, populateList = []) => {
 		findOne(req, res, next) {
 			return service.findOne(req.params.id)
 				.then(entity => {
-					if (!entity) {
-						return next(new createError.NotFound("Entity has not found"));
-					}
+					// if (!entity) {
+					// 	return next(new createError.NotFound("Entity has not found"));
+					// }
+					return res.json(entity);
+				});
+		},
+		findRandom(req, res, next) {
+			return service.findRandom()
+				.then(entity => {
+					// if (!entity) {
+					// 	return next(new createError.NotFound("Entity has not found"));
+					// }
 					return res.json(entity);
 				});
 		},

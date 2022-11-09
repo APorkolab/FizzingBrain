@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   login(loginData: ILoginData): void {
-    this.http.post<IAuthModel>(this.loginUrl, loginData).subscribe({
+    this.http.post<IAuthModel>(this.loginUrl, JSON.stringify(loginData)).subscribe({
       next: (response: IAuthModel) => {
         this.user$.next(response.user);
         this.access_token$.next(response.accessToken);

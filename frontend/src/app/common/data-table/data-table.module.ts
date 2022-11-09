@@ -17,7 +17,6 @@ const toastr = require('toastr')
     AppRoutingModule,
     RouterModule,
     CommonModule,
-    // toastr.forRoot(),
     BrowserAnimationsModule,
     FormsModule
   ],

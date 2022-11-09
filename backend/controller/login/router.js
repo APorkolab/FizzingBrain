@@ -3,6 +3,9 @@ const router = express.Router();
 const User = require('../../model/user');
 const jwt = require('jsonwebtoken');
 const useBcrypt = require('sequelize-bcrypt');
+const {
+	JSON
+} = require('sequelize');
 
 //Post
 router.post('/', async (req, res, next) => {
@@ -24,7 +27,8 @@ router.post('/', async (req, res, next) => {
 		});
 	}
 
-	const valid = user.authenticate(password);
+	// const valid = user.authenticate(password);
+	const valid = authenticateUserWithemail(user);
 	if (valid) {
 		const accessToken = jwt.sign({
 			email: user.email,
@@ -33,10 +37,10 @@ router.post('/', async (req, res, next) => {
 		});
 
 		res.json({
-			// success: true,
+			success: true,
 			accessToken,
 			User: {
-				...user._doc,
+				email: user.email,
 				password: ''
 			},
 		});

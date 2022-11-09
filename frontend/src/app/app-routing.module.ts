@@ -30,34 +30,34 @@ const routes: Routes = [{
   component: FizzingbrainComponent,
 },
 {
-  path: 'users/edit/`0`',
+  path: 'user/edit/`0`',
   component: UsersEditorComponent,
   canActivate: [AuthGuardService],
 },
 {
-  path: 'users/edit/:id',
+  path: 'user/edit/:id',
   component: UsersEditorComponent,
   canActivate: [AuthGuardService],
 },
 {
-  path: 'users',
+  path: 'user',
   component: UsersComponent,
   canActivate: [AuthGuardService],
 },
 {
-  path: 'questions/edit/`0`',
+  path: 'question/edit/`0`',
   component: QuestionsEditorComponent,
   canActivate: [AuthGuardService],
 },
 {
-  path: 'questions/edit/:id',
+  path: 'question/edit/:id',
   component: QuestionsEditorComponent,
   canActivate: [AuthGuardService],
 },
 {
-  path: 'questions',
+  path: 'question',
   component: QuestionsComponent,
-  canActivate: [AuthGuardService],
+
 },
 {
   path: 'rules',

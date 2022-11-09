@@ -1,44 +1,46 @@
+const {
+	Sequelize
+} = require("sequelize");
+const sequelize = require("sequelize");
+
 module.exports = (model, populateList = []) => {
 	return {
-		findAll: (params = {}) => {
-			// 	try {
-			// 		const userData = model.findAll();
-			// 		if (userData.length > 0) {
-			// 			res
-			// 				.status(200)
-			// 				.json({
-			// 					message: "Connection successful",
-			// 					data: userData
-			// 				});
-			// 		} else {
-			// 			res.status(200).json({
-			// 				message: "Connection failed",
-			// 				data: []
-			// 			});
-			// 		}
-			// 	} catch (error) {
-			// 		res.status(404).json({
-			// 			message: error
-			// 		});
-			// 	}
-			// },
-			if (Object.keys(params).length) {
-				Object.keys(params).map(key => {
-					params[key] = {
-						$regex: '.*' + params[key] + '.*',
-						$options: 'i'
-					};
-				});
-				return model.find(params);
-			}
-			return model.findAll();
+		findAll: async () => {
+			return model.findAll()
+				.catch((error) => {
+					console.error('Failed to retrieve data : ', error);
+				})
 		},
-		findOne: (id) => model.findByPk(id),
+		findOne: async (id) => {
+			return model.findOne({
+					where: {
+						id: id
+					}
+				})
+				.catch((error) => {
+					console.error('Failed to retrieve data : ', error);
+				});
+		},
+		findRandom: async () => {
+			return model.findAll({
+				order: Sequelize.literal('rand()'),
+				limit: 1
+			});
+		},
+		// findOne: (id) => model.findByPk(id).then(() => {
+		// 	console.log("Successfully find record.")
+		// }).catch((error) => {
+		// 	console.error('Failed to find record : ', error);
+		// }),
 		// findOne: (id) => model.findById(id).populate(),
-		update: (id, updateData) => model.update(updateData, {
+		update: async (id, updateData) => model.update(updateData, {
 			where: {
 				id: id
 			}
+		}).then(() => {
+			console.log("Successfully updated record.")
+		}).catch((error) => {
+			console.error('Failed to update record : ', error);
 		}),
 		create: async (body) => {
 			const newEntity = new model(body);
@@ -50,15 +52,15 @@ module.exports = (model, populateList = []) => {
 			throw new Error(error);
 		},
 		delete: async (id) => {
-			const doc = await model.destroy({
+			model.destroy({
 				where: {
 					id: id
 				}
+			}).then(() => {
+				console.log("Successfully deleted record.")
+			}).catch((error) => {
+				console.error('Failed to delete record : ', error);
 			});
-			if (!doc) {
-				throw new Error('Not found');
-			}
-			return doc.delete();
 		}
 
 	};
