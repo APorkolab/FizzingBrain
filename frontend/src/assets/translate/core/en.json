@@ -10,7 +10,7 @@
     "RANDOMLEVEL": "I do feel lucky, ya punk! (The computer chooses a level for you.)",
     "STARTGAME": "START A NEW GAME"
   },
-  "HELP": {
-    "TITLE": "Hilfe"
+  "HEADBAR": {
+    "SELECT": "Please select the language of the application!"
   }
 }

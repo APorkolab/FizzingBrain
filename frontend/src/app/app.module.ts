@@ -28,6 +28,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeadbarComponent } from './common/headbar/headbar.component';
 import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 import { ToastrModule } from 'ngx-toastr';
+import { IconModule } from './common/icon/icon.module';
 
 export function HttpLoaderFactory(httpBackend: HttpBackend) {
   return new MultiTranslateHttpLoader(httpBackend, [
@@ -55,6 +56,7 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
     BrowserModule,
     AppRoutingModule,
     DataTableModule,
+    IconModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

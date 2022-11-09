@@ -10,7 +10,7 @@
     "RANDOMLEVEL": "Szerencsésnek érzem magam. (A számítógép választ szintet.)",
     "STARTGAME": "ÚJ JÁTÉK INDÍTÁSA"
   },
-  "HELP": {
-    "TITLE": "Hilfe"
+  "HEADBAR": {
+    "SELECT": "Válassza ki az alkalmazás nyelvét!"
   }
 }
