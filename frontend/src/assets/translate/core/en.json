@@ -1,7 +1,14 @@
 {
   "HOME": {
     "TITLE": "Hallo Angular mit ngx-translate !",
-    "SELECT": "Sprache ändern"
+    "SELECT": "Please select the language of the application!",
+    "BUTTONTITLE": "It is up to you to choose the difficulty level!",
+    "EASY": "Easy (The computer is more wrong than usual)",
+    "MEDIUM": "Medium (the computer guesses better)",
+    "HARD": "Hard (the computer guesses even better)",
+    "IMPOSSIBLE": "Impossible (the computer does a better job of guessing than you)",
+    "RANDOMLEVEL": "I do feel lucky, ya punk! (The computer chooses a level for you.)",
+    "STARTGAME": "START A NEW GAME"
   },
   "HELP": {
     "TITLE": "Hilfe"

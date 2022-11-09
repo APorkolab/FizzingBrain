@@ -24,7 +24,7 @@ module.exports = (model, populateList = []) => {
 		findRandom: async () => {
 			return model.findAll({
 				order: Sequelize.literal('rand()'),
-				limit: 1
+				limit: 6
 			});
 		},
 		// findOne: (id) => model.findByPk(id).then(() => {

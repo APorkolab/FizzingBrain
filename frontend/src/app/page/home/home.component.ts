@@ -10,16 +10,16 @@ import { TranslateService } from '@ngx-translate/core';
 export class HomeComponent implements OnInit {
 
   constructor(public translate: TranslateService) {
-    translate.addLangs(['en', 'hu']);
-    translate.setDefaultLang('hu');
+    //   translate.addLangs(['en', 'hu']);
+    //   translate.setDefaultLang('hu');
 
-    const browserLang = translate.getBrowserLang();
+    //   const browserLang = translate.getBrowserLang();
 
-    try {
-      translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
-    } catch (error) {
-      console.log(error);
-    }
+    //   try {
+    //     translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
   }
 
   ngOnInit(): void {

@@ -1,7 +1,14 @@
 {
   "HOME": {
     "TITLE": "Hallo Angular mit ngx-translate !",
-    "SELECT": "Válassza ki az alkalmazás nyelvét!"
+    "SELECT": "Válassza ki az alkalmazás nyelvét!",
+    "BUTTONTITLE": "A nehézségi szint kiválasztása rajtad múlik!",
+    "EASY": "Könnyű (A számítógép a szokásosnál is többet téved)",
+    "MEDIUM": "Közepes (a számítógép jobban tippel)",
+    "HARD": "Nehéz (a számítógép még jobban tippel)",
+    "IMPOSSIBLE": "Lehetetlen (a számítógép jobban kitalálja, mint Te)",
+    "RANDOMLEVEL": "Szerencsésnek érzem magam. (A számítógép választ szintet.)",
+    "STARTGAME": "ÚJ JÁTÉK INDÍTÁSA"
   },
   "HELP": {
     "TITLE": "Hilfe"

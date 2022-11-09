@@ -14,6 +14,7 @@ import { QuestionService } from 'src/app/service/question.service';
 export class QuestionsComponent implements OnInit {
   columns = this.config.questionsColumn;
   list$ = this.questionService.getAll();
+  packOfQuestions$ = this.questionService.getRandomQuestions();
   entity: string = 'question';
 
   constructor(

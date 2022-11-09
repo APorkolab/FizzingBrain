@@ -20,6 +20,10 @@ export class BaseService<
     return this.http.get<T[]>(`${this.apiUrl}/${this.entity}`);
   }
 
+  getRandomQuestions(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.apiUrl}/${this.entity}/rand`);
+  }
+
   getOne(id: string | number): Observable<T> {
     return this.http.get<T>(`${this.apiUrl}/${this.entity}/${id}`);
   }

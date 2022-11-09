@@ -43,7 +43,7 @@ export class AuthService {
         if (user) {
           this.router.navigate(['/']);
         } else {
-          this.router.navigate(['/', 'login']);
+          // this.router.navigate(['/', 'login']);
           this.access_token$.next('');
           sessionStorage.removeItem('login');
         }

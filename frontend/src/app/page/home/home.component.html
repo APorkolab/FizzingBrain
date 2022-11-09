@@ -18,20 +18,22 @@
 					<div class="btn-group">
 						<button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown"
 							aria-expanded="false">
-							Large button
+							{{ 'HOME.BUTTONTITLE' | translate }}
 						</button>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item active" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
+							<li><a class="dropdown-item active" href="#">{{ 'HOME.EASY' | translate }}</a></li>
+							<li><a class="dropdown-item" href="#">{{ 'HOME.MEDIUM' | translate }}</a></li>
+							<li><a class="dropdown-item" href="#">{{ 'HOME.HARD' | translate }}</a></li>
+							<li><a class="dropdown-item" href="#">{{ 'HOME.IMPOSSIBLE' | translate }}</a></li>
 							<li>
 								<hr class="dropdown-divider">
 							</li>
-							<li><a class="dropdown-item" href="#">Separated link</a></li>
+							<li><a class="dropdown-item" href="#">{{ 'HOME.RANDOMLEVEL' | translate }}</a></li>
 						</ul>
 					</div>
 				</td>
-				<td class="tg-0pky"><button type="button" class="btn btn-primary btn-lg">Start the game</button></td>
+				<td class="tg-0pky"><button type="button" class="btn btn-primary btn-lg" [routerLink]="'/fizzingbrain'">{{
+						'HOME.STARTGAME' | translate }}</button></td>
 			</tr>
 		</tbody>
 	</table>
