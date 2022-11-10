@@ -20,24 +20,27 @@ export class FizzingbrainComponent implements OnInit {
   packOfQuestions$ = this.questionService.getRandomQuestions();
   questions: Question[] = [];
   actualQuestion!: Question;
-  counter = 1;
+  counter = 0;
   langChange!: LangChangeEvent;
   language = 'hu';
 
   interval: any;
   thereIsTime = true;
+  gameHasStarted = false;
+  gameHasEnded = false;
 
   computerGuess = 0;
   playerGuess = 0;
   computerPoint = 0;
   playerPoint = 0;
+  maxRound = this.questions.length | 6;
 
 
   gameDifficulty !: string;
   gameDifficultySubscription!: Subscription;
   timeLeft!: number;
   timeLeftSubscription!: Subscription;
-  errorMargin!: number | 30;
+  errorMargin!: number;
   errorMarginSubscription!: Subscription;
 
 
@@ -50,44 +53,59 @@ export class FizzingbrainComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  startGame() {
+    this.nextQuestion();
+    this.gameHasStarted = true;
     this.thereIsTime = true;
+    this.counter = 0;
+    this.playerPoint = 0;
+    this.computerPoint = 0;
+    this.playerGuess = 0;
+    this.gameHasEnded = false;
+    this.startTimer();
+  }
+
+  ngOnInit(): void {
+    this.gameDifficultySubscription = this.data.currentDifficulty.subscribe((currentDifficulty) => {
+      this.gameDifficulty = currentDifficulty
+    });
+    this.data.currentTimeLeft.subscribe((timeLeft) => {
+      this.timeLeft = timeLeft
+    });
+    this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe((errorMargin) => {
+      this.errorMargin = errorMargin;
+      this.startGame();
+    });
+    // this.translate.onLangChange.subscribe((language) => {
+    //   this.langChange = language;
+    // });
     this.questionService.getRandomQuestions().subscribe((response) => {
       this.questions = response;
-      this.actualQuestion = this.questions[0];
-      this.startTimer();
-      this.computerGuesses();
+      // this.actualQuestion = this.questions[0];
     });
-    this.translate.onLangChange.subscribe((language) => {
-      this.langChange = language;
-    });
-    this.gameDifficultySubscription = this.data.currentDifficulty.subscribe(currentDifficulty => this.gameDifficulty = currentDifficulty)
-    this.timeLeftSubscription = this.data.currentTimeLeft.subscribe(timeLeft => this.timeLeft = timeLeft)
-    this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe(errorMargin => this.errorMargin = errorMargin)
     console.log(this.gameDifficulty);
   }
 
   changeInput(event: Event) {
-    this.playerGuess = Number(event.target?.addEventListener.toString);
+    let value = event.target!.addEventListener.toString;
+    this.playerGuess = Number(value);
+    console.log(this.playerGuess);
   }
 
   nextQuestion() {
-    // if (this.counter > this.questions.length - 1) {
-    //   this.counter = 0;
-    //   this.startTimer();
-    // }
-    if (this.counter = this.questions.length) {
+    // if (this.questions.length !== 6) {
+    //   this.notifyService.showError('The number of pack of questions are not right.', 'FizzingBrain v.1.0.0')
+    // } else {
+
+    if (this.counter >= this.maxRound) {
       this.evaluation();
     }
-    if (this.questions.length !== 6) {
-      this.notifyService.showError('The number of pack of questions are not right.', 'FizzingBrain v.1.0.0')
-    } else {
-      this.actualQuestion = this.questions[this.counter];
-      this.resetTimer();
-      this.computerGuesses();
-      this.gettingPoint();
-      // evaluation();
-    }
+    this.actualQuestion = this.questions[this.counter];
+    this.resetTimer();
+    this.computerGuesses();
+    this.gettingPoint();
+    // evaluation();
+    // }
     this.counter++;
 
   }
@@ -105,10 +123,12 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   evaluation() {
-    if (this.computerPoint = this.playerPoint) {
-      this.notifyService.showWarning('We have reached the end of the game. A draw has been reached.', 'Fizzingbrain v.1.0.0')
-    } else {
-      if (this.computerPoint > this.playerPoint) {
+    this.gameHasEnded = true;
+    this.gameHasStarted = false;
+    if (this.gameHasEnded) {
+      if (this.computerPoint === this.playerPoint) {
+        this.notifyService.showWarning('We have reached the end of the game. A draw has been reached.', 'Fizzingbrain v.1.0.0')
+      } else if (this.computerPoint > this.playerPoint) {
         this.notifyService.showError('We have reached the end of the game. It is the computer that wins.', 'Fizzingbrain v.1.0.0')
       } else {
         this.notifyService.showSuccess('We have reached the end of the game. A win has been achieved by the player.', 'Fizzingbrain v.1.0.0')
@@ -117,17 +137,29 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   gettingPoint() {
-    if (this.playerGuess != 0 || this.playerGuess != null) {
-      const solution = Number(this.actualQuestion.englishAnswer);
-      const diffComp = solution - this.computerGuess;
-      const diffPlayer = solution - this.playerGuess;
-      if (diffComp > diffPlayer) {
+    let solution = Number(this.actualQuestion.englishAnswer);
+    let diffComp = (solution - this.computerGuess);
+    let diffPlayer = (solution - this.playerGuess);
+    if (this.gameHasStarted) {
+      console.log('comp' + this.computerGuess);
+      console.log('player' + this.playerGuess);
+
+
+      if (diffComp > diffPlayer || diffPlayer === 0) {
+        this.notifyService.showInfo('A JÁTÉKOS tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
         this.playerPoint += 5;
-      } else {
+      } else if (diffComp < diffPlayer || diffComp === 0) {
+        this.notifyService.showInfo('A COMPUTER tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
         this.computerPoint += 5;
+      } else if (diffComp === diffPlayer) {
+        this.notifyService.showInfo('A MINDKÉT tippje ugyanolyan jó volt volt. Mindketten kapnak pontot.', 'Fizzingbrain v.1.0.0')
+        this.computerPoint += 5;
+        this.playerPoint += 5;
       }
     }
+    this.playerGuess = 0;
   }
+
 
   startTimer() {
     this.interval = setInterval(() => {
@@ -135,13 +167,28 @@ export class FizzingbrainComponent implements OnInit {
         this.timeLeft--;
       } else {
         this.thereIsTime = false;
+        this.nextQuestion();
       }
     }, 1000)
   }
 
   resetTimer() {
     this.thereIsTime = true;
-    this.timeLeft = 15;
+    this.data.currentTimeLeft.subscribe((timeLeft) => {
+      this.timeLeft = timeLeft
+    })
   }
+
+  restartGame() {
+    // this.data.changeNewGameWanted(true);
+    // this.data.changeSelectedDeckSize(this.deckSize);
+
+    this.gameHasEnded = true;
+    this.playerPoint = 0;
+    this.computerPoint = 0;
+    this.counter = 0;
+    this.startGame();
+  }
+
 
 }

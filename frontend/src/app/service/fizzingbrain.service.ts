@@ -66,9 +66,9 @@ export class FizzingbrainService {
         break;
 
       default:
-        this.changeGameDifficulty('easy');
-        this.changePlayerTime(20);
-        this.changeErrorMarginEnemy(30);
+        // this.changeGameDifficulty('easy');
+        // this.changePlayerTime(20);
+        // this.changeErrorMarginEnemy(30);
         break;
     }
   }

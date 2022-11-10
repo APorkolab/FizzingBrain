@@ -1,17 +1,26 @@
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty == ''">
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty == '' && !gameHasEnded">
 	<div class="tm-about-header tm-flex-center">
 		<h1>Kérem, válasszon nehézséget!</h1>
 	</div>
 </section>
 
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameHasEnded">
+	<div class="tm-about-header tm-flex-center">
+		<h1>A játék véget ért!</h1>
+		<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">Restart
+				game</button></div>
+	</div>
+</section>
 
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty !== ''">
+
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty !== ''&& !gameHasEnded">
 	<div class="tm-about-header tm-flex-center">
 		<h1>00:{{timeLeft | number:'2.0'}}</h1>
 	</div>
 </section>
 
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-1 tm-border-rounded" *ngIf="gameDifficulty  !== ''">
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-1 tm-border-rounded"
+	*ngIf="gameDifficulty  !== '' && !gameHasEnded">
 	<div class="tm-about-header tm-flex-center">
 		<i-feather name="home"></i-feather>
 		<!-- <h2>{{questions[0].hungarianQuestion}}</h2> -->
@@ -20,7 +29,8 @@
 	</div>
 </section>
 
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded" *ngIf="gameDifficulty  !== ''">
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded"
+	*ngIf="gameDifficulty  !== '' && !gameHasEnded">
 
 	<div class="tm-about-header tm-flex-center mx-5">
 		<table class="table text-center">
@@ -35,9 +45,12 @@
 						<h4>Computers guess: {{computerGuess}}</h4>
 					</td>
 					<td class="tg-0pky">
-						<h4>Computers points:</h4>
+						<h4>Computers points: {{computerPoint}}</h4>
 					</td>
-					<td class="tg-0pky">Restart</td>
+					<td class="tg-0pky">
+						<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">Restart
+								game</button></div>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -53,7 +66,7 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<h5>Player points:</h5>
+						<h5>Player points: {{playerPoint}}</h5>
 					</td>
 				</tr>
 				<tr>
@@ -61,16 +74,16 @@
 						<div class="tm-mb-40">
 							<h5>Player guess:</h5>
 							<form>
-
-								<input (keyup)="changeInput($event)" type="number" id="playerGuess" name="playerGuess" required
-									placeholder="Ide írhatja a tippjét...">
+								<input [(ngModel)]="playerGuess" *ngIf="thereIsTime" type="number" id="playerGuess" name="playerGuess"
+									required placeholder="Ide írhatja a tippjét...">
 							</form>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
-						<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="nextQuestion()">Large
+						<div class="tm-mb-0"><button *ngIf="playerGuess && thereIsTime" type="button" class="btn btn-primary btn-lg"
+								(click)="nextQuestion()">Large
 								button</button></div>
 					</td>
 				</tr>
