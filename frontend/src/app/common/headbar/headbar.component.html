@@ -22,12 +22,25 @@
 					<a class="nav-link px-2 text-white" routerLink="/rules">Rules</a>
 				</li>
 				<li>
-					<a class="nav-link px-2 text-white" href="#">Link</a>
-				</li>
-				<li>
-					<a class="nav-link px-2 text-white" href="#">Link</a>
+					<a class="nav-link px-2 text-white" routerLink="/rules">Contact</a>
 				</li>
 			</ul>
+
+			<td class="tg-0pky">
+				<select #difficulties (change)="setDifficulty(difficulties.value)" name="diff" ngDefaultControl
+					class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+					<option selected>{{ 'HOME.BUTTONTITLE' | translate }}</option>
+					<option value="easy">{{ 'HOME.EASY' |
+						translate }}</option>
+					<option value='medium'>{{ 'HOME.MEDIUM' | translate
+						}}</option>
+					<option value='hard'>{{ 'HOME.HARD' | translate }}</option>
+					<option value='impossible'>{{ 'HOME.IMPOSSIBLE' |
+						translate }}</option>
+					<option [(ngModel)]="gameDifficulty" value="random">{{ 'HOME.RANDOMLEVEL' | translate
+						}}</option>
+				</select>
+			</td>
 
 			<label class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
 				{{ 'HOME.SELECT' | translate }}

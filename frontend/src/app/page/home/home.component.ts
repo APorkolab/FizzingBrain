@@ -1,6 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +10,10 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  gameDifficulty !: string;
+  gameDifficultySubscription!: Subscription;
 
-  constructor(public translate: TranslateService) {
+  constructor(public translate: TranslateService, protected data: FizzingbrainService) {
     //   translate.addLangs(['en', 'hu']);
     //   translate.setDefaultLang('hu');
 
@@ -23,9 +27,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.gameDifficultySubscription = this.data.currentDifficulty.subscribe(currentDifficulty => this.gameDifficulty = currentDifficulty)
 
   }
 
+  difficultyChange() {
+    this.data.changeGameDifficulty(this.gameDifficulty);
+  }
 }
 
 

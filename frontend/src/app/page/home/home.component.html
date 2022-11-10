@@ -15,22 +15,18 @@
 						</select>
 					</label></td>
 				<td class="tg-0pky">
-					<div class="btn-group">
-						<button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown"
-							aria-expanded="false">
-							{{ 'HOME.BUTTONTITLE' | translate }}
-						</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item active" href="#">{{ 'HOME.EASY' | translate }}</a></li>
-							<li><a class="dropdown-item" href="#">{{ 'HOME.MEDIUM' | translate }}</a></li>
-							<li><a class="dropdown-item" href="#">{{ 'HOME.HARD' | translate }}</a></li>
-							<li><a class="dropdown-item" href="#">{{ 'HOME.IMPOSSIBLE' | translate }}</a></li>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li><a class="dropdown-item" href="#">{{ 'HOME.RANDOMLEVEL' | translate }}</a></li>
-						</ul>
-					</div>
+					<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+						<option selected>{{ 'HOME.BUTTONTITLE' | translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="easy">{{ 'HOME.EASY' |
+							translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="medium">{{ 'HOME.MEDIUM' | translate
+							}}</option>
+						<option [(ngModel)]="gameDifficulty" value="hard">{{ 'HOME.HARD' | translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="impossible">{{ 'HOME.IMPOSSIBLE' |
+							translate }}</option>
+						<option [(ngModel)]="gameDifficulty" (click)="data.randomDifficulty()">{{ 'HOME.RANDOMLEVEL' | translate
+							}}</option>
+					</select>
 				</td>
 				<td class="tg-0pky"><button type="button" class="btn btn-primary btn-lg" [routerLink]="'/fizzingbrain'">{{
 						'HOME.STARTGAME' | translate }}</button></td>

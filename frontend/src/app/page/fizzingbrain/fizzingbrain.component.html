@@ -1,10 +1,17 @@
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded">
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty == ''">
+	<div class="tm-about-header tm-flex-center">
+		<h1>Kérem, válasszon nehézséget!</h1>
+	</div>
+</section>
+
+
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty !== ''">
 	<div class="tm-about-header tm-flex-center">
 		<h1>00:{{timeLeft | number:'2.0'}}</h1>
 	</div>
 </section>
 
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-1 tm-border-rounded">
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-1 tm-border-rounded" *ngIf="gameDifficulty  !== ''">
 	<div class="tm-about-header tm-flex-center">
 		<i-feather name="home"></i-feather>
 		<!-- <h2>{{questions[0].hungarianQuestion}}</h2> -->
@@ -13,7 +20,7 @@
 	</div>
 </section>
 
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded" *ngIf="gameDifficulty  !== ''">
 
 	<div class="tm-about-header tm-flex-center mx-5">
 		<table class="table text-center">
@@ -25,7 +32,7 @@
 				</tr>
 				<tr>
 					<td class="tg-lboi">
-						<h4>Computers guess:</h4>
+						<h4>Computers guess: {{computerGuess}}</h4>
 					</td>
 					<td class="tg-0pky">
 						<h4>Computers points:</h4>
@@ -53,7 +60,11 @@
 					<td colspan="3">
 						<div class="tm-mb-40">
 							<h5>Player guess:</h5>
-							<input *ngIf="thereIsTime" type="text" id="name" name="name" required minlength="1" size="10">
+							<form>
+
+								<input (keyup)="changeInput($event)" type="number" id="playerGuess" name="playerGuess" required
+									placeholder="Ide írhatja a tippjét...">
+							</form>
 						</div>
 					</td>
 				</tr>
