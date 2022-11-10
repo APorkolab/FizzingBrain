@@ -7,8 +7,9 @@ import { NotificationService } from 'src/app/service/notification.service';
 import { QuestionService } from 'src/app/service/question.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { IconModule } from 'src/app/common/icon/icon.module';
-import { Subscription } from 'rxjs';
+import { combineLatestAll, Subscription } from 'rxjs';
 import { ThumbsDown } from 'angular-feather/icons';
+import { combineLatest } from 'rxjs/internal/operators/combineLatest';
 
 
 @Component({
@@ -39,22 +40,22 @@ export class FizzingbrainComponent implements OnInit {
   gameDifficulty !: string;
   gameDifficultySubscription!: Subscription;
   timeLeft!: number;
+  timeStandard!: number;
   timeLeftSubscription!: Subscription;
   errorMargin!: number;
   errorMarginSubscription!: Subscription;
-
+  questionSubscription!: Subscription;
 
   constructor(private config: ConfigService,
     private questionService: QuestionService,
     private router: Router,
     public translate: TranslateService,
     private notifyService: NotificationService,
-    private data: FizzingbrainService) {
+    protected data: FizzingbrainService) {
 
   }
 
   startGame() {
-    this.nextQuestion();
     this.gameHasStarted = true;
     this.thereIsTime = true;
     this.counter = 0;
@@ -62,34 +63,30 @@ export class FizzingbrainComponent implements OnInit {
     this.computerPoint = 0;
     this.playerGuess = 0;
     this.gameHasEnded = false;
+    this.nextQuestion();
     this.startTimer();
   }
 
   ngOnInit(): void {
-    this.gameDifficultySubscription = this.data.currentDifficulty.subscribe((currentDifficulty) => {
-      this.gameDifficulty = currentDifficulty
-    });
-    this.data.currentTimeLeft.subscribe((timeLeft) => {
-      this.timeLeft = timeLeft
-    });
-    this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe((errorMargin) => {
-      this.errorMargin = errorMargin;
-      this.startGame();
-    });
-    // this.translate.onLangChange.subscribe((language) => {
-    //   this.langChange = language;
+
+    // this.gameDifficultySubscription = this.data.currentDifficulty.subscribe((currentDifficulty) => {
+    //   this.gameDifficulty = currentDifficulty
+    // });
+    // this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe((errorMargin) => {
+    //   this.errorMargin = errorMargin;
     // });
     this.questionService.getRandomQuestions().subscribe((response) => {
       this.questions = response;
       // this.actualQuestion = this.questions[0];
     });
-    console.log(this.gameDifficulty);
-  }
+    // this.data.currentTimeLeft.subscribe((timeLeft) => {
+    //   this.timeLeft = timeLeft
+    // });
 
-  changeInput(event: Event) {
-    let value = event.target!.addEventListener.toString;
-    this.playerGuess = Number(value);
-    console.log(this.playerGuess);
+    // this.translate.onLangChange.subscribe((language) => {
+    //   this.langChange = language;
+    // });
+    console.log(this.gameDifficulty);
   }
 
   nextQuestion() {
@@ -98,15 +95,19 @@ export class FizzingbrainComponent implements OnInit {
     // } else {
 
     if (this.counter >= this.maxRound) {
-      this.evaluation();
+      this.gettingPoint();
+      setTimeout(() => {
+        this.evaluation();
+      }, 3000);
+    } else {
+      this.actualQuestion = this.questions[this.counter];
+      this.resetTimer();
+      this.computerGuesses();
+      this.gettingPoint();
+      this.counter++;
     }
-    this.actualQuestion = this.questions[this.counter];
-    this.resetTimer();
-    this.computerGuesses();
-    this.gettingPoint();
     // evaluation();
     // }
-    this.counter++;
 
   }
 
@@ -138,12 +139,11 @@ export class FizzingbrainComponent implements OnInit {
 
   gettingPoint() {
     let solution = Number(this.actualQuestion.englishAnswer);
-    let diffComp = (solution - this.computerGuess);
-    let diffPlayer = (solution - this.playerGuess);
+    let diffComp = Math.abs(solution - this.computerGuess);
+    let diffPlayer = Math.abs(solution - this.playerGuess);
     if (this.gameHasStarted) {
       console.log('comp' + this.computerGuess);
       console.log('player' + this.playerGuess);
-
 
       if (diffComp > diffPlayer || diffPlayer === 0) {
         this.notifyService.showInfo('A JÁTÉKOS tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
@@ -151,7 +151,7 @@ export class FizzingbrainComponent implements OnInit {
       } else if (diffComp < diffPlayer || diffComp === 0) {
         this.notifyService.showInfo('A COMPUTER tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
         this.computerPoint += 5;
-      } else if (diffComp === diffPlayer) {
+      } else if (diffComp === 0 && diffPlayer === 0) {
         this.notifyService.showInfo('A MINDKÉT tippje ugyanolyan jó volt volt. Mindketten kapnak pontot.', 'Fizzingbrain v.1.0.0')
         this.computerPoint += 5;
         this.playerPoint += 5;
@@ -174,9 +174,7 @@ export class FizzingbrainComponent implements OnInit {
 
   resetTimer() {
     this.thereIsTime = true;
-    this.data.currentTimeLeft.subscribe((timeLeft) => {
-      this.timeLeft = timeLeft
-    })
+    this.timeLeft = this.timeStandard;
   }
 
   restartGame() {
@@ -190,5 +188,54 @@ export class FizzingbrainComponent implements OnInit {
     this.startGame();
   }
 
+  setDifficulty(value: string): void {
+    this.gameDifficulty = value;
+    this.setDifficultyValues(value);
+  }
 
+  randomDifficulty() {
+    const difficulties = ['easy', 'medium', 'hard', 'impossible', 'random']
+    let item = difficulties[Math.floor(Math.random() * difficulties.length)];
+
+    if (item == 'random') {
+      item = '';
+      item = difficulties[Math.floor(Math.random() * difficulties.length)];
+    }
+    this.gameDifficulty = item;
+    this.setDifficultyValues(item);
+  }
+
+  setDifficultyValues(value: string) {
+    switch (value) {
+      case 'easy':
+        this.timeLeft = 20
+        this.timeStandard = 20;
+        this.errorMargin = 30;
+        break;
+      case 'medium':
+        this.timeLeft = 15;
+        this.timeStandard = 15;
+        this.errorMargin = 20;
+        break;
+      case 'hard':
+        this.timeLeft = 10;
+        this.timeStandard = 10;
+        this.errorMargin = 10;
+        break;
+      case 'impossible':
+        this.timeLeft = 5;
+        this.timeStandard = 5;
+        this.errorMargin = 5;
+        break;
+      case 'random':
+        this.randomDifficulty();
+        break;
+
+      default:
+        // this.changeGameDifficulty('easy');
+        // this.timeLeft = 20);
+        // this.errorMargin = 30;
+        break;
+    }
+  }
 }

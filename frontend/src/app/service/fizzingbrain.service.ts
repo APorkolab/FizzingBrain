@@ -20,7 +20,6 @@ export class FizzingbrainService {
 
   changeGameDifficulty(message: string) {
     this.gameDifficulty.next(message);
-    this.setDifficultyValues(message);
     console.log(this.changePlayerTime);
   }
 
@@ -32,44 +31,5 @@ export class FizzingbrainService {
     this.errorMarginEnemy.next(value);
   }
 
-  randomDifficulty() {
-    const difficulties = ['easy', 'medium', 'hard', 'impossible', 'random']
-    let item = difficulties[Math.floor(Math.random() * difficulties.length)];
 
-    if (item == 'random') {
-      item = '';
-      item = difficulties[Math.floor(Math.random() * difficulties.length)];
-    }
-    this.changeGameDifficulty(item);
-  }
-
-  setDifficultyValues(value: string) {
-    switch (value) {
-      case 'easy':
-        this.changePlayerTime(20);
-        this.changeErrorMarginEnemy(30);
-        break;
-      case 'medium':
-        this.changePlayerTime(15);
-        this.changeErrorMarginEnemy(20);
-        break;
-      case 'hard':
-        this.changePlayerTime(10);
-        this.changeErrorMarginEnemy(10);
-        break;
-      case 'impossible':
-        this.changePlayerTime(5);
-        this.changeErrorMarginEnemy(5);
-        break;
-      case 'random':
-        this.randomDifficulty();
-        break;
-
-      default:
-        // this.changeGameDifficulty('easy');
-        // this.changePlayerTime(20);
-        // this.changeErrorMarginEnemy(30);
-        break;
-    }
-  }
 }

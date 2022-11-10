@@ -1,4 +1,42 @@
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty == '' && !gameHasEnded">
+<section *ngIf="!gameHasStarted" class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
+	<img src="../../../assets/img/FizzingBrain.png" lass="img-fluid" alt="logo">
+	<h1>Nano Folio</h1>
+	<table class="table table-borderless py-5">
+		<tbody>
+			<tr>
+				<td class="tg-lboi"><label>
+						{{ 'HOME.SELECT' | translate }}
+						<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
+							<option *ngFor="let lang of translate.getLangs()" [value]="lang"
+								[selected]="lang === translate.currentLang">{{
+								lang
+								}}</option>
+						</select>
+					</label></td>
+				<td class="tg-0pky">
+					<select #difficulties (change)="setDifficulty(difficulties.value)" name="diff"
+						class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+						<option selected>{{ 'HOME.BUTTONTITLE' | translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="easy">{{ 'HOME.EASY' |
+							translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="medium">{{ 'HOME.MEDIUM' | translate
+							}}</option>
+						<option [(ngModel)]="gameDifficulty" value="hard">{{ 'HOME.HARD' | translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="impossible">{{ 'HOME.IMPOSSIBLE' |
+							translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="random">{{ 'HOME.RANDOMLEVEL' | translate
+							}}</option>
+					</select>
+				</td>
+				<td class="tg-0pky"><button type="button" class="btn btn-primary btn-lg" (click)="startGame()">{{
+						'HOME.STARTGAME' | translate }}</button></td>
+			</tr>
+		</tbody>
+	</table>
+</section>
+
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded"
+	*ngIf="gameDifficulty == '' && !gameHasEnded && !gameHasStarted">
 	<div class="tm-about-header tm-flex-center">
 		<h1>Kérem, válasszon nehézséget!</h1>
 	</div>
@@ -13,14 +51,15 @@
 </section>
 
 
-<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameDifficulty !== ''&& !gameHasEnded">
-	<div class="tm-about-header tm-flex-center">
+<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded"
+	*ngIf="gameDifficulty !== ''&& !gameHasEnded && gameHasStarted">
+	<div class=" tm-about-header tm-flex-center">
 		<h1>00:{{timeLeft | number:'2.0'}}</h1>
 	</div>
 </section>
 
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-1 tm-border-rounded"
-	*ngIf="gameDifficulty  !== '' && !gameHasEnded">
+	*ngIf="gameDifficulty  !== '' && !gameHasEnded && gameHasStarted">
 	<div class="tm-about-header tm-flex-center">
 		<i-feather name="home"></i-feather>
 		<!-- <h2>{{questions[0].hungarianQuestion}}</h2> -->
@@ -30,7 +69,7 @@
 </section>
 
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded"
-	*ngIf="gameDifficulty  !== '' && !gameHasEnded">
+	*ngIf="gameDifficulty  !== '' && !gameHasEnded && gameHasStarted">
 
 	<div class="tm-about-header tm-flex-center mx-5">
 		<table class="table text-center">
