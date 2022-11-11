@@ -1,5 +1,5 @@
 {
-  "HOME": {
+  "FIZZINGBRAIN": {
     "TITLE": "Hallo Angular mit ngx-translate !",
     "SELECT": "Válassza ki az alkalmazás nyelvét!",
     "BUTTONTITLE": "A nehézségi szint kiválasztása rajtad múlik!",
@@ -8,7 +8,14 @@
     "HARD": "Nehéz (a számítógép még jobban tippel)",
     "IMPOSSIBLE": "Lehetetlen (a számítógép jobban kitalálja, mint Te)",
     "RANDOMLEVEL": "Szerencsésnek érzem magam. (A számítógép választ szintet.)",
-    "STARTGAME": "ÚJ JÁTÉK INDÍTÁSA"
+    "STARTGAME": "ÚJ JÁTÉK INDÍTÁSA",
+    "PACKERROR": "A kérdéscsomagok száma nem megfelelő.",
+    "DRAW": "Elértük a játék végét. Az eredmény DÖNTETLEN.",
+    "COMPUTERWINS": "Elértük a játék végét. A COMPUTER nyert.",
+    "PLAYERWINS": "Elértük a játék végét. A JÁZÉKOS aratott győzelmet.",
+    "BOTHGETPOINT": "Mindkét tipp egyformán jó volt. MINDKÉT JÁTÉKOS pontot kap.",
+    "COMPUTERGETSPOINT": "A SZÁMÍTÓGÉP tippje jobb volt. Ő kap pontot.",
+    "PLAYERGETSPOINT": "A JÁTÉKOS tippje jobb volt. Ő kap pontot."
   },
   "HEADBAR": {
     "SELECT": "Válassza ki az alkalmazás nyelvét!"

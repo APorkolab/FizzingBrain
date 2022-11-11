@@ -1,5 +1,5 @@
 {
-  "HOME": {
+  "FIZZINGBRAIN": {
     "TITLE": "Hallo Angular mit ngx-translate !",
     "SELECT": "Please select the language of the application!",
     "BUTTONTITLE": "It is up to you to choose the difficulty level!",
@@ -8,7 +8,14 @@
     "HARD": "Hard (the computer guesses even better)",
     "IMPOSSIBLE": "Impossible (the computer does a better job of guessing than you)",
     "RANDOMLEVEL": "I do feel lucky, ya punk! (The computer chooses a level for you.)",
-    "STARTGAME": "START A NEW GAME"
+    "STARTGAME": "START A NEW GAME",
+    "PACKERROR": "The number of pack of questions are not right.",
+    "DRAW": "We have reached the end of the game. A DRAW has been reached.",
+    "COMPUTERWINS": "We have reached the end of the game. It is the COMPUTER that wins.",
+    "PLAYERWINS": "We have reached the end of the game. A win has been achieved by the player.",
+    "BOTHGETPOINT": "Both guesses were equally good. BOTH PLAYERS get points.",
+    "COMPUTERGETSPOINT": "The COMPUTER guess was better. It gets points.",
+    "PLAYERGETSPOINT": "The PLAYER's guess was better. He/She gets points."
   },
   "HEADBAR": {
     "SELECT": "Please select the language of the application!"

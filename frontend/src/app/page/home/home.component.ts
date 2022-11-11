@@ -10,30 +10,18 @@ import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  gameDifficulty !: string;
-  gameDifficultySubscription!: Subscription;
 
-  constructor(public translate: TranslateService, protected data: FizzingbrainService) {
-    //   translate.addLangs(['en', 'hu']);
-    //   translate.setDefaultLang('hu');
 
-    //   const browserLang = translate.getBrowserLang();
+  constructor() {
 
-    //   try {
-    //     translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
   }
 
   ngOnInit(): void {
-    this.gameDifficultySubscription = this.data.currentDifficulty.subscribe(currentDifficulty => this.gameDifficulty = currentDifficulty)
+
 
   }
 
-  difficultyChange() {
-    this.data.changeGameDifficulty(this.gameDifficulty);
-  }
+
 }
 
 

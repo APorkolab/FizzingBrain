@@ -1,11 +1,11 @@
-<section *ngIf="!gameHasStarted" class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
+<section *ngIf="!gameHasStarted " class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
 	<img src="../../../assets/img/FizzingBrain.png" lass="img-fluid" alt="logo">
 	<h1>Nano Folio</h1>
 	<table class="table table-borderless py-5">
 		<tbody>
 			<tr>
 				<td class="tg-lboi"><label>
-						{{ 'HOME.SELECT' | translate }}
+						{{ 'FIZZINGBRAIN.SELECT' | translate }}
 						<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
 							<option *ngFor="let lang of translate.getLangs()" [value]="lang"
 								[selected]="lang === translate.currentLang">{{
@@ -16,27 +16,28 @@
 				<td class="tg-0pky">
 					<select #difficulties (change)="setDifficulty(difficulties.value)" name="diff"
 						class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-						<option selected>{{ 'HOME.BUTTONTITLE' | translate }}</option>
-						<option [(ngModel)]="gameDifficulty" value="easy">{{ 'HOME.EASY' |
+						<option selected>{{ 'FIZZINGBRAIN.BUTTONTITLE' | translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="easy" (change)="gameDifficulty = difficulties.value">{{
+							'FIZZINGBRAIN.EASY' |
 							translate }}</option>
-						<option [(ngModel)]="gameDifficulty" value="medium">{{ 'HOME.MEDIUM' | translate
+						<option [(ngModel)]="gameDifficulty" value="medium">{{ 'FIZZINGBRAIN.MEDIUM' | translate
 							}}</option>
-						<option [(ngModel)]="gameDifficulty" value="hard">{{ 'HOME.HARD' | translate }}</option>
-						<option [(ngModel)]="gameDifficulty" value="impossible">{{ 'HOME.IMPOSSIBLE' |
+						<option [(ngModel)]="gameDifficulty" value="hard">{{ 'FIZZINGBRAIN.HARD' | translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="impossible">{{ 'FIZZINGBRAIN.IMPOSSIBLE' |
 							translate }}</option>
-						<option [(ngModel)]="gameDifficulty" value="random">{{ 'HOME.RANDOMLEVEL' | translate
+						<option [(ngModel)]="gameDifficulty" value="random">{{ 'FIZZINGBRAIN.RANDOMLEVEL' | translate
 							}}</option>
 					</select>
 				</td>
 				<td class="tg-0pky"><button type="button" class="btn btn-primary btn-lg" (click)="startGame()">{{
-						'HOME.STARTGAME' | translate }}</button></td>
+						'FIZZINGBRAIN.STARTGAME' | translate }}</button></td>
 			</tr>
 		</tbody>
 	</table>
 </section>
 
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded"
-	*ngIf="gameDifficulty == '' && !gameHasEnded && !gameHasStarted">
+	*ngIf="(gameDifficulty == '' ||  gameDifficulty == undefined ) && !gameHasEnded && !gameHasStarted">
 	<div class="tm-about-header tm-flex-center">
 		<h1>Kérem, válasszon nehézséget!</h1>
 	</div>
@@ -45,6 +46,8 @@
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameHasEnded">
 	<div class="tm-about-header tm-flex-center">
 		<h1>A játék véget ért!</h1>
+		<h1>And the winner is... the '{{winner}}'.</h1>
+		<h2>The player has {{playerPoint}} point and the computer has {{computerPoint}} points.</h2>
 		<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">Restart
 				game</button></div>
 	</div>
@@ -81,7 +84,9 @@
 				</tr>
 				<tr>
 					<td class="tg-lboi">
-						<h4>Computers guess: {{computerGuess}}</h4>
+						<h4>Computers guess:</h4>
+						<h4 *ngIf="isRevealAnswer">{{computerGuess}}</h4>
+						<h4 *ngIf="!isRevealAnswer">Elrejtve</h4>
 					</td>
 					<td class="tg-0pky">
 						<h4>Computers points: {{computerPoint}}</h4>
@@ -113,17 +118,16 @@
 						<div class="tm-mb-40">
 							<h5>Player guess:</h5>
 							<form>
-								<input [(ngModel)]="playerGuess" *ngIf="thereIsTime" type="number" id="playerGuess" name="playerGuess"
-									required placeholder="Ide írhatja a tippjét...">
+								<input ngDefaultControl [(ngModel)]="playerGuess" *ngIf="thereIsTime" type="number" id="playerGuess"
+									name="playerGuess" required placeholder="Ide írhatja a tippjét...">
 							</form>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
-						<div class="tm-mb-0"><button *ngIf="playerGuess && thereIsTime" type="button" class="btn btn-primary btn-lg"
-								(click)="nextQuestion()">Large
-								button</button></div>
+						<div class="tm-mb-0"><button *ngIf="playerGuess && thereIsTime && !isRevealAnswer" type="button"
+								class="btn btn-primary btn-lg" (click)="nextQuestion()">Next question</button></div>
 					</td>
 				</tr>
 			</tbody>
