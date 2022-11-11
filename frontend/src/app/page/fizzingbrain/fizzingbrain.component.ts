@@ -51,7 +51,7 @@ export class FizzingbrainComponent implements OnInit {
 
   constructor(private config: ConfigService,
     private questionService: QuestionService,
-    private router: Router,
+    // private router: Router,
     public translate: TranslateService,
     private notifyService: NotificationService,
     protected data: FizzingbrainService) {
@@ -68,7 +68,7 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.setDifficulty(this.gameDifficulty);
     // this.gameDifficultySubscription = this.data.currentDifficulty.subscribe((currentDifficulty) => {
     //   this.gameDifficulty = currentDifficulty
     // });
@@ -82,7 +82,6 @@ export class FizzingbrainComponent implements OnInit {
       }
       // this.actualQuestion = this.questions[0];
     });
-
     // this.data.currentTimeLeft.subscribe((timeLeft) => {
     //   this.timeLeft = timeLeft
     // });
@@ -92,7 +91,7 @@ export class FizzingbrainComponent implements OnInit {
         this.langChange = language;
       }
     });
-    console.log(this.gameDifficulty);
+    // console.log(this.gameDifficulty);
   }
 
   ngOnDestroy() {
@@ -111,6 +110,7 @@ export class FizzingbrainComponent implements OnInit {
       this.playerGuess = 0;
       this.gameHasEnded = false;
       this.isRevealAnswer = false;
+      this.setDifficulty(this.gameDifficulty);
       this.nextQuestion();
       this.startTimer();
       // this.computerGuesses();
@@ -157,15 +157,16 @@ export class FizzingbrainComponent implements OnInit {
 
   //AI guessing
   computerGuesses() {
+
     // this.computerGuess = 0;
     const solution = Number(this.questions[this.counter].englishAnswer);
     const min = Math.ceil(solution * ((100 - this.errorMargin) / 100));
     const max = Math.floor(solution * ((100 + this.errorMargin) / 100));
     this.computerGuess = Math.floor(Math.random() * (max - min + 1)) + min;
-    console.log(min);
-    console.log(max);
-    console.log(this.errorMargin);
-    console.log(this.gameDifficulty);
+    // console.log(min);
+    // console.log(max);
+    // console.log(this.errorMargin);
+    // console.log(this.gameDifficulty);
   }
 
   //Giving points after every question
@@ -239,17 +240,6 @@ export class FizzingbrainComponent implements OnInit {
     this.setDifficultyValues(value);
   }
 
-  randomDifficulty() {
-    const difficulties = ['easy', 'medium', 'hard', 'impossible', 'random']
-    let item = '';
-    do {
-      item = difficulties[Math.floor(Math.random() * difficulties.length)];
-    } while (item === 'random')
-    this.gameDifficulty = item;
-    this.notifyService.showInfo('The choosen difficulty is ' + item, 'Fizzingbrain v.1.0.0')
-    this.setDifficultyValues(item);
-  }
-
   setDifficultyValues(value: string) {
     switch (value) {
       case 'easy':
@@ -275,20 +265,31 @@ export class FizzingbrainComponent implements OnInit {
       case 'random':
         this.randomDifficulty();
         break;
-      case undefined:
-        this.gameDifficulty = 'easy';
-        this.timeLeft = 20
-        this.timeStandard = 20;
-        this.errorMargin = 30;
-        break;
+      // case undefined:
+      //   this.gameDifficulty = 'easy';
+      //   this.timeLeft = 20
+      //   this.timeStandard = 20;
+      //   this.errorMargin = 30;
+      //   break;
 
       default:
-        this.gameDifficulty = 'easy';
-        this.timeLeft = 20
-        this.timeStandard = 20;
-        this.errorMargin = 30;
-        break;
+      // this.gameDifficulty = 'easy';
+      // this.timeLeft = 20
+      // this.timeStandard = 20;
+      // this.errorMargin = 30;
+      // break;
     }
+  }
+
+  randomDifficulty() {
+    const difficulties = ['easy', 'medium', 'hard', 'impossible', 'random']
+    let item = '';
+    do {
+      item = difficulties[Math.floor(Math.random() * difficulties.length)];
+    } while (item === 'random')
+    this.gameDifficulty = item;
+    this.notifyService.showInfo('The choosen difficulty is ' + item, 'Fizzingbrain v.1.0.0')
+    this.setDifficultyValues(item);
   }
 
   restartGame() {

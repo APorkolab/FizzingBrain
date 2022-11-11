@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { FizzingbrainComponent } from './fizzingbrain.component';
 
@@ -8,9 +9,9 @@ describe('FizzingbrainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FizzingbrainComponent ]
+      declarations: [FormsModule, FizzingbrainComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(FizzingbrainComponent);
     component = fixture.componentInstance;

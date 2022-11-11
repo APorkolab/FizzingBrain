@@ -1,35 +1,31 @@
 <section *ngIf="!gameHasStarted " class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
 	<img src="../../../assets/img/FizzingBrain.png" lass="img-fluid" alt="logo">
-	<h1>Nano Folio</h1>
+	<h1>FizzingBrain v.1.0.0</h1>
 	<table class="table table-borderless py-5">
 		<tbody>
 			<tr>
-				<td class="tg-lboi"><label>
-						{{ 'FIZZINGBRAIN.SELECT' | translate }}
-						<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
-							<option *ngFor="let lang of translate.getLangs()" [value]="lang"
-								[selected]="lang === translate.currentLang">{{
-								lang
-								}}</option>
-						</select>
-					</label></td>
 				<td class="tg-0pky">
-					<select #difficulties (change)="setDifficulty(difficulties.value)" name="diff"
-						class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-						<option selected>{{ 'FIZZINGBRAIN.BUTTONTITLE' | translate }}</option>
+					<select #difficulties ngDefaultControl (change)="setDifficulty(difficulties.value)" name="diff"
+						class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="difficulties">
+						<option [(ngModel)]="gameDifficulty" value="easy" selected>{{ 'FIZZINGBRAIN.BUTTONTITLE' |
+							translate }}
+						</option>
 						<option [(ngModel)]="gameDifficulty" value="easy" (change)="gameDifficulty = difficulties.value">{{
 							'FIZZINGBRAIN.EASY' |
 							translate }}</option>
 						<option [(ngModel)]="gameDifficulty" value="medium">{{ 'FIZZINGBRAIN.MEDIUM' | translate
 							}}</option>
-						<option [(ngModel)]="gameDifficulty" value="hard">{{ 'FIZZINGBRAIN.HARD' | translate }}</option>
+						<option [(ngModel)]="gameDifficulty" value="hard">{{ 'FIZZINGBRAIN.HARD' | translate }}
+						</option>
 						<option [(ngModel)]="gameDifficulty" value="impossible">{{ 'FIZZINGBRAIN.IMPOSSIBLE' |
 							translate }}</option>
-						<option [(ngModel)]="gameDifficulty" value="random">{{ 'FIZZINGBRAIN.RANDOMLEVEL' | translate
+						<option [(ngModel)]="gameDifficulty" value="random">{{ 'FIZZINGBRAIN.RANDOMLEVEL' |
+							translate
 							}}</option>
 					</select>
 				</td>
-				<td class="tg-0pky"><button type="button" class="btn btn-primary btn-lg" (click)="startGame()">{{
+				<td class="tg-0pky"><button type="button" (click)="startGame()"
+						[ngClass]="gameDifficulty === undefined ? 'btn btn-primary btn-lg disabled' : ' btn btn-primary btn-lg'">{{
 						'FIZZINGBRAIN.STARTGAME' | translate }}</button></td>
 			</tr>
 		</tbody>
@@ -66,8 +62,8 @@
 	<div class="tm-about-header tm-flex-center">
 		<i-feather name="home"></i-feather>
 		<!-- <h2>{{questions[0].hungarianQuestion}}</h2> -->
-		<h2 *ngIf="this.language=='hu'">{{questions[counter].hungarianQuestion}}</h2>
-		<h2 *ngIf="this.language=='en'">{{questions[counter].englishQuestion}}</h2>
+		<h2 ngDefaultControl *ngIf="this.language=='hu'">{{questions[counter].hungarianQuestion}}</h2>
+		<h2 ngDefaultControl *ngIf="this.language=='en'">{{questions[counter].englishQuestion}}</h2>
 	</div>
 </section>
 

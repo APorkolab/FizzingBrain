@@ -12,7 +12,7 @@ import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 export class HomeComponent implements OnInit {
 
 
-  constructor() {
+  constructor(public translate: TranslateService) {
 
   }
 

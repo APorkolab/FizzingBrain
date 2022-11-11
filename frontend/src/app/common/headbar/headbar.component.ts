@@ -21,15 +21,8 @@ export class HeadbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe(errorMargin => this.errorMargin = errorMargin)
-    this.gameDifficultySubscription = this.data.currentDifficulty.subscribe(currentDifficulty => this.gameDifficulty = currentDifficulty)
-    this.timeLeftSubscription = this.data.currentTimeLeft.subscribe(timeLeft => this.timeLeft = timeLeft)
   }
 
-  setDifficulty(value: string): void {
-    this.gameDifficulty = value;
-    this.data.changeGameDifficulty(value);
-  }
 }
 
 

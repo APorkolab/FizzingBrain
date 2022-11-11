@@ -16,7 +16,7 @@ import { FizzingbrainComponent } from './page/fizzingbrain/fizzingbrain.componen
 import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { AuthService } from './service/auth.service';
@@ -29,6 +29,7 @@ import { HeadbarComponent } from './common/headbar/headbar.component';
 import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 import { ToastrModule } from 'ngx-toastr';
 import { IconModule } from './common/icon/icon.module';
+import { forwardRef } from '@angular/core';
 
 export function HttpLoaderFactory(httpBackend: HttpBackend) {
   return new MultiTranslateHttpLoader(httpBackend, [
