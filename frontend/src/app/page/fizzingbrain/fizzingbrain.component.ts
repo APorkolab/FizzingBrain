@@ -21,9 +21,10 @@ export class FizzingbrainComponent implements OnInit {
   packOfQuestions$ = this.questionService.getRandomQuestions();
   questions: Question[] = [];
   actualQuestion!: Question;
-  counter = 0;
+  counter = 1;
   langChange!: LangChangeEvent;
   language = 'hu';
+  showCount = 2;
 
   interval: any;
   thereIsTime = true;
@@ -56,15 +57,24 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   startGame() {
-    this.gameHasStarted = true;
-    this.thereIsTime = true;
-    this.counter = 0;
-    this.playerPoint = 0;
-    this.computerPoint = 0;
-    this.playerGuess = 0;
-    this.gameHasEnded = false;
-    this.nextQuestion();
-    this.startTimer();
+    if (this.questions.length === 6) {
+      this.gameHasStarted = true;
+      this.thereIsTime = true;
+      this.counter = 0;
+      this.showCount = 2;
+      this.playerPoint = 0;
+      this.computerPoint = 0;
+      this.playerGuess = 0;
+      this.gameHasEnded = false;
+      this.nextQuestion();
+      this.startTimer();
+      // this.computerGuesses();
+      // this.gettingPoint();
+    } else {
+      this.notifyService.showError('The number of pack of questions are not right.', 'FizzingBrain v.1.0.0')
+      console.log(this.questions.length);
+    }
+    // this.nextQuestion();
   }
 
   ngOnInit(): void {
@@ -75,10 +85,14 @@ export class FizzingbrainComponent implements OnInit {
     // this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe((errorMargin) => {
     //   this.errorMargin = errorMargin;
     // });
-    this.questionService.getRandomQuestions().subscribe((response) => {
-      this.questions = response;
+    this.questionSubscription = this.questionService.getRandomQuestions().subscribe((response) => {
+      if (response) {
+        this.questions = response;
+        // this.actualQuestion = this.questions[0];
+      }
       // this.actualQuestion = this.questions[0];
     });
+
     // this.data.currentTimeLeft.subscribe((timeLeft) => {
     //   this.timeLeft = timeLeft
     // });
@@ -89,31 +103,25 @@ export class FizzingbrainComponent implements OnInit {
     console.log(this.gameDifficulty);
   }
 
+  ngOnDestroy() {
+    this.questionSubscription.unsubscribe()
+  }
   nextQuestion() {
-    // if (this.questions.length !== 6) {
-    //   this.notifyService.showError('The number of pack of questions are not right.', 'FizzingBrain v.1.0.0')
-    // } else {
-
     if (this.counter >= this.maxRound) {
       this.gettingPoint();
       setTimeout(() => {
         this.evaluation();
       }, 3000);
     } else {
-      this.actualQuestion = this.questions[this.counter];
       this.resetTimer();
       this.computerGuesses();
       this.gettingPoint();
-      this.counter++;
     }
-    // evaluation();
-    // }
-
   }
 
   computerGuesses() {
     // this.computerGuess = 0;
-    const solution = Number(this.actualQuestion.englishAnswer);
+    const solution = Number(this.questions[this.counter].englishAnswer);
     const min = Math.ceil(solution * ((100 - this.errorMargin) / 100));
     const max = Math.floor(solution * ((100 + this.errorMargin) / 100));
     this.computerGuess = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -126,38 +134,48 @@ export class FizzingbrainComponent implements OnInit {
   evaluation() {
     this.gameHasEnded = true;
     this.gameHasStarted = false;
-    if (this.gameHasEnded) {
+    if (this.gameHasEnded && this.showCount > 1) {
       if (this.computerPoint === this.playerPoint) {
         this.notifyService.showWarning('We have reached the end of the game. A draw has been reached.', 'Fizzingbrain v.1.0.0')
+        this.showCount--;
       } else if (this.computerPoint > this.playerPoint) {
+        this.showCount--;
         this.notifyService.showError('We have reached the end of the game. It is the computer that wins.', 'Fizzingbrain v.1.0.0')
       } else {
+        this.showCount--;
         this.notifyService.showSuccess('We have reached the end of the game. A win has been achieved by the player.', 'Fizzingbrain v.1.0.0')
       }
     }
   }
 
   gettingPoint() {
-    let solution = Number(this.actualQuestion.englishAnswer);
-    let diffComp = Math.abs(solution - this.computerGuess);
-    let diffPlayer = Math.abs(solution - this.playerGuess);
-    if (this.gameHasStarted) {
-      console.log('comp' + this.computerGuess);
-      console.log('player' + this.playerGuess);
+    if (this.playerGuess != 0) {
+      let solution = Number(this.questions[this.counter].englishAnswer);
+      let diffComp = Math.abs(solution - this.computerGuess);
+      let diffPlayer = Math.abs(solution - this.playerGuess);
+      if (this.gameHasStarted) {
+        console.log('solution:' + solution);
+        console.log('comp guess' + this.computerGuess);
+        console.log('player guess' + this.playerGuess);
+        console.log('diffComp' + diffComp);
+        console.log('diffPlayer' + diffPlayer);
 
-      if (diffComp > diffPlayer || diffPlayer === 0) {
-        this.notifyService.showInfo('A JÁTÉKOS tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
-        this.playerPoint += 5;
-      } else if (diffComp < diffPlayer || diffComp === 0) {
-        this.notifyService.showInfo('A COMPUTER tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
-        this.computerPoint += 5;
-      } else if (diffComp === 0 && diffPlayer === 0) {
-        this.notifyService.showInfo('A MINDKÉT tippje ugyanolyan jó volt volt. Mindketten kapnak pontot.', 'Fizzingbrain v.1.0.0')
-        this.computerPoint += 5;
-        this.playerPoint += 5;
+        if (diffComp === 0 && diffPlayer === 0) {
+          this.notifyService.showInfo('A MINDKÉT tippje ugyanolyan jó volt volt. Mindketten kapnak pontot.', 'Fizzingbrain v.1.0.0')
+          this.computerPoint += 5;
+          this.playerPoint += 5;
+        } else if (diffComp < diffPlayer || diffComp === 0) {
+          this.notifyService.showInfo('A COMPUTER tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
+          this.computerPoint += 5;
+        } else if (diffComp > diffPlayer || diffPlayer === 0) {
+          this.notifyService.showInfo('A JÁTÉKOS tippje jobb volt. Ő kap pontot.', 'Fizzingbrain v.1.0.0')
+          this.playerPoint += 5;
+        }
       }
+      this.playerGuess = 0;
+      this.counter++;
+      this.nextQuestion();
     }
-    this.playerGuess = 0;
   }
 
 
@@ -178,9 +196,7 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   restartGame() {
-    // this.data.changeNewGameWanted(true);
-    // this.data.changeSelectedDeckSize(this.deckSize);
-
+    ;
     this.gameHasEnded = true;
     this.playerPoint = 0;
     this.computerPoint = 0;

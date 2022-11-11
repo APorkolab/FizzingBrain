@@ -63,8 +63,8 @@
 	<div class="tm-about-header tm-flex-center">
 		<i-feather name="home"></i-feather>
 		<!-- <h2>{{questions[0].hungarianQuestion}}</h2> -->
-		<h2 *ngIf="this.language=='hu'">{{actualQuestion.hungarianQuestion}}</h2>
-		<h2 *ngIf="this.language=='en'">{{actualQuestion.englishQuestion}}</h2>
+		<h2 *ngIf="this.language=='hu'">{{questions[counter].hungarianQuestion}}</h2>
+		<h2 *ngIf="this.language=='en'">{{questions[counter].englishQuestion}}</h2>
 	</div>
 </section>
 
