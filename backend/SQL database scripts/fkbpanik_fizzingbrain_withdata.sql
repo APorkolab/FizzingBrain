@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2022. Nov 05. 18:20
+-- Létrehozás ideje: 2022. Nov 12. 15:57
 -- Kiszolgáló verziója: 10.4.25-MariaDB
 -- PHP verzió: 8.1.10
 
@@ -115,8 +115,19 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `firstName`, `lastName`, `email`, `password`) VALUES
-(1, 'Ádám', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$12$FrKZ4CbIaODwmNXRO0iFBeUnICQBsiMLZpJ8MwMcNTrMxBZUeYNw2'),
-(2, 'Mókus', 'Minta', 'minta@minta.hu', '$2a$12$iGnRAJNsZY1DexZjo./lBelFhW1b7olQfrUgxtXhFXyt3nzjIysOa');
+(1, 'Zoltán', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$10$mG8QBTLEN2zfvitmGuE3W.ZQKvTHvgJct9KRDsiTjrrYzrRenJnTC'),
+(2, 'Mókus', 'Minta', 'minta@minta.hu', '$2a$10$c1qOoTf9.fwREtY7lLMdbuLy8qa07/oGOxTv.wWShoZjAPs7hHMfu'),
+(3, 'Ádám', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$10$1qVEZuu61dJrWaQDsIaWvuYze45kC5y42TMrDVX36eiJ1I/fjXPWa'),
+(4, 'Mókus', 'Minta', 'minta@minta.hu', '$2a$10$TEhujFrzX4PYLlEjMLMv/OFF27V/OEkAYPEDkZwtMlkg2kPGRX2Mi'),
+(5, 'Ádám', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$10$6kWcxYSaLuJS.Rn3tgLX2eahb5rFJRswWskpxLgX6EeSl0HtcQ6Ee'),
+(6, 'Mókus', 'Minta', 'minta@minta.hu', '$2a$10$8Wq4xiMVYSvFn07peBoGZO6VlvLKLxi3gth9mvnbgfd5DTUYTkg/O'),
+(7, 'Ádám', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$10$woG4s0.HeSENpB3mG0VhVO2kFv8K09KQW405kmGHlOR5q6QbcIGMi'),
+(8, 'Mókus', 'Minta', 'minta@minta.hu', '$2a$10$0FKoZPkvcR3uxfiwfoL.cOUdRusKJuhDIqEEvvuDdd/drPw2gHBo.'),
+(9, 'Ádám', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$10$5/PZ0AidhjBmKROVfapIBOuGaUQPXxjwKGtmb29oTcJaOQA4liDRi'),
+(10, 'Mókus', 'Minta', 'minta@minta.hu', '$2a$10$tWQP566VQT7EuchwXCRpLuE/ZebNP1tWGToPTDU4dWm/JFgimrP6.'),
+(11, 'Ádám', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$10$KWFtI0R8X5DIsHL4L/Tp0.lSRze.50DK8NwCiXv2SY.YpZm3Yc39C'),
+(12, 'Mókus', 'Minta', 'minta@minta.hu', '$2a$10$5xHsD6AI/8t6oeRPRkZMDuwSuKBGsUA7mYaoi6RxrHNXb3wJqTpXO'),
+(13, 'Ádám', 'Dr. Porkoláb', 'adam@porkolab.digital', '$2a$10$unMgzmQpSqM2SFJnimQvnOhZgF5LQDUFTRKWBxIsaKcvvm5W3T3WC');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -142,13 +153,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT a táblához `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=409;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=410;
 
 --
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
