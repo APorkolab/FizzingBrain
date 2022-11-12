@@ -11,7 +11,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  columns = this.config.directorColumn;
+  columns = this.config.usersColumn;
   list$ = this.userService.getAll();
   entity: string = 'User';
 
@@ -39,11 +39,11 @@ export class UsersComponent implements OnInit {
   }
 
   onSelectOne(user: User): void {
-    this.router.navigate(['/', 'users', 'edit', user.id]);
+    this.router.navigate(['/', 'user', 'edit', user.id]);
   }
 
-  onDeleteOne(director: User) {
-    this.userService.delete(director).subscribe({
+  onDeleteOne(user: User) {
+    this.userService.delete(user).subscribe({
       next: () => (this.list$ = this.userService.getAll()),
       error: (err) => this.showError(err),
       complete: () => this.showSuccessDelete(),

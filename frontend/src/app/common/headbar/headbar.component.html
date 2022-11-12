@@ -37,8 +37,12 @@
 
 
 			<div class="text-end">
-				<button type="button" class="btn btn-warning">{{ 'FIZZINGBRAIN.Login' | translate }}</button>
-				<button type="button" class="btn btn-outline-light me-2">{{ 'FIZZINGBRAIN.Logout' | translate }}</button>
+				<button *ngIf="!(user$ | async)" type="button" class="btn btn-warning" routerLink="/login">{{
+					'FIZZINGBRAIN.Login' | translate
+					}}</button>
+				<button *ngIf="(user$ | async)" type="button" class="btn btn-outline-light me-2" routerLink="/login">{{
+					'FIZZINGBRAIN.Logout' |
+					translate }}</button>
 			</div>
 		</div>
 	</div>

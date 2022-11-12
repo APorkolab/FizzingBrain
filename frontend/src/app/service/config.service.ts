@@ -32,47 +32,14 @@ export class ConfigService {
     { key: 'descriptionEnglish', title: 'Description English' },
   ];
 
-  watchedMoviesColumn: INgxTableColumn[] = [
-    { key: '_id', title: 'ID' },
-    { key: 'foreignTitle', title: 'Foreign Title' },
-    { key: 'hungarianTitle', title: 'Hungarian Title' },
-    { key: 'director', title: 'Director' },
-    { key: 'releaseYear', title: 'Release Year' },
-    { key: 'length', title: 'Length' },
-    { key: 'genre', title: 'Genre' },
-    { key: 'imdbRank', title: 'IMDB Rank' },
-    { key: 'imdbAverage', title: 'IMDB Average' },
-    // { key: 'imdbID', title: 'IMDB ID' },
-    { key: 'mainActor1', title: 'Main Actor 1' },
-    { key: 'mainActor2', title: 'Main Actor 2' },
-    { key: 'timestampOfWatching', title: 'When we watched?' },
+  usersColumn: INgxTableColumn[] = [
+    { key: 'id', title: 'ID' },
+    { key: 'firstName', title: 'First name' },
+    { key: 'lastName', title: 'Last name' },
+    { key: 'email', title: 'E-mail' },
+    { key: 'password', title: 'Password' },
   ];
 
-  directorColumn: INgxTableColumn[] = [
-    { key: '_id', title: 'ID' },
-    { key: 'fullName', title: 'Full name' },
-    { key: 'nationality', title: 'Nationality' },
-    { key: 'dateOfBirth', title: 'Date Of Birth' },
-    { key: 'mostFamousMovie', title: 'Most Famous Movie' },
-  ];
-  mainActorColumn: INgxTableColumn[] = [
-    { key: '_id', title: 'ID' },
-    { key: 'fullName', title: 'Full name' },
-    { key: 'nationality', title: 'Nationality' },
-    { key: 'dateOfBirth', title: 'Date Of Birth' },
-    { key: 'mostFamousMovie', title: 'Most Famous Movie' },
-  ];
-  familyMemberColumn: INgxTableColumn[] = [
-    { key: '_id', title: 'ID' },
-    { key: 'first_name', title: 'First Name' },
-    { key: 'last_name', title: 'Last Name' },
-    { key: 'email', title: 'E-mail' },
-    { key: 'role', title: 'Role' },
-    { key: 'password', title: 'Encrypted password' },
-    { key: 'nickname', title: 'Nickname' },
-    { key: 'favouriteGenre', title: 'Favourite Genre' },
-    { key: 'favouriteMovie', title: 'Favourite Movie' },
-  ];
 
   constructor() { }
 }

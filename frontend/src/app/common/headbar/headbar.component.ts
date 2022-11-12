@@ -2,6 +2,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
 import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 import { Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-headbar',
@@ -9,11 +11,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./headbar.component.scss']
 })
 export class HeadbarComponent implements OnInit {
+  user$ = this.auth.user$;
   gameHasEnded!: boolean;
   gameHasEndedSubscription!: Subscription;
   gameHasStarted!: boolean;
   gameHasStartedSubscription!: Subscription;
-  constructor(public translate: TranslateService, protected data: FizzingbrainService) {
+  constructor(public translate: TranslateService, protected data: FizzingbrainService, private auth: AuthService) {
   }
 
   ngOnInit(): void {
