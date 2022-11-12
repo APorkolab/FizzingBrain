@@ -27,6 +27,8 @@ export class FizzingbrainComponent implements OnInit {
   showCount = 0;
   winner = '';
 
+  executed!: boolean;
+
   interval: any;
   thereIsTime = true;
   gameHasStarted = false;
@@ -127,12 +129,14 @@ export class FizzingbrainComponent implements OnInit {
     if (this.counter >= this.maxRound) {
       this.gettingPoint();
       setTimeout(() => {
+        this.executed = false;
         this.evaluation();
       }, 3000);
     } else {
       this.isRevealAnswer = false;
       this.computerGuesses();
       this.gettingPoint();
+      this.executed = false;
     }
   }
 
@@ -143,7 +147,10 @@ export class FizzingbrainComponent implements OnInit {
         this.timeLeft--;
       } else {
         this.thereIsTime = false;
-        this.nextQuestion();
+        if (!this.executed) {
+          this.executed = true;
+          this.nextQuestion();
+        }
       }
     }, 1000)
   }
@@ -171,7 +178,7 @@ export class FizzingbrainComponent implements OnInit {
 
   //Giving points after every question
   gettingPoint() {
-    if (this.playerGuess != 0) {
+    if (this.playerGuess != 0 || !this.thereIsTime) {
       let solution = Number(this.questions[this.counter].englishAnswer);
       let diffComp = Math.abs(solution - this.computerGuess);
       let diffPlayer = Math.abs(solution - this.playerGuess);
