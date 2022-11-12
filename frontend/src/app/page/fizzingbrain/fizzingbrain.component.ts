@@ -18,9 +18,9 @@ import { combineLatest } from 'rxjs/internal/operators/combineLatest';
   styleUrls: ['./fizzingbrain.component.scss']
 })
 export class FizzingbrainComponent implements OnInit {
-  packOfQuestions$ = this.questionService.getRandomQuestions();
+  // packOfQuestions$ = this.questionService.getRandomQuestions();
   questions: Question[] = [];
-  actualQuestion!: Question;
+  // actualQuestion!: Question;
   counter = 1;
   langChange!: LangChangeEvent;
   language = 'hu';
@@ -41,6 +41,10 @@ export class FizzingbrainComponent implements OnInit {
   playerPoint = 0;
   maxRound = this.questions.length | 6;
 
+
+
+  gameHasEndedSubscription!: Subscription;
+  gameHasStartedSubscription!: Subscription;
 
   gameDifficulty !: string;
   gameDifficultySubscription!: Subscription;
@@ -70,10 +74,8 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDifficulty(this.gameDifficulty);
-    // this.gameDifficultySubscription = this.data.currentDifficulty.subscribe((currentDifficulty) => {
-    //   this.gameDifficulty = currentDifficulty
-    // });
+    // this.setDifficulty(this.gameDifficulty);
+
     // this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe((errorMargin) => {
     //   this.errorMargin = errorMargin;
     // });
@@ -84,9 +86,12 @@ export class FizzingbrainComponent implements OnInit {
       }
       // this.actualQuestion = this.questions[0];
     });
-    // this.data.currentTimeLeft.subscribe((timeLeft) => {
-    //   this.timeLeft = timeLeft
-    // });
+    this.gameHasStartedSubscription = this.data.currentGameStartingState.subscribe((current) => {
+      this.gameHasStarted = current
+    });
+    this.gameHasEndedSubscription = this.data.currentGameEndingState.subscribe((current) => {
+      this.gameHasEnded = current
+    });
 
     this.translate.onLangChange.subscribe((language) => {
       if (language) {
@@ -102,7 +107,7 @@ export class FizzingbrainComponent implements OnInit {
 
   startGame() {
     if (this.questions.length === 6) {
-      this.gameHasStarted = true;
+      this.data.changeGameStartingState(true);
       this.thereIsTime = true;
       this.winner = '';
       this.counter = 0;
@@ -110,7 +115,7 @@ export class FizzingbrainComponent implements OnInit {
       this.playerPoint = 0;
       this.computerPoint = 0;
       this.playerGuess = 0;
-      this.gameHasEnded = false;
+      this.data.changeGameEndingState(false);
       this.isRevealAnswer = false;
       this.setDifficulty(this.gameDifficulty);
       this.nextQuestion();
@@ -182,7 +187,7 @@ export class FizzingbrainComponent implements OnInit {
       let solution = Number(this.questions[this.counter].englishAnswer);
       let diffComp = Math.abs(solution - this.computerGuess);
       let diffPlayer = Math.abs(solution - this.playerGuess);
-      if (this.gameHasStarted) {
+      if (this.data.currentGameStartingState) {
         console.log('solution:' + solution);
         console.log('comp guess' + this.computerGuess);
         console.log('player guess' + this.playerGuess);
@@ -221,9 +226,9 @@ export class FizzingbrainComponent implements OnInit {
 
   //Full game evaluation after 6 questions
   evaluation() {
-    this.gameHasEnded = true;
-    this.gameHasStarted = false;
-    if (this.gameHasEnded && this.showCount < 1) {
+    this.data.changeGameEndingState(true);
+    this.data.changeGameStartingState(false);
+    if (this.data.currentGameEndingState && this.showCount < 1) {
       if (this.computerPoint === this.playerPoint) {
         this.notifyService.showWarning('We have reached the end of the game. A draw has been reached.', 'Fizzingbrain v.1.0.0')
         this.winner = 'both player';

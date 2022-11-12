@@ -7,28 +7,20 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class FizzingbrainService {
 
-  private gameDifficulty = new BehaviorSubject('');
-  currentDifficulty = this.gameDifficulty.asObservable();
+  private gameHasStarted = new BehaviorSubject<boolean>(false);
+  currentGameStartingState = this.gameHasStarted.asObservable();
 
-  private timeLeft = new BehaviorSubject<number>(0);
-  currentTimeLeft = this.timeLeft.asObservable();
-
-  private errorMarginEnemy = new BehaviorSubject<number>(0);
-  currentErrorMarginEnemy = this.errorMarginEnemy.asObservable();
+  private gameHasEnded = new BehaviorSubject<boolean>(false);
+  currentGameEndingState = this.gameHasEnded.asObservable();
 
   constructor() { }
 
-  changeGameDifficulty(message: string) {
-    this.gameDifficulty.next(message);
-    console.log(this.changePlayerTime);
+  changeGameEndingState(value: boolean) {
+    this.gameHasEnded.next(value);
   }
 
-  changePlayerTime(value: number) {
-    this.timeLeft.next(value);
-  }
-
-  changeErrorMarginEnemy(value: number) {
-    this.errorMarginEnemy.next(value);
+  changeGameStartingState(value: boolean) {
+    this.gameHasStarted.next(value);
   }
 
 

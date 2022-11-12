@@ -26,7 +26,7 @@
 				</li>
 			</ul>
 
-			<label class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+			<label *ngIf="!gameHasEnded && !gameHasStarted" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
 				{{ 'FIZZINGBRAIN.SELECT' | translate }}
 				<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
 					<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">
