@@ -7,9 +7,7 @@ import { NotificationService } from 'src/app/service/notification.service';
 import { QuestionService } from 'src/app/service/question.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { IconModule } from 'src/app/common/icon/icon.module';
-import { combineLatestAll, Subscription } from 'rxjs';
-import { ThumbsDown } from 'angular-feather/icons';
-import { combineLatest } from 'rxjs/internal/operators/combineLatest';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -18,9 +16,7 @@ import { combineLatest } from 'rxjs/internal/operators/combineLatest';
   styleUrls: ['./fizzingbrain.component.scss']
 })
 export class FizzingbrainComponent implements OnInit {
-  // packOfQuestions$ = this.questionService.getRandomQuestions();
   questions: Question[] = [];
-  // actualQuestion!: Question;
   counter = 1;
   langChange!: LangChangeEvent;
   language = 'en';
@@ -40,8 +36,6 @@ export class FizzingbrainComponent implements OnInit {
   computerPoint = 0;
   playerPoint = 0;
   maxRound = this.questions.length | 6;
-
-
 
   gameHasEndedSubscription!: Subscription;
   gameHasStartedSubscription!: Subscription;
@@ -74,17 +68,10 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.setDifficulty(this.gameDifficulty);
-
-    // this.errorMarginSubscription = this.data.currentErrorMarginEnemy.subscribe((errorMargin) => {
-    //   this.errorMargin = errorMargin;
-    // });
     this.questionSubscription = this.questionService.getRandomQuestions().subscribe((response) => {
       if (response) {
         this.questions = response;
-        // this.actualQuestion = this.questions[0];
       }
-      // this.actualQuestion = this.questions[0];
     });
     this.gameHasStartedSubscription = this.data.currentGameStartingState.subscribe((current) => {
       this.gameHasStarted = current
@@ -93,12 +80,11 @@ export class FizzingbrainComponent implements OnInit {
       this.gameHasEnded = current
     });
 
-    this.translate.onLangChange.subscribe((language) => {
-      if (language) {
-        this.langChange = language;
-      }
-    });
-    // console.log(this.gameDifficulty);
+    // this.translate.onLangChange.subscribe((language) => {
+    //   if (language) {
+    //     this.langChange = language;
+    //   }
+    // });
   }
 
   ngOnDestroy() {
@@ -120,17 +106,14 @@ export class FizzingbrainComponent implements OnInit {
       this.setDifficulty(this.gameDifficulty);
       this.nextQuestion();
       this.startTimer();
-      // this.computerGuesses();
-      // this.gettingPoint();
     } else {
       this.notifyService.showError('The number of pack of questions are not right.', 'FizzingBrain v.1.0.0')
       console.log(this.questions.length);
     }
-    // this.nextQuestion();
+
   }
 
   nextQuestion() {
-    // this.startTimer();
     if (this.counter >= this.maxRound) {
       this.gettingPoint();
       setTimeout(() => {
@@ -169,16 +152,10 @@ export class FizzingbrainComponent implements OnInit {
 
   //AI guessing
   computerGuesses() {
-
-    // this.computerGuess = 0;
     const solution = Number(this.questions[this.counter].englishAnswer);
     const min = Math.ceil(solution * ((100 - this.errorMargin) / 100));
     const max = Math.floor(solution * ((100 + this.errorMargin) / 100));
     this.computerGuess = Math.floor(Math.random() * (max - min + 1)) + min;
-    // console.log(min);
-    // console.log(max);
-    // console.log(this.errorMargin);
-    // console.log(this.gameDifficulty);
   }
 
   //Giving points after every question
@@ -246,7 +223,6 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   //Dificulty settings
-
   setDifficulty(value: string): void {
     this.gameDifficulty = value;
     this.setDifficultyValues(value);
@@ -285,11 +261,11 @@ export class FizzingbrainComponent implements OnInit {
       //   break;
 
       default:
-      // this.gameDifficulty = 'easy';
-      // this.timeLeft = 20
-      // this.timeStandard = 20;
-      // this.errorMargin = 30;
-      // break;
+        this.gameDifficulty = 'easy';
+        this.timeLeft = 20
+        this.timeStandard = 20;
+        this.errorMargin = 30;
+        break;
     }
   }
 

@@ -29,7 +29,15 @@
     "PLAYERPOINTS": "Játékos pontszáma:",
     "PLAYERGUESS": "Játékos tippje:",
     "PLACEHOLDER": "Ide írhatja a tippjét...",
-    "NEXT": "Következő kérdés"
+    "NEXT": "Következő kérdés",
+    "Home": "Kezdőlapra",
+    "Question": "Kérdésszerkesztő",
+    "Users": "Felhasználók szerkesztése",
+    "Start": "Játék elindítása",
+    "Rules": "Szabályok",
+    "Contact": "Kapcsolat",
+    "Login": "Bejelentkezés",
+    "Logout": "Kijelentkezés"
   },
   "HEADBAR": {
     "SELECT": "Válassza ki az alkalmazás nyelvét!"

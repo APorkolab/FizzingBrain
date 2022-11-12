@@ -28,7 +28,15 @@
     "PLAYERPOINTS": "Player points:",
     "PLAYERGUESS": "Player guess:",
     "PLACEHOLDER": "You can write your guess here...",
-    "NEXT": "Next question"
+    "NEXT": "Next question",
+    "Home": "Home",
+    "Question": "Question",
+    "Users": "Users",
+    "Start": "Start the game",
+    "Rules": "Rules",
+    "Contact": "Contact",
+    "Login": "Login",
+    "Logout": "Logout"
   },
   "HEADBAR": {
     "SELECT": "Please select the language of the application!"

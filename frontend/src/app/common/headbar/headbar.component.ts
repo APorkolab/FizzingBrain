@@ -9,22 +9,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./headbar.component.scss']
 })
 export class HeadbarComponent implements OnInit {
-  gameDifficulty !: string;
-  gameDifficultySubscription!: Subscription;
-  errorMargin!: number | 30;
-  errorMarginSubscription!: Subscription;
-  timeLeft!: number;
-  timeLeftSubscription!: Subscription;
-
-
-
   gameHasEnded!: boolean;
   gameHasEndedSubscription!: Subscription;
   gameHasStarted!: boolean;
   gameHasStartedSubscription!: Subscription;
   constructor(public translate: TranslateService, protected data: FizzingbrainService) {
-    translate.addLangs(['en', 'hu']);
-    translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {
