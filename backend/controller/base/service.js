@@ -36,20 +36,20 @@ module.exports = (model, populateList = []) => {
 		update: async (id, updateData) => model.update(updateData, {
 			where: {
 				id: id
-			}
+			},
+			individualHooks: true,
 		}).then(() => {
 			console.log("Successfully updated record.")
 		}).catch((error) => {
 			console.error('Failed to update record : ', error);
 		}),
 		create: async (body) => {
-			const newEntity = new model(body);
-			const error = newEntity.validateSync();
-			if (!error) {
-				const saved = await newEntity.save();
-				return model.findByPk(saved._id);
+			try {
+				const saved = await model.create(body);
+				return model.findByPk(saved.id);
+			} catch (error) {
+				console.error(error);
 			}
-			throw new Error(error);
 		},
 		delete: async (id) => {
 			model.destroy({

@@ -21,9 +21,10 @@ router.post('/', async (req, res, next) => {
 	});
 
 	if (!user) {
-		res.sendStatus(404);
-		return res.json({
-			error: 'This user does not exist'
+		return res.status(400).send({
+			error: [{
+				msg: "Bad credentials"
+			}]
 		});
 	}
 
@@ -45,7 +46,11 @@ router.post('/', async (req, res, next) => {
 			},
 		});
 	} else {
-		return res.sendStatus(401);
+		return res.status(401).send({
+			error: [{
+				msg: "Unauthorized user"
+			}]
+		});
 	}
 });
 
@@ -70,14 +75,11 @@ const authenticateUserWithemail = (user) => {
 				}
 			})
 		} catch (error) {
-			const response = {
-				status: 500,
-				data: {},
-				error: {
-					message: "user match failed"
-				}
-			};
-			reject(response);
+			return res.status(400).send({
+				error: [{
+					msg: error
+				}]
+			});
 		}
 	})
 }

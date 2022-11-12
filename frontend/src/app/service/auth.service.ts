@@ -8,7 +8,7 @@ import { User } from '../model/user';
 export interface IAuthModel {
   success: boolean;
   accessToken: string;
-  user: User;
+  User: User;
 }
 
 
@@ -55,7 +55,7 @@ export class AuthService {
   login(loginData: ILoginData): void {
     this.http.post<IAuthModel>(this.loginUrl, loginData).subscribe({
       next: (response: IAuthModel) => {
-        this.user$.next(response.user);
+        this.user$.next(response.User);
         this.access_token$.next(response.accessToken);
         sessionStorage.setItem('login', JSON.stringify(response));
         this.router.navigate(['/']);

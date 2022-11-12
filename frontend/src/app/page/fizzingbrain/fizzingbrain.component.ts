@@ -165,11 +165,11 @@ export class FizzingbrainComponent implements OnInit {
       let diffComp = Math.abs(solution - this.computerGuess);
       let diffPlayer = Math.abs(solution - this.playerGuess);
       if (this.data.currentGameStartingState) {
-        console.log('solution:' + solution);
-        console.log('comp guess' + this.computerGuess);
-        console.log('player guess' + this.playerGuess);
-        console.log('diffComp' + diffComp);
-        console.log('diffPlayer' + diffPlayer);
+        // console.log('solution:' + solution);
+        // console.log('comp guess' + this.computerGuess);
+        // console.log('player guess' + this.playerGuess);
+        // console.log('diffComp' + diffComp);
+        // console.log('diffPlayer' + diffPlayer);
 
         if (diffComp === 0 && diffPlayer === 0) {
           this.notifyService.showInfo('Both guesses were equally good. BOTH PLAYERS get points.', 'Fizzingbrain v.1.0.0')
