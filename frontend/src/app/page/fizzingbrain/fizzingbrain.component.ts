@@ -23,7 +23,7 @@ export class FizzingbrainComponent implements OnInit {
   // actualQuestion!: Question;
   counter = 1;
   langChange!: LangChangeEvent;
-  language = 'hu';
+  language = 'en';
   showCount = 0;
   winner = '';
 
@@ -61,16 +61,16 @@ export class FizzingbrainComponent implements OnInit {
     public translate: TranslateService,
     private notifyService: NotificationService,
     protected data: FizzingbrainService) {
-    translate.addLangs(['en', 'hu']);
-    translate.setDefaultLang('hu');
 
-    const browserLang = translate.getBrowserLang();
+    // translate.addLangs(['en', 'hu']);
+    // translate.setDefaultLang('en');
+    // const browserLang = translate.getBrowserLang();
 
-    try {
-      translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   ngOnInit(): void {

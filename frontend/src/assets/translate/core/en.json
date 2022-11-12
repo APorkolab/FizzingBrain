@@ -1,6 +1,5 @@
 {
   "FIZZINGBRAIN": {
-    "TITLE": "Hallo Angular mit ngx-translate !",
     "SELECT": "Please select the language of the application!",
     "BUTTONTITLE": "It is up to you to choose the difficulty level!",
     "EASY": "Easy (The computer is more wrong than usual)",
@@ -15,7 +14,21 @@
     "PLAYERWINS": "We have reached the end of the game. A win has been achieved by the player.",
     "BOTHGETPOINT": "Both guesses were equally good. BOTH PLAYERS get points.",
     "COMPUTERGETSPOINT": "The COMPUTER guess was better. It gets points.",
-    "PLAYERGETSPOINT": "The PLAYER's guess was better. He/She gets points."
+    "PLAYERGETSPOINT": "The PLAYER's guess was better. He/She gets points.",
+    "PLEASECHOOSEDIFFICULTY": "Please choose difficulty!",
+    "THEEND": "The game has been ended.",
+    "WINNER": "And the winner is... the",
+    "PLAYERRES": "The player has",
+    "COMPRES": "point and the computer has",
+    "POINT": "points.",
+    "RESTART": "Restart game",
+    "HIDDEN": "Hidden",
+    "COMPGUESS": "Computers guess:",
+    "COMPPOINTS": "Computers points:",
+    "PLAYERPOINTS": "Player points:",
+    "PLAYERGUESS": "Player guess:",
+    "PLACEHOLDER": "You can write your guess here...",
+    "NEXT": "Next question"
   },
   "HEADBAR": {
     "SELECT": "Please select the language of the application!"

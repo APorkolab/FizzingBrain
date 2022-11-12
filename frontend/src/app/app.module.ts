@@ -69,6 +69,7 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
     TooltipModule.forRoot(),
     FontAwesomeModule,
     TranslateModule.forRoot({
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,

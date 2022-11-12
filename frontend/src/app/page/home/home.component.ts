@@ -13,7 +13,8 @@ export class HomeComponent implements OnInit {
 
 
   constructor(public translate: TranslateService) {
-
+    // translate.addLangs(['en', 'hu']);
+    // translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {

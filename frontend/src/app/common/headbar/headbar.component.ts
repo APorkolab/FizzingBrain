@@ -23,7 +23,8 @@ export class HeadbarComponent implements OnInit {
   gameHasStarted!: boolean;
   gameHasStartedSubscription!: Subscription;
   constructor(public translate: TranslateService, protected data: FizzingbrainService) {
-
+    translate.addLangs(['en', 'hu']);
+    translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {

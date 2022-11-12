@@ -35,17 +35,23 @@
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded"
 	*ngIf="(gameDifficulty == '' ||  gameDifficulty == undefined ) && !gameHasEnded && !gameHasStarted">
 	<div class="tm-about-header tm-flex-center">
-		<h1>Kérem, válasszon nehézséget!</h1>
+		<h1>{{
+			'FIZZINGBRAIN.PLEASECHOOSEDIFFICULTY' | translate }}</h1>
 	</div>
 </section>
 
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameHasEnded">
 	<div class="tm-about-header tm-flex-center">
-		<h1>A játék véget ért!</h1>
-		<h1>And the winner is... the '{{winner}}'.</h1>
-		<h2>The player has {{playerPoint}} point and the computer has {{computerPoint}} points.</h2>
-		<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">Restart
-				game</button></div>
+		<h1>{{
+			'FIZZINGBRAIN.THEEND' | translate }}</h1>
+		<h1>{{
+			'FIZZINGBRAIN.WINNER' | translate }} '{{winner}}'.</h1>
+		<h2>{{
+			'FIZZINGBRAIN.PLAYERRES' | translate }} {{playerPoint}} {{
+			'FIZZINGBRAIN.COMPRES' | translate }} {{computerPoint}} {{
+			'FIZZINGBRAIN.POINT' | translate }}</h2>
+		<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">{{
+				'FIZZINGBRAIN.RESTART' | translate }}</button></div>
 	</div>
 </section>
 
@@ -80,16 +86,19 @@
 				</tr>
 				<tr>
 					<td class="tg-lboi">
-						<h4>Computers guess:</h4>
+						<h4>{{
+							'FIZZINGBRAIN.COMPGUESS' | translate }}</h4>
 						<h4 *ngIf="isRevealAnswer">{{computerGuess}}</h4>
-						<h4 *ngIf="!isRevealAnswer">Elrejtve</h4>
+						<h4 *ngIf="!isRevealAnswer">{{
+							'FIZZINGBRAIN.HIDDEN' | translate }}</h4>
 					</td>
 					<td class="tg-0pky">
-						<h4>Computers points: {{computerPoint}}</h4>
+						<h4>{{
+							'FIZZINGBRAIN.COMPPOINTS' | translate }} {{computerPoint}}</h4>
 					</td>
 					<td class="tg-0pky">
-						<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">Restart
-								game</button></div>
+						<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">{{
+								'FIZZINGBRAIN.RESTART' | translate }}</button></div>
 					</td>
 				</tr>
 			</tbody>
@@ -106,16 +115,19 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<h5>Player points: {{playerPoint}}</h5>
+						<h5>{{
+							'FIZZINGBRAIN.PLAYERPOINTS' | translate }} {{playerPoint}}</h5>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
 						<div class="tm-mb-40">
-							<h5>Player guess:</h5>
+							<h5>{{
+								'FIZZINGBRAIN.PLAYERGUESS' | translate }}</h5>
 							<form>
 								<input ngDefaultControl [(ngModel)]="playerGuess" *ngIf="thereIsTime" type="number" id="playerGuess"
-									name="playerGuess" required placeholder="Ide írhatja a tippjét...">
+									name="playerGuess" required placeholder="{{
+								'FIZZINGBRAIN.PLACEHOLDER' | translate }}">
 							</form>
 						</div>
 					</td>
@@ -123,7 +135,8 @@
 				<tr>
 					<td colspan="3">
 						<div class="tm-mb-0"><button *ngIf="playerGuess && thereIsTime && !isRevealAnswer" type="button"
-								class="btn btn-primary btn-lg" (click)="nextQuestion()">Next question</button></div>
+								class="btn btn-primary btn-lg" (click)="nextQuestion()">{{
+								'FIZZINGBRAIN.NEXT' | translate }}</button></div>
 					</td>
 				</tr>
 			</tbody>

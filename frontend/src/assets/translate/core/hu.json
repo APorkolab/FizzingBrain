@@ -15,7 +15,21 @@
     "PLAYERWINS": "Elértük a játék végét. A JÁZÉKOS aratott győzelmet.",
     "BOTHGETPOINT": "Mindkét tipp egyformán jó volt. MINDKÉT JÁTÉKOS pontot kap.",
     "COMPUTERGETSPOINT": "A SZÁMÍTÓGÉP tippje jobb volt. Ő kap pontot.",
-    "PLAYERGETSPOINT": "A JÁTÉKOS tippje jobb volt. Ő kap pontot."
+    "PLAYERGETSPOINT": "A JÁTÉKOS tippje jobb volt. Ő kap pontot.",
+    "PLEASECHOOSEDIFFICULTY": "Kérem, válasszon nehézséget!",
+    "THEEND": "The játék véget ért.",
+    "WINNER": "És a győztes...",
+    "PLAYERRES": "A játékosnak",
+    "COMPRES": "pontja van és a computer",
+    "POINT": "pontot szerzett.",
+    "RESTART": "Játék újraindítása",
+    "HIDDEN": "Elrejtve",
+    "COMPGUESS": "Computer tippje:",
+    "COMPPOINTS": "Computer pontszáma:",
+    "PLAYERPOINTS": "Játékos pontszáma:",
+    "PLAYERGUESS": "Játékos tippje:",
+    "PLACEHOLDER": "Ide írhatja a tippjét...",
+    "NEXT": "Következő kérdés"
   },
   "HEADBAR": {
     "SELECT": "Válassza ki az alkalmazás nyelvét!"
