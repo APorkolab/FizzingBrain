@@ -21,7 +21,7 @@
 										required>
 								</div>
 								<div [hidden]="loginForm.controls['email']?.valid" class="alert alert-danger" role="alert">
-									{{'loginEmail' |translate}}
+									The email of the user must be valid and unique!
 								</div>
 							</div>
 							<div class="input-group mb-3">
@@ -34,7 +34,9 @@
 									pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
 							</div>
 							<div [hidden]="loginForm.controls['password']?.valid" class="alert alert-danger" role="alert">
-								{{'loginPassword' |translate}}
+								For security reasons, the password of the user must be minimum 8 characters, must contains at least 1
+								letter and 1
+								number!
 							</div>
 						</div>
 						<div class="row border-top border-secondary">
