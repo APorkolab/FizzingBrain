@@ -12,9 +12,8 @@ import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 export class HomeComponent implements OnInit {
 
 
-  constructor(public translate: TranslateService) {
-    // translate.addLangs(['en', 'hu']);
-    // translate.setDefaultLang('en');
+  constructor() {
+
   }
 
   ngOnInit(): void {

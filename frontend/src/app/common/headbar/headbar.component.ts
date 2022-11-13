@@ -16,7 +16,7 @@ export class HeadbarComponent implements OnInit {
   gameHasEndedSubscription!: Subscription;
   gameHasStarted!: boolean;
   gameHasStartedSubscription!: Subscription;
-  constructor(public translate: TranslateService, protected data: FizzingbrainService, private auth: AuthService) {
+  constructor(protected data: FizzingbrainService, private auth: AuthService) {
   }
 
   ngOnInit(): void {
