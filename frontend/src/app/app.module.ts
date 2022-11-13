@@ -26,17 +26,8 @@ import { DataTableModule } from './common/data-table/data-table.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeadbarComponent } from './common/headbar/headbar.component';
-import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 import { ToastrModule } from 'ngx-toastr';
 import { IconModule } from './common/icon/icon.module';
-import { forwardRef } from '@angular/core';
-
-export function HttpLoaderFactory(httpBackend: HttpBackend) {
-  return new MultiTranslateHttpLoader(httpBackend, [
-    './assets/translate/core/',
-    './assets/translate/shared/',
-  ]);
-}
 
 @NgModule({
   declarations: [
@@ -68,14 +59,6 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
     BrowserAnimationsModule,
     TooltipModule.forRoot(),
     FontAwesomeModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpBackend]
-      }
-    }),
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
       onActivateTick: true,

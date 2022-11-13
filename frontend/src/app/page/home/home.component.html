@@ -2,13 +2,5 @@
 	<img src="../../../assets/img/FizzingBrain.png" lass="img-fluid" alt="logo">
 	<h1>FizzingBrain v.1.0.0</h1>
 
-	<div class="tg-lboi"><label>
-			{{ 'FIZZINGBRAIN.SELECT' | translate }}
-			<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
-				<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{
-					lang
-					}}</option>
-			</select>
-		</label></div>
 
 </section>

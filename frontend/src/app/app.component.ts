@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -8,17 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   title = 'FizzingBrain';
-  constructor(public translate: TranslateService) {
+  constructor() {
 
-    translate.addLangs(['en', 'hu']);
-    translate.setDefaultLang('en');
-
-    const browserLang = translate.getBrowserLang();
-
-    try {
-      translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
-    } catch (error) {
-      console.log(error);
-    }
   }
 }

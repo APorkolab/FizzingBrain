@@ -7,26 +7,22 @@
 				<td class="tg-0pky">
 					<select #difficulties (change)="setDifficulty(difficulties.value)" name="diff"
 						class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="difficulties">
-						<option [(ngModel)]="gameDifficulty" value="easy" selected>{{ 'FIZZINGBRAIN.BUTTONTITLE' |
-							translate }}
+						<option [(ngModel)]="gameDifficulty" value="easy" selected>It is up to you to choose the difficulty level!
 						</option>
-						<option [(ngModel)]="gameDifficulty" value="easy" (change)="gameDifficulty = difficulties.value">{{
-							'FIZZINGBRAIN.EASY' |
-							translate }}</option>
-						<option [(ngModel)]="gameDifficulty" value="medium">{{ 'FIZZINGBRAIN.MEDIUM' | translate
-							}}</option>
-						<option [(ngModel)]="gameDifficulty" value="hard">{{ 'FIZZINGBRAIN.HARD' | translate }}
+						<option [(ngModel)]="gameDifficulty" value="easy" (change)="gameDifficulty = difficulties.value">Easy (The
+							computer is more wrong than usual)</option>
+						<option [(ngModel)]="gameDifficulty" value="medium">Medium (the computer guesses very good)</option>
+						<option [(ngModel)]="gameDifficulty" value="hard">Hard (the computer guesses even better)
 						</option>
-						<option [(ngModel)]="gameDifficulty" value="impossible">{{ 'FIZZINGBRAIN.IMPOSSIBLE' |
-							translate }}</option>
-						<option [(ngModel)]="gameDifficulty" value="random">{{ 'FIZZINGBRAIN.RANDOMLEVEL' |
-							translate
-							}}</option>
+						<option [(ngModel)]="gameDifficulty" value="impossible">Impossible (the computer does a better job of
+							guessing than you)</option>
+						<option [(ngModel)]="gameDifficulty" value="random">I do feel lucky, ya punk! (The computer chooses a level
+							for you.)</option>
 					</select>
 				</td>
 				<td class="tg-0pky"><button type="button" (click)="startGame()"
-						[ngClass]="gameDifficulty === undefined ? 'btn btn-primary btn-lg ' : ' btn btn-primary btn-lg disabled'">{{
-						'FIZZINGBRAIN.STARTGAME' | translate }}</button></td>
+						[ngClass]="gameDifficulty === undefined ? 'btn btn-primary btn-lg ' : ' btn btn-primary btn-lg disabled'">START
+						A NEW GAME</button></td>
 			</tr>
 		</tbody>
 	</table>
@@ -35,23 +31,17 @@
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded"
 	*ngIf="(gameDifficulty == '' ||  gameDifficulty == undefined ) && !gameHasEnded && !gameHasStarted">
 	<div class="tm-about-header tm-flex-center">
-		<h1>{{
-			'FIZZINGBRAIN.PLEASECHOOSEDIFFICULTY' | translate }}</h1>
+		<h1>Please choose difficulty!</h1>
 	</div>
 </section>
 
 <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-3 tm-border-rounded" *ngIf="gameHasEnded">
 	<div class="tm-about-header tm-flex-center">
-		<h1>{{
-			'FIZZINGBRAIN.THEEND' | translate }}</h1>
-		<h1>{{
-			'FIZZINGBRAIN.WINNER' | translate }} '{{winner}}'.</h1>
-		<h2>{{
-			'FIZZINGBRAIN.PLAYERRES' | translate }} {{playerPoint}} {{
-			'FIZZINGBRAIN.COMPRES' | translate }} {{computerPoint}} {{
-			'FIZZINGBRAIN.POINT' | translate }}</h2>
-		<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">{{
-				'FIZZINGBRAIN.RESTART' | translate }}</button></div>
+		<h1>The game has been ended.</h1>
+		<h1>And the winner is... the '{{winner}}'.</h1>
+		<h2>The player has {{playerPoint}} point and the computer has {{computerPoint}} points.</h2>
+		<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">Restart
+				game</button></div>
 	</div>
 </section>
 
@@ -86,19 +76,16 @@
 				</tr>
 				<tr>
 					<td class="tg-lboi">
-						<h4>{{
-							'FIZZINGBRAIN.COMPGUESS' | translate }}</h4>
+						<h4>Computers guess:</h4>
 						<h4 *ngIf="isRevealAnswer">{{computerGuess}}</h4>
-						<h4 *ngIf="!isRevealAnswer">{{
-							'FIZZINGBRAIN.HIDDEN' | translate }}</h4>
+						<h4 *ngIf="!isRevealAnswer">Hidden</h4>
 					</td>
 					<td class="tg-0pky">
-						<h4>{{
-							'FIZZINGBRAIN.COMPPOINTS' | translate }} {{computerPoint}}</h4>
+						<h4>Computers points: {{computerPoint}}</h4>
 					</td>
 					<td class="tg-0pky">
-						<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">{{
-								'FIZZINGBRAIN.RESTART' | translate }}</button></div>
+						<div class="tm-mb-0"><button type="button" class="btn btn-primary btn-lg" (click)="restartGame()">Restart
+								game</button></div>
 					</td>
 				</tr>
 			</tbody>
@@ -115,19 +102,16 @@
 				</tr>
 				<tr>
 					<td colspan="3">
-						<h5>{{
-							'FIZZINGBRAIN.PLAYERPOINTS' | translate }} {{playerPoint}}</h5>
+						<h5>Player points: {{playerPoint}}</h5>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
 						<div class="tm-mb-40">
-							<h5>{{
-								'FIZZINGBRAIN.PLAYERGUESS' | translate }}</h5>
+							<h5>Player guess:</h5>
 							<form>
 								<input ngDefaultControl [(ngModel)]="playerGuess" *ngIf="thereIsTime" type="number" id="playerGuess"
-									name="playerGuess" required placeholder="{{
-								'FIZZINGBRAIN.PLACEHOLDER' | translate }}">
+									name="playerGuess" required placeholder="You can write your guess here...">
 							</form>
 						</div>
 					</td>
@@ -135,8 +119,7 @@
 				<tr>
 					<td colspan="3">
 						<div class="tm-mb-0"><button *ngIf="playerGuess && thereIsTime && !isRevealAnswer" type="button"
-								class="btn btn-primary btn-lg" (click)="nextQuestion()">{{
-								'FIZZINGBRAIN.NEXT' | translate }}</button></div>
+								class="btn btn-primary btn-lg" (click)="nextQuestion()">Next question</button></div>
 					</td>
 				</tr>
 			</tbody>
@@ -149,6 +132,6 @@
 
 
 <footer class="tm-footer">
-	Copyright 2020 Nano Folio - Design: <a rel="sponsored" href="https://www.tooplate.com"
+	Copyright 2022 Dr. Ádám Porkoláb - Design: <a rel="sponsored" href="https://www.tooplate.com"
 		class="tm-link-gray">Tooplate</a>
 </footer>

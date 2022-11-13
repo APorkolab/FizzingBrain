@@ -52,19 +52,10 @@ export class FizzingbrainComponent implements OnInit {
   constructor(private config: ConfigService,
     private questionService: QuestionService,
     // private router: Router,
-    public translate: TranslateService,
     private notifyService: NotificationService,
     protected data: FizzingbrainService) {
 
-    // translate.addLangs(['en', 'hu']);
-    // translate.setDefaultLang('en');
-    // const browserLang = translate.getBrowserLang();
 
-    // try {
-    //   translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
-    // } catch (error) {
-    //   console.log(error);
-    // }
   }
 
   ngOnInit(): void {
@@ -80,11 +71,7 @@ export class FizzingbrainComponent implements OnInit {
       this.gameHasEnded = current
     });
 
-    // this.translate.onLangChange.subscribe((language) => {
-    //   if (language) {
-    //     this.langChange = language;
-    //   }
-    // });
+
   }
 
   ngOnDestroy() {
