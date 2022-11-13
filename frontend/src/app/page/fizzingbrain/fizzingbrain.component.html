@@ -25,7 +25,7 @@
 					</select>
 				</td>
 				<td class="tg-0pky"><button type="button" (click)="startGame()"
-						[ngClass]="gameDifficulty === undefined ? 'btn btn-primary btn-lg ' : ' btn btn-primary btn-lg disabled'">{{
+						[ngClass]="gameDifficulty !== undefined ? 'btn btn-primary btn-lg ' : ' btn btn-primary btn-lg disabled'">{{
 						'FIZZINGBRAIN.STARTGAME' | translate }}</button></td>
 			</tr>
 		</tbody>
