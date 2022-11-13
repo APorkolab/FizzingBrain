@@ -25,6 +25,11 @@
 				</li>
 			</ul>
 
+			<div class="text-end">
+				<button *ngIf="!(user$ | async)" type="button" class="btn btn-warning" routerLink="/login">Login</button>
+				<button *ngIf="(user$ | async)" type="button" class="btn btn-outline-light me-2"
+					routerLink="/login">Logout</button>
+			</div>
 		</div>
 	</div>
 </header>

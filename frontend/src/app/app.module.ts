@@ -17,7 +17,6 @@ import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/commo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { AuthService } from './service/auth.service';
 import { JwtInterceptor } from './service/jwt.interceptor';

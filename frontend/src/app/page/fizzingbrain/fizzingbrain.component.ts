@@ -5,7 +5,6 @@ import { Question } from 'src/app/model/question';
 import { ConfigService } from 'src/app/service/config.service';
 import { NotificationService } from 'src/app/service/notification.service';
 import { QuestionService } from 'src/app/service/question.service';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { IconModule } from 'src/app/common/icon/icon.module';
 import { Subscription } from 'rxjs';
 
@@ -18,7 +17,6 @@ import { Subscription } from 'rxjs';
 export class FizzingbrainComponent implements OnInit {
   questions: Question[] = [];
   counter = 1;
-  langChange!: LangChangeEvent;
   language = 'en';
   showCount = 0;
   winner = '';
