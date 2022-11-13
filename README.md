@@ -1,6 +1,21 @@
 # FizzingBrain v.1.0.0 - documentation
 
+**_Attention!_
+It was only after deploy that it was discovered that the @ngx-translate library was blocked by the JWT interceptor.
+I've tried several workarounds, but currently none of the suggestions have been successful. For this reason, I have temporarily disabled the multilingual feature in this branch to ensure the proper functioning of the software.**
+
+(Some details: https://stackoverflow.com/questions/69424591/angular-12-typeerror-cannot-read-properties-of-null-reading-writevalue, https://stackoverflow.com/questions/69051268/ngx-translate-multi-http-loader-something-went-wrong-for-the-following-transla)
+
 ## 1. The description of the task
+
+Attention! It was only after deploy that it was discovered that the @ngx-translate library was blocked by the JWT interceptor.
+
+(Some details: https://stackoverflow.com/questions/69424591/angular-12-typeerror-cannot-read-properties-of-null-reading-writevalue,
+https://stackoverflow.com/questions/69051268/ngx-translate-multi-http-loader-something-went-wrong-for-the-following-transla)
+
+I've tried several workarounds, but currently none of the suggestions have been successful.
+
+For this reason, I have temporarily disabled the multilingual feature in this branch to ensure the proper functioning of the software.
 
 A Guess-Quiz
 
