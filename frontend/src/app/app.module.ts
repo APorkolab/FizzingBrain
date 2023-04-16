@@ -24,7 +24,7 @@ import { JwtInterceptor } from './service/jwt.interceptor';
 import { ConfigService, IMenuItem } from './service/config.service';
 import { DataTableModule } from './common/data-table/data-table.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeadbarComponent } from './common/headbar/headbar.component';
 import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 import { ToastrModule } from 'ngx-toastr';
@@ -67,7 +67,7 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     TooltipModule.forRoot(),
-    FontAwesomeModule,
+    // FontAwesomeModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
