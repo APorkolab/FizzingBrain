@@ -37,6 +37,9 @@
   "editquestion": "Edit question",
   "loginEmail": "The email of the user must be valid and unique!",
   "loginPassword": "For security reasons, the password of the user must be minimum 8 characters, must contains at least 1 letter and 1 number!",
+  "successfully": "Successfully!",
+  "somethingWentWrong": "Something went wrong.",
+  "details": "Details",
   "FIZZINGBRAIN": {
     "SELECT": "Please select the language of the application!",
     "BUTTONTITLE": "It is up to you to choose the difficulty level!",
@@ -74,7 +77,9 @@
     "Rules": "Rules",
     "Contact": "Contact",
     "Login": "Login",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "ANSWER": "The correct answer is",
+    "FIZZINGBRAIN_TITLE": "FizzingBrain v.1.0.0."
   },
   "HEADBAR": {
     "SELECT": "Please select the language of the application!"

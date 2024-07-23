@@ -1,25 +1,23 @@
-import { FizzingbrainService } from './../../service/fizzingbrain.service';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Question } from 'src/app/model/question';
 import { ConfigService } from 'src/app/service/config.service';
 import { NotificationService } from 'src/app/service/notification.service';
 import { QuestionService } from 'src/app/service/question.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { IconModule } from 'src/app/common/icon/icon.module';
 import { Subscription } from 'rxjs';
-
+import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 
 @Component({
   selector: 'app-fizzingbrain',
   templateUrl: './fizzingbrain.component.html',
   styleUrls: ['./fizzingbrain.component.scss']
 })
-export class FizzingbrainComponent implements OnInit {
+export class FizzingbrainComponent implements OnInit, OnDestroy {
   questions: Question[] = [];
   counter = 1;
   langChange!: LangChangeEvent;
-  language = 'en';
+  language = 'hu'; // Alapértelmezett nyelv beállítása
   showCount = 0;
   winner = '';
 
@@ -35,12 +33,12 @@ export class FizzingbrainComponent implements OnInit {
   playerGuess = 0;
   computerPoint = 0;
   playerPoint = 0;
-  maxRound = this.questions.length | 6;
+  maxRound!: number;
 
   gameHasEndedSubscription!: Subscription;
   gameHasStartedSubscription!: Subscription;
 
-  gameDifficulty !: string;
+  gameDifficulty!: string;
   gameDifficultySubscription!: Subscription;
   timeLeft!: number;
   timeStandard!: number;
@@ -49,46 +47,41 @@ export class FizzingbrainComponent implements OnInit {
   errorMarginSubscription!: Subscription;
   questionSubscription!: Subscription;
 
-  constructor(private config: ConfigService,
+  constructor(
+    private config: ConfigService,
     private questionService: QuestionService,
-    // private router: Router,
     public translate: TranslateService,
     private notifyService: NotificationService,
-    protected data: FizzingbrainService) {
-
-    // translate.addLangs(['en', 'hu']);
-    // translate.setDefaultLang('en');
-    // const browserLang = translate.getBrowserLang();
-
-    // try {
-    //   translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    private data: FizzingbrainService
+  ) {
+    this.translate.setDefaultLang('hu'); // Alapértelmezett nyelv beállítása
+    this.translate.use('hu'); // Alapértelmezett nyelv használata
   }
 
   ngOnInit(): void {
     this.questionSubscription = this.questionService.getRandomQuestions().subscribe((response) => {
       if (response) {
         this.questions = response;
+        this.maxRound = this.questions.length || 6;
       }
     });
-    this.gameHasStartedSubscription = this.data.currentGameStartingState.subscribe((current) => {
-      this.gameHasStarted = current
+    this.gameHasStartedSubscription = this.data.currentGameStartingState.subscribe((current: boolean) => {
+      this.gameHasStarted = current;
     });
-    this.gameHasEndedSubscription = this.data.currentGameEndingState.subscribe((current) => {
-      this.gameHasEnded = current
+    this.gameHasEndedSubscription = this.data.currentGameEndingState.subscribe((current: boolean) => {
+      this.gameHasEnded = current;
     });
 
-    // this.translate.onLangChange.subscribe((language) => {
-    //   if (language) {
-    //     this.langChange = language;
-    //   }
-    // });
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.langChange = event;
+      this.language = event.lang;
+    });
   }
 
   ngOnDestroy() {
-    this.questionSubscription.unsubscribe()
+    this.questionSubscription.unsubscribe();
+    this.gameHasEndedSubscription.unsubscribe();
+    this.gameHasStartedSubscription.unsubscribe();
   }
 
   startGame() {
@@ -107,10 +100,12 @@ export class FizzingbrainComponent implements OnInit {
       this.nextQuestion();
       this.startTimer();
     } else {
-      this.notifyService.showError('The number of pack of questions are not right.', 'FizzingBrain v.1.0.0')
+      this.notifyService.showError(
+        this.translate.instant('FIZZINGBRAIN.PACKERROR'),
+        this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+      );
       console.log(this.questions.length);
     }
-
   }
 
   nextQuestion() {
@@ -120,7 +115,7 @@ export class FizzingbrainComponent implements OnInit {
         this.executed = false;
         this.evaluation();
       }, 3000);
-    } else {
+    } else if (this.questions.length > this.counter) {
       this.isRevealAnswer = false;
       this.computerGuesses();
       this.gettingPoint();
@@ -128,7 +123,6 @@ export class FizzingbrainComponent implements OnInit {
     }
   }
 
-  //Start timer in the beginning of every game
   startTimer() {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
@@ -140,46 +134,45 @@ export class FizzingbrainComponent implements OnInit {
           this.nextQuestion();
         }
       }
-    }, 1000)
+    }, 1000);
   }
 
-  //After every question
   resetTimer() {
     this.thereIsTime = true;
     this.timeLeft = this.timeStandard;
   }
 
-
-  //AI guessing
   computerGuesses() {
-    const solution = Number(this.questions[this.counter].englishAnswer);
+    const solution = Number(this.questions[this.counter]?.englishAnswer);
     const min = Math.ceil(solution * ((100 - this.errorMargin) / 100));
     const max = Math.floor(solution * ((100 + this.errorMargin) / 100));
     this.computerGuess = Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  //Giving points after every question
   gettingPoint() {
     if (this.playerGuess != 0 || !this.thereIsTime) {
-      let solution = Number(this.questions[this.counter].englishAnswer);
-      let diffComp = Math.abs(solution - this.computerGuess);
-      let diffPlayer = Math.abs(solution - this.playerGuess);
+      const solution = Number(this.questions[this.counter]?.englishAnswer);
+      const diffComp = Math.abs(solution - this.computerGuess);
+      const diffPlayer = Math.abs(solution - this.playerGuess);
       if (this.data.currentGameStartingState) {
-        // console.log('solution:' + solution);
-        // console.log('comp guess' + this.computerGuess);
-        // console.log('player guess' + this.playerGuess);
-        // console.log('diffComp' + diffComp);
-        // console.log('diffPlayer' + diffPlayer);
-
         if (diffComp === 0 && diffPlayer === 0) {
-          this.notifyService.showInfo('Both guesses were equally good. BOTH PLAYERS get points.', 'Fizzingbrain v.1.0.0')
+          this.notifyService.showInfo(
+            this.translate.instant('FIZZINGBRAIN.BOTHGETPOINT'),
+            this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+          );
           this.computerPoint += 5;
           this.playerPoint += 5;
         } else if (diffComp < diffPlayer || diffComp === 0) {
-          this.notifyService.showInfo('The COMPUTER guess was better. It gets points.', 'Fizzingbrain v.1.0.0')
+          this.notifyService.showInfo(
+            this.translate.instant('FIZZINGBRAIN.COMPUTERGETSPOINT'),
+            this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+          );
           this.computerPoint += 5;
         } else if (diffComp > diffPlayer || diffPlayer === 0) {
-          this.notifyService.showInfo('The PLAYER\'s guess was better.He\/She gets points.', 'Fizzingbrain v.1.0.0')
+          this.notifyService.showInfo(
+            this.translate.instant('FIZZINGBRAIN.PLAYERGETSPOINT'),
+            this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+          );
           this.playerPoint += 5;
         }
       }
@@ -189,40 +182,53 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   revealAnswer() {
+    if (this.gameHasEnded) return; // Ellenőrzés, hogy a játék véget ért-e
+
     clearInterval(this.interval);
     this.resetTimer();
     this.isRevealAnswer = true;
-    this.notifyService.showInfo('The answer of this question: ' + this.questions[this.counter].englishAnswer, 'Fizzingbrain v.1.0.0')
+    this.notifyService.showInfo(
+      this.translate.instant('FIZZINGBRAIN.ANSWER') + ': ' + this.questions[this.counter]?.englishAnswer,
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+    );
     setTimeout(() => {
-      this.counter++;
-      this.startTimer();
-      this.nextQuestion();
+      if (!this.gameHasEnded) { // Ellenőrzés, hogy a játék véget ért-e
+        this.counter++;
+        this.startTimer();
+        this.nextQuestion();
+      }
     }, 3000);
-
   }
 
-  //Full game evaluation after 6 questions
   evaluation() {
     this.data.changeGameEndingState(true);
     this.data.changeGameStartingState(false);
     if (this.data.currentGameEndingState && this.showCount < 1) {
       if (this.computerPoint === this.playerPoint) {
-        this.notifyService.showWarning('We have reached the end of the game. A draw has been reached.', 'Fizzingbrain v.1.0.0')
+        this.notifyService.showWarning(
+          this.translate.instant('FIZZINGBRAIN.DRAW'),
+          this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+        );
         this.winner = 'both player';
         this.showCount++;
       } else if (this.computerPoint > this.playerPoint) {
         this.showCount++;
         this.winner = 'Computer';
-        this.notifyService.showError('We have reached the end of the game. It is the computer that wins.', 'Fizzingbrain v.1.0.0')
+        this.notifyService.showError(
+          this.translate.instant('FIZZINGBRAIN.COMPUTERWINS'),
+          this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+        );
       } else {
         this.showCount++;
         this.winner = 'Player';
-        this.notifyService.showSuccess('We have reached the end of the game. A win has been achieved by the player.', 'Fizzingbrain v.1.0.0')
+        this.notifyService.showSuccess(
+          this.translate.instant('FIZZINGBRAIN.PLAYERWINS'),
+          this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+        );
       }
     }
   }
 
-  //Dificulty settings
   setDifficulty(value: string): void {
     this.gameDifficulty = value;
     this.setDifficultyValues(value);
@@ -231,7 +237,7 @@ export class FizzingbrainComponent implements OnInit {
   setDifficultyValues(value: string) {
     switch (value) {
       case 'easy':
-        this.timeLeft = 20
+        this.timeLeft = 20;
         this.timeStandard = 20;
         this.errorMargin = 30;
         break;
@@ -253,16 +259,9 @@ export class FizzingbrainComponent implements OnInit {
       case 'random':
         this.randomDifficulty();
         break;
-      // case undefined:
-      //   this.gameDifficulty = 'easy';
-      //   this.timeLeft = 20
-      //   this.timeStandard = 20;
-      //   this.errorMargin = 30;
-      //   break;
-
       default:
         this.gameDifficulty = 'easy';
-        this.timeLeft = 20
+        this.timeLeft = 20;
         this.timeStandard = 20;
         this.errorMargin = 30;
         break;
@@ -270,13 +269,16 @@ export class FizzingbrainComponent implements OnInit {
   }
 
   randomDifficulty() {
-    const difficulties = ['easy', 'medium', 'hard', 'impossible', 'random']
+    const difficulties = ['easy', 'medium', 'hard', 'impossible', 'random'];
     let item = '';
     do {
       item = difficulties[Math.floor(Math.random() * difficulties.length)];
-    } while (item === 'random')
+    } while (item === 'random');
     this.gameDifficulty = item;
-    this.notifyService.showInfo('The choosen difficulty is ' + item, 'Fizzingbrain v.1.0.0')
+    this.notifyService.showInfo(
+      this.translate.instant('FIZZINGBRAIN.CHOSEN_DIFFICULTY') + ': ' + item,
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+    );
     this.setDifficultyValues(item);
   }
 

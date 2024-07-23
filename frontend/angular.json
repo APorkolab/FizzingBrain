@@ -69,12 +69,18 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "FizzingBrain:build"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "FizzingBrain:build:production"
+              "buildTarget": "FizzingBrain:build:production"
             },
             "development": {
-              "browserTarget": "FizzingBrain:build:development"
+              "buildTarget": "FizzingBrain:build:development"
+            },
+            "staging": {
+              "buildTarget": "FizzingBrain:build:staging"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +88,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FizzingBrain:build"
+            "buildTarget": "FizzingBrain:build"
           }
         },
         "test": {

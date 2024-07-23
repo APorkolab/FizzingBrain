@@ -1,67 +1,91 @@
 const {
 	Sequelize
 } = require("sequelize");
-const sequelize = require("sequelize");
 
 module.exports = (model, populateList = []) => {
 	return {
 		findAll: async () => {
-			return model.findAll()
-				.catch((error) => {
-					console.error('Failed to retrieve data : ', error);
-				})
+			try {
+				return await model.findAll({
+					include: populateList
+				});
+			} catch (error) {
+				console.error('Failed to retrieve data:', error);
+				throw error;
+			}
 		},
 		findOne: async (id) => {
-			return model.findOne({
+			try {
+				return await model.findOne({
 					where: {
-						id: id
-					}
-				})
-				.catch((error) => {
-					console.error('Failed to retrieve data : ', error);
+						id
+					},
+					include: populateList
 				});
+			} catch (error) {
+				console.error('Failed to retrieve data:', error);
+				throw error;
+			}
 		},
 		findRandom: async () => {
-			return model.findAll({
-				order: Sequelize.literal('rand()'),
-				limit: 6
-			});
+			try {
+				return await model.findAll({
+					order: Sequelize.literal('RAND()'),
+					limit: 6,
+					include: populateList
+				});
+			} catch (error) {
+				console.error('Failed to retrieve data:', error);
+				throw error;
+			}
 		},
-		// findOne: (id) => model.findByPk(id).then(() => {
-		// 	console.log("Successfully find record.")
-		// }).catch((error) => {
-		// 	console.error('Failed to find record : ', error);
-		// }),
-		// findOne: (id) => model.findById(id).populate(),
-		update: async (id, updateData) => model.update(updateData, {
-			where: {
-				id: id
-			},
-			individualHooks: true,
-		}).then(() => {
-			console.log("Successfully updated record.")
-		}).catch((error) => {
-			console.error('Failed to update record : ', error);
-		}),
+		update: async (id, updateData) => {
+			try {
+				await model.update(updateData, {
+					where: {
+						id
+					},
+					individualHooks: true,
+				});
+				return await model.findOne({
+					where: {
+						id
+					},
+					include: populateList
+				});
+			} catch (error) {
+				console.error('Failed to update record:', error);
+				throw error;
+			}
+		},
 		create: async (body) => {
 			try {
 				const saved = await model.create(body);
-				return model.findByPk(saved.id);
+				return await model.findOne({
+					where: {
+						id: saved.id
+					},
+					include: populateList
+				});
 			} catch (error) {
-				console.error(error);
+				console.error('Failed to create record:', error);
+				throw error;
 			}
 		},
 		delete: async (id) => {
-			model.destroy({
-				where: {
-					id: id
+			try {
+				const result = await model.destroy({
+					where: {
+						id
+					}
+				});
+				if (!result) {
+					throw new Error("Not found");
 				}
-			}).then(() => {
-				console.log("Successfully deleted record.")
-			}).catch((error) => {
-				console.error('Failed to delete record : ', error);
-			});
+			} catch (error) {
+				console.error('Failed to delete record:', error);
+				throw error;
+			}
 		}
-
 	};
 }

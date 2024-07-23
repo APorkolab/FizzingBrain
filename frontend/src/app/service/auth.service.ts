@@ -11,10 +11,9 @@ export interface IAuthModel {
   User: User;
 }
 
-
 export interface ILoginData {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
 }
 
 @Injectable({
@@ -22,16 +21,12 @@ export interface ILoginData {
 })
 export class AuthService {
   apiUrl: string = environment.apiUrl;
-  loginUrl: string = '';
+  loginUrl: string = `${this.apiUrl}/login`;
 
-  user$: BehaviorSubject<User | null> =
-    new BehaviorSubject<User | null>(null);
-
+  user$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   access_token$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient, private router: Router) {
-    this.loginUrl = `${this.apiUrl}/login`;
-
     const loginInfo = sessionStorage.getItem('login');
     if (loginInfo) {
       const loginObject = JSON.parse(loginInfo);
@@ -41,10 +36,10 @@ export class AuthService {
 
     this.user$.subscribe({
       next: (user) => {
+        console.log('AuthService user$ subscription:', user);
         if (user) {
           this.router.navigate(['/']);
         } else {
-
           this.access_token$.next('');
           sessionStorage.removeItem('login');
         }
@@ -55,20 +50,32 @@ export class AuthService {
   login(loginData: ILoginData): void {
     this.http.post<IAuthModel>(this.loginUrl, loginData).subscribe({
       next: (response: IAuthModel) => {
-        this.user$.next(response.User);
-        this.access_token$.next(response.accessToken);
-        sessionStorage.setItem('login', JSON.stringify(response));
-        this.router.navigate(['/']);
+        console.log('Login response:', response);
+        if (response.success) {
+          this.user$.next(response.User);
+          this.access_token$.next(response.accessToken);
+          sessionStorage.setItem('login', JSON.stringify(response));
+          this.router.navigate(['/']);
+        } else {
+          this.handleLoginError('Login failed: Invalid credentials.');
+        }
       },
       error: (err) => {
-        console.error(err);
-        this.router.navigate(['/', 'login']);
+        this.handleLoginError('Login failed: ' + err.message);
       }
     });
   }
 
+  handleLoginError(message: string): void {
+    console.error(message);
+    alert(message);  // Vizuális hibajelzés a felhasználónak
+    this.router.navigate(['/', 'login']);
+  }
+
   logout(): void {
+    console.log('Logging out...');
     sessionStorage.removeItem('login');
     this.user$.next(null);
+    console.log('User after logout:', this.user$.value);
   }
 }

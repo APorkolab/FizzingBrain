@@ -1,60 +1,55 @@
+const {
+	Sequelize,
+	DataTypes
+} = require('sequelize');
 const bcrypt = require('bcrypt');
-const Sequelize = require("sequelize");
-const db = require("../config/database");
-var userSchema = db.define("user", {
+const db = require('../config/database');
+
+const User = db.define('User', {
 	id: {
-		// field: 'user_id',
 		autoIncrement: true,
 		primaryKey: true,
-		type: Sequelize.INTEGER
+		type: DataTypes.INTEGER
+	},
+	email: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		unique: true
 	},
 	password: {
-		// field: 'user_password',
-		type: Sequelize.STRING,
-		allowNull: true
+		type: DataTypes.STRING,
+		allowNull: false
 	},
 	firstName: {
-		// field: 'user_firstname',
-		type: Sequelize.STRING,
+		type: DataTypes.STRING,
 		allowNull: false
 	},
 	lastName: {
-		// field: 'user_lastname',
-		type: Sequelize.STRING,
+		type: DataTypes.STRING,
 		allowNull: false
-	},
-	email: {
-		type: Sequelize.STRING,
-		// field: 'user_email',
-		allowNull: false
-	},
+	}
 }, {
-	// freeze name table not using *s on name
-	freezeTableName: true,
-	// dont use createdAt/update
-	timestamps: false,
 	hooks: {
 		beforeCreate: async (user) => {
 			if (user.password) {
-				const salt = await bcrypt.genSaltSync(10, 'a');
-				user.password = bcrypt.hashSync(user.password, salt);
+				const salt = await bcrypt.genSalt(10);
+				user.password = await bcrypt.hash(user.password, salt);
 			}
 		},
 		beforeUpdate: async (user) => {
-			if (user.password) {
-				const salt = await bcrypt.genSaltSync(10, 'a');
-				user.password = bcrypt.hashSync(user.password, salt);
+			if (user.password && user.changed('password')) {
+				const salt = await bcrypt.genSalt(10);
+				user.password = await bcrypt.hash(user.password, salt);
 			}
 		}
 	},
-	instanceMethods: {
-		validPassword: (password) => {
-			return bcrypt.compareSync(password, this.password);
-		}
-	}
+	freezeTableName: true,
+	timestamps: false
 });
-userSchema.prototype.validPassword = async (password, hash) => {
-	return await bcrypt.compareSync(password, hash);
+
+// Instance method to validate password
+User.prototype.validPassword = async function (password) {
+	return await bcrypt.compare(password, this.password);
 }
-module.exports = userSchema;
-return userSchema;
+
+module.exports = User;

@@ -8,41 +8,31 @@
 			</a>
 			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 				<li><a href="#" class="nav-link px-2 text-secondary">{{ 'FIZZINGBRAIN.Home' | translate }}</a></li>
-				<li>
-					<a class="nav-link px-2 text-white" routerLink="/question">{{ 'FIZZINGBRAIN.Question' | translate }}</a>
+				<li><a class="nav-link px-2 text-white" routerLink="/question">{{ 'FIZZINGBRAIN.Question' | translate }}</a>
 				</li>
-				<li>
-					<a class="nav-link px-2 text-white" routerLink="/user">{{ 'FIZZINGBRAIN.Users' | translate }}</a>
+				<li><a class="nav-link px-2 text-white" routerLink="/user">{{ 'FIZZINGBRAIN.Users' | translate }}</a></li>
+				<li><a class="nav-link px-2 text-white" routerLink="/fizzingbrain">{{ 'FIZZINGBRAIN.Start' | translate }}</a>
 				</li>
-				<li>
-					<a class="nav-link px-2 text-white" routerLink="/fizzingbrain">{{ 'FIZZINGBRAIN.Start' | translate }}</a>
-				</li>
-				<li>
-					<a class="nav-link px-2 text-white" routerLink="/rules">{{ 'FIZZINGBRAIN.Rules' | translate }}</a>
-				</li>
-				<li>
-					<a class="nav-link px-2 text-white" routerLink="/contact">{{ 'FIZZINGBRAIN.Contact' | translate }}</a>
-				</li>
+				<li><a class="nav-link px-2 text-white" routerLink="/rules">{{ 'FIZZINGBRAIN.Rules' | translate }}</a></li>
+				<li><a class="nav-link px-2 text-white" routerLink="/contact">{{ 'FIZZINGBRAIN.Contact' | translate }}</a></li>
 			</ul>
 
-			<label *ngIf="!gameHasEnded && !gameHasStarted" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+			<label class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
 				{{ 'FIZZINGBRAIN.SELECT' | translate }}
 				<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
 					<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">
-						{{
-						lang
-						}}</option>
+						{{ lang }}
+					</option>
 				</select>
 			</label>
 
-
 			<div class="text-end">
-				<button *ngIf="!(user$ | async)" type="button" class="btn btn-warning" routerLink="/login">{{
-					'FIZZINGBRAIN.Login' | translate
-					}}</button>
-				<button *ngIf="(user$ | async)" type="button" class="btn btn-outline-light me-2" routerLink="/login">{{
-					'FIZZINGBRAIN.Logout' |
-					translate }}</button>
+				<button *ngIf="!(user$ | async)" type="button" class="btn btn-warning" routerLink="/login">
+					{{ 'FIZZINGBRAIN.Login' | translate }}
+				</button>
+				<button *ngIf="user$ | async" type="button" class="btn btn-outline-light me-2" (click)="logout()">
+					{{ 'FIZZINGBRAIN.Logout' | translate }}
+				</button>
 			</div>
 		</div>
 	</div>

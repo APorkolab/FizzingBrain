@@ -1,20 +1,61 @@
+const express = require('express');
+const router = express.Router();
+const User = require('../../model/user');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-module.exports = (req, res, next) => {
-	const authHeader = req.headers.authorization;
+// Bejelentkezés
+router.post('/login', async (req, res) => {
+	const {
+		email,
+		password
+	} = req.body;
 
-	if (authHeader) {
-		const token = authHeader.split(' ')[1];
-		jwt.verify(token, 'AtMySignalUnleashHell', (err, user) => {
-			if (err) {
-				return res.sendStatus(403);
+	try {
+		const user = await User.findOne({
+			where: {
+				email
 			}
-
-			req.user = user;
-			next();
 		});
-	} else {
-		res.sendStatus(401);
-	}
 
-};
+		if (!user) {
+			return res.status(400).json({
+				error: [{
+					msg: "Bad credentials"
+				}]
+			});
+		}
+
+		const valid = await bcrypt.compare(password, user.password);
+		if (!valid) {
+			return res.status(401).json({
+				error: [{
+					msg: "Unauthorized user"
+				}]
+			});
+		}
+
+		const accessToken = jwt.sign({
+			email: user.email
+		}, 'AtMySignalUnleashHell', {
+			expiresIn: '1h'
+		});
+
+		res.json({
+			success: true,
+			accessToken,
+			user: {
+				email: user.email
+			}
+		});
+	} catch (error) {
+		console.error('Server error:', error);
+		return res.status(500).json({
+			error: [{
+				msg: "Server error"
+			}]
+		});
+	}
+});
+
+module.exports = router;

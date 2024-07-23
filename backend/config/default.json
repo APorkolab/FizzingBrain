@@ -1,0 +1,9 @@
+{
+  "database": {
+    "username": "c0nyelvszo",
+    "password": "",
+    "database": "c0nyelvszo",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}

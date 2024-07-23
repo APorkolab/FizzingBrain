@@ -29,14 +29,14 @@ export class QuestionsComponent implements OnInit {
   showSuccessDelete() {
     this.notifyService.showSuccess(
       `${this.entity} delete successfully!`,
-      'FaMoBase v.1.0.0'
+      'Fizzingbrain v.1.0.0'
     );
   }
 
   showError(err: String) {
     this.notifyService.showError(
       'Something went wrong. Details:' + err,
-      'FaMoBase v.1.0.0'
+      'Fizzingbrain v.1.0.0'
     );
   }
 

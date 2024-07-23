@@ -37,6 +37,8 @@
   "editquestion": "Kérdés szerkesztése",
   "loginEmail": "A felhasználó e-mail címének érvényesnek és egyedinek kell lennie!",
   "loginPassword": "Biztonsági okokból a felhasználó jelszavának legalább 8 karakteresnek kell lennie, és legalább 1 betűt és 1 számot kell tartalmaznia!.",
+  "successfully": "Sikeres volt!",
+  "somethingWentWrong": "Valami hiba történt.",
   "FIZZINGBRAIN": {
     "TITLE": "Hallo Angular mit ngx-translate !",
     "SELECT": "Válassza ki az alkalmazás nyelvét!",
@@ -55,7 +57,7 @@
     "COMPUTERGETSPOINT": "A SZÁMÍTÓGÉP tippje jobb volt. Ő kap pontot.",
     "PLAYERGETSPOINT": "A JÁTÉKOS tippje jobb volt. Ő kap pontot.",
     "PLEASECHOOSEDIFFICULTY": "Kérem, válasszon nehézséget!",
-    "THEEND": "The játék véget ért.",
+    "THEEND": "A játék véget ért.",
     "WINNER": "És a győztes...",
     "PLAYERRES": "A játékosnak",
     "COMPRES": "pontja van és a computer",
@@ -75,7 +77,9 @@
     "Rules": "Szabályok",
     "Contact": "Kapcsolat",
     "Login": "Bejelentkezés",
-    "Logout": "Kijelentkezés"
+    "Logout": "Kijelentkezés",
+    "ANSWER": "A helyes válasz",
+    "FIZZINGBRAIN_TITLE": "FizzingBrain v.1.0.0."
   },
   "HEADBAR": {
     "SELECT": "Válassza ki az alkalmazás nyelvét!"

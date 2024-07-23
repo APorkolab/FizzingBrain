@@ -1,7 +1,6 @@
 const path = require('path');
 const winston = require('winston');
 
-
 const options = {
 	file: {
 		level: process.env.LOG_LEVEL_FILE,

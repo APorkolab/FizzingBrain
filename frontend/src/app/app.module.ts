@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ForbiddenComponent } from './page/forbidden/forbidden.component';
@@ -16,25 +15,21 @@ import { FizzingbrainComponent } from './page/fizzingbrain/fizzingbrain.componen
 import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { AuthService } from './service/auth.service';
 import { JwtInterceptor } from './service/jwt.interceptor';
 import { ConfigService, IMenuItem } from './service/config.service';
 import { DataTableModule } from './common/data-table/data-table.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeadbarComponent } from './common/headbar/headbar.component';
 import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 import { ToastrModule } from 'ngx-toastr';
 import { IconModule } from './common/icon/icon.module';
-import { forwardRef } from '@angular/core';
 
 export function HttpLoaderFactory(httpBackend: HttpBackend) {
   return new MultiTranslateHttpLoader(httpBackend, [
-    './assets/translate/core/',
-    './assets/translate/shared/',
+    { prefix: './assets/translate/shared/', suffix: '.json' }
   ]);
 }
 
@@ -58,18 +53,13 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
     AppRoutingModule,
     DataTableModule,
     IconModule,
-    BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
-    BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     TooltipModule.forRoot(),
-    // FontAwesomeModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
@@ -97,7 +87,11 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  sidebar: IMenuItem[] = this.config.sidebarMenu;
+  sidebar: IMenuItem[];
 
-  constructor(private config: ConfigService) { }
+  constructor(private config: ConfigService, private translate: TranslateService) {
+    this.sidebar = this.config.sidebarMenu;
+    this.translate.setDefaultLang('hu'); // Alapértelmezett nyelv beállítása
+    this.translate.use('hu'); // Alapértelmezett nyelv használata
+  }
 }

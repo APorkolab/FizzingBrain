@@ -1,7 +1,6 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,7 +16,8 @@ import { SorterPipe } from 'src/app/pipe/sorter.pipe';
     RouterModule,
     CommonModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [NgxDataTableComponent, FilterPipe, SorterPipe],
 })

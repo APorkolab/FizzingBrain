@@ -4,13 +4,12 @@ const User = require('../../model/user');
 
 const controller = require('../base/controller')(User);
 
-
 // Create
 router.post('/', (req, res, next) => {
 	return controller.create(req, res, next);
 });
 
-//Read
+// Read
 router.get('/', (req, res, next) => {
 	return controller.findAll(req, res, next);
 });
@@ -28,7 +27,7 @@ router.patch('/:id', (req, res, next) => {
 	return controller.update(req, res, next);
 });
 
-// Delete 
+// Delete
 router.delete('/:id', (req, res, next) => {
 	return controller.delete(req, res, next);
 });
