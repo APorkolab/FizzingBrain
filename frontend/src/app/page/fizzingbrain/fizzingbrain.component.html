@@ -57,8 +57,8 @@
 	*ngIf="gameDifficulty !== '' && !gameHasEnded && gameHasStarted">
 	<div class="tm-about-header tm-flex-center">
 		<i-feather name="home"></i-feather>
-		<h2 *ngIf="language === 'hu'">{{questions[counter]?.hungarianQuestion}}</h2>
-		<h2 *ngIf="language === 'en'">{{questions[counter]?.englishQuestion}}</h2>
+		<h2 *ngIf="language === 'hu'">{{questions[counter].hungarianQuestion}}</h2>
+		<h2 *ngIf="language === 'en'">{{questions[counter].englishQuestion}}</h2>
 	</div>
 </section>
 
