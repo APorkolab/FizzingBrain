@@ -47,6 +47,11 @@ const seedDatabase = async () => {
 		await sequelize.authenticate();
 		console.log('Connection has been established successfully.');
 
+		// Táblák létrehozása, ha nem léteznek
+		await sequelize.sync({
+			alter: true
+		}); // Ezzel biztosíthatod, hogy a táblák létre legyenek hozva, vagy frissítve legyenek
+
 		// Run the seeder for each model
 		await sqlUploader(Question, 'question');
 		await sqlUploader(User, 'user');
