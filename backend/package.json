@@ -17,10 +17,11 @@
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
     "express": "^4.19.2",
+    "fizzingbrainbackend": "file:",
     "jsonwebtoken": "^9.0.2",
     "mariadb": "^3.3.1",
     "morgan": "^1.10.0",
-    "mysql2": "^3.10.3",
+    "mysql2": "^3.11.0",
     "npkill": "^0.12.2",
     "pg": "^8.12.0",
     "sequelize": "^6.37.3",
@@ -29,7 +30,7 @@
     "sqlite3": "^5.1.7",
     "supertest": "^7.0.0",
     "swagger-ui-express": "^5.0.1",
-    "winston": "^3.13.1",
+    "winston": "^3.14.2",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
