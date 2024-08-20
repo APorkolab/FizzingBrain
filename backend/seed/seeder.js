@@ -19,22 +19,6 @@ const sequelize = new Sequelize(
 
 const sqlUploader = async (model, fileName) => {
 	try {
-		// Ellenőrizd, hogy a tábla létezik-e
-		await sequelize.sync({
-			alter: true
-		});
-
-		console.log(`Checking existence of records in ${model.name}...`);
-		const exists = await model.count();
-		if (exists) {
-			console.log(`Existing records found in ${model.name}. Deleting...`);
-			await model.destroy({
-				where: {},
-				truncate: true
-			});
-			console.log(`Existing records in ${model.name} deleted.`);
-		}
-
 		const source = await fsp.readFile(`./seed/${fileName}.json`, 'utf8');
 		const list = JSON.parse(source);
 		if (model && model.bulkCreate) {
@@ -53,10 +37,10 @@ const seedDatabase = async () => {
 		await sequelize.authenticate();
 		console.log('Connection has been established successfully.');
 
-		// Táblák létrehozása, ha nem léteznek
+		// Táblák újraépítése minden indításkor
 		await sequelize.sync({
-			alter: true
-		}); // Ezzel biztosíthatod, hogy a táblák létre legyenek hozva, vagy frissítve legyenek
+			force: true
+		}); // Ez törli és újraépíti az összes táblát
 
 		// Run the seeder for each model
 		await sqlUploader(Question, 'question');
