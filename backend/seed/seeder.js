@@ -19,6 +19,12 @@ const sequelize = new Sequelize(
 
 const sqlUploader = async (model, fileName) => {
 	try {
+		// Ellenőrizd, hogy a tábla létezik-e
+		await sequelize.sync({
+			alter: true
+		});
+
+		console.log(`Checking existence of records in ${model.name}...`);
 		const exists = await model.count();
 		if (exists) {
 			console.log(`Existing records found in ${model.name}. Deleting...`);
