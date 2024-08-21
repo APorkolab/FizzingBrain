@@ -1,11 +1,10 @@
 const {
-	Sequelize,
 	DataTypes
 } = require('sequelize');
 const bcrypt = require('bcrypt');
-const db = require('../config/database');
+const db = require('../model/index');
 
-const User = db.define('User', {
+const User = db.sequelize.define('User', {
 	id: {
 		autoIncrement: true,
 		primaryKey: true,
@@ -47,7 +46,6 @@ const User = db.define('User', {
 	timestamps: false
 });
 
-// Instance method to validate password
 User.prototype.validPassword = async function (password) {
 	return await bcrypt.compare(password, this.password);
 }

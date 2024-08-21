@@ -1,4 +1,4 @@
-require('dotenv').config(); // Betölti a .env fájl tartalmát a process.env-be
+require('dotenv').config();
 const {
     Sequelize,
     DataTypes
@@ -20,8 +20,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.User = require('./user')(sequelize, DataTypes);
-db.Place = require('./place')(sequelize, DataTypes);
-db.Player = require('./player')(sequelize, DataTypes);
-db.AllPlace = require('./allplace')(sequelize, DataTypes);
+db.Question = require('./question')(sequelize, DataTypes);
 
 module.exports = db;

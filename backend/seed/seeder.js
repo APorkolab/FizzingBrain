@@ -1,23 +1,8 @@
-const {
-	Sequelize
-} = require('sequelize');
 const fsp = require('fs').promises;
 const path = require('path');
-const User = require('../model/user');
-const Question = require('../model/question');
-require("dotenv").config();
-
-// Initialize Sequelize
-const sequelize = new Sequelize(
-	process.env.DB_NAME,
-	process.env.DB_USER,
-	process.env.DB_PASSWORD, {
-		dialect: process.env.DB_DIALECT || 'mysql',
-		host: process.env.DB_HOST,
-		port: process.env.DB_PORT || 3306,
-		logging: process.env.NODE_ENV === 'development' ? console.log : false // Log only in development
-	}
-);
+const db = require('../model/index');
+const User = db.User;
+const Question = db.Question;
 
 const sqlUploader = async (model, fileName) => {
 	try {
@@ -31,7 +16,6 @@ const sqlUploader = async (model, fileName) => {
 
 		const list = JSON.parse(source);
 
-		// Batch size for bulkCreate, useful for large datasets
 		const batchSize = 1000;
 		for (let i = 0; i < list.length; i += batchSize) {
 			const batch = list.slice(i, i + batchSize);
@@ -48,16 +32,14 @@ const sqlUploader = async (model, fileName) => {
 
 const seedDatabase = async () => {
 	try {
-		await sequelize.authenticate();
+		await db.sequelize.authenticate();
 		console.log('Connection has been established successfully.');
 
-		// Táblák létrehozása, ha nem léteznek
-		await sequelize.sync({
+		await db.sequelize.sync({
 			force: false
 		});
 		console.log('All tables have been created.');
 
-		// Run the seeder for each model
 		await sqlUploader(Question, 'question');
 		await sqlUploader(User, 'user');
 
@@ -67,7 +49,7 @@ const seedDatabase = async () => {
 		throw error;
 	} finally {
 		if (process.env.NODE_ENV !== 'development') {
-			await sequelize.close();
+			await db.sequelize.close();
 			console.log('Database connection closed.');
 		}
 	}
