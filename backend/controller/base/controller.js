@@ -34,14 +34,18 @@ module.exports = (model, populateList = []) => {
 			return service.update(req.params.id, req.body)
 				.then(entity => res.json(entity))
 				.catch(err => {
-					res.status(501).json(err);
+					res.status(500).json({
+						error: err.message
+					});
 				});
 		},
 		create(req, res, next) {
 			return service.create(req.body)
 				.then(entity => res.json(entity))
 				.catch(err => {
-					res.status(501).json(err);
+					res.status(500).json({
+						error: err.message
+					});
 				});
 		},
 		delete(req, res, next) {

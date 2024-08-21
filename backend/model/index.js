@@ -19,7 +19,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Modellek létrehozása és hozzárendelése a db objektumhoz
 db.User = require('./user')(sequelize, DataTypes);
 db.Question = require('./question')(sequelize, DataTypes);
 

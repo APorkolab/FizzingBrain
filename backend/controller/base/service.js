@@ -6,11 +6,13 @@ module.exports = (model, populateList = []) => {
 	return {
 		findAll: async () => {
 			try {
-				return await model.findAll({
-					include: populateList
-				});
+				const options = {};
+				if (populateList.length) {
+					options.include = populateList;
+				}
+				return await model.findAll(options);
 			} catch (error) {
-				console.error('Failed to retrieve data:', error);
+				console.error(`Failed to retrieve data in ${model.name}.findAll:`, error);
 				throw error;
 			}
 		},
@@ -23,7 +25,7 @@ module.exports = (model, populateList = []) => {
 					include: populateList
 				});
 			} catch (error) {
-				console.error('Failed to retrieve data:', error);
+				console.error(`Failed to retrieve data in ${model.name}.findOne:`, error);
 				throw error;
 			}
 		},
@@ -35,7 +37,7 @@ module.exports = (model, populateList = []) => {
 					include: populateList
 				});
 			} catch (error) {
-				console.error('Failed to retrieve data:', error);
+				console.error(`Failed to retrieve data in ${model.name}.findRandom:`, error);
 				throw error;
 			}
 		},
@@ -54,7 +56,7 @@ module.exports = (model, populateList = []) => {
 					include: populateList
 				});
 			} catch (error) {
-				console.error('Failed to update record:', error);
+				console.error(`Failed to update record in ${model.name}.update:`, error);
 				throw error;
 			}
 		},
@@ -68,7 +70,7 @@ module.exports = (model, populateList = []) => {
 					include: populateList
 				});
 			} catch (error) {
-				console.error('Failed to create record:', error);
+				console.error(`Failed to create record in ${model.name}.create:`, error);
 				throw error;
 			}
 		},
@@ -83,7 +85,7 @@ module.exports = (model, populateList = []) => {
 					throw new Error("Not found");
 				}
 			} catch (error) {
-				console.error('Failed to delete record:', error);
+				console.error(`Failed to delete record in ${model.name}.delete:`, error);
 				throw error;
 			}
 		}
