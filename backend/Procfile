@@ -1,3 +1,2 @@
-web: node wait-for-db.js
-predeploy: predeploy: echo "Running predeploy task"
-
+web: node run start
+predeploy: npm run predeploy
