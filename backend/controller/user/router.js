@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../model/user');
+const {
+	User
+} = require('../../model'); // Helyes modell importálása
 
 const controller = require('../base/controller')(User);
 
