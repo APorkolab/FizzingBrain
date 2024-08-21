@@ -19,6 +19,17 @@ const sequelize = new Sequelize(
 	}
 );
 
+const runSqlScript = async (filePath) => {
+	try {
+		const sql = await fsp.readFile(filePath, 'utf8');
+		await sequelize.query(sql);
+		console.log('SQL script executed successfully.');
+	} catch (error) {
+		console.error('Error executing SQL script:', error.message);
+		throw error;
+	}
+};
+
 const sqlUploader = async (model, fileName) => {
 	try {
 		const filePath = path.resolve(__dirname, `../seed/${fileName}.json`);
@@ -51,7 +62,11 @@ const seedDatabase = async () => {
 		await sequelize.authenticate();
 		console.log('Connection has been established successfully.');
 
-		// Wait until all tables are created before seeding
+		// Run the SQL script to create the tables
+		const scriptPath = path.resolve(__dirname, '../SQL database scripts/fkbpanik_fizzingbrain_onlyStructure.sql');
+		await runSqlScript(scriptPath);
+
+		// Optionally, synchronize the Sequelize models with the database
 		if (process.env.NODE_ENV === 'development') {
 			await sequelize.sync({
 				force: true
