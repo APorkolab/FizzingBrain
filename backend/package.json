@@ -4,8 +4,8 @@
   "description": "The guess quiz app",
   "main": "index.js",
   "scripts": {
-    "start": "node wait-for-db.js",
-    "predeploy": "mysql -h $DB_HOST -u $DB_USER -p$DB_PASS $DB_NAME < './SQL database scripts/fkbpanik_fizzingbrain_onlyStructure.sql'"
+    "predeploy": "mysql -h \"$DB_HOST\" -u \"$DB_USER\" -p\"$DB_PASS\" \"$DB_NAME\" < \"./SQL database scripts/fkbpanik_fizzingbrain_onlyStructure.sql\"",
+    "start": "node wait-for-db.js"
   },
   "author": "Ádám Dr. Porkoláb",
   "license": "ISC",
