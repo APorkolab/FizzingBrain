@@ -1,18 +1,3 @@
-const mysql = require('mysql2/promise');
-const config = require('config');
-const logger = require('./logger/logger');
-const app = require('./server');
-const port = process.env.PORT || 3000;
-const seedDatabase = require('./seed/seeder');
-
-const dbConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
-};
-
 async function checkDatabaseConnection() {
   let retries = 5;
   while (retries) {
@@ -20,7 +5,10 @@ async function checkDatabaseConnection() {
       const connection = await mysql.createConnection(dbConfig);
       await connection.end();
       logger.info('Database connection established. Seeding database...');
+
+      // Táblák létrehozása és adatbázis feltöltése
       await seedDatabase();
+
       app.listen(port, () => {
         logger.info(`App listening at http://localhost:${port}`);
       });

@@ -1,2 +1,1 @@
-predeploy: npm run predeploy
 web: node start
