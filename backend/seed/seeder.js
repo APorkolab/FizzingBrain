@@ -21,8 +21,21 @@ const sequelize = new Sequelize(
 
 const runSqlScript = async (filePath) => {
 	try {
-		const sql = await fsp.readFile(filePath, 'utf8');
-		await sequelize.query(sql);
+		let sql = await fsp.readFile(filePath, 'utf8');
+
+		// Remove problematic lines from the SQL script
+		sql = sql
+			.replace(/\/\*![^*]*\*\//g, '') // Remove MySQL specific comments
+			.replace(/START TRANSACTION;/g, '') // Remove START TRANSACTION
+			.replace(/COMMIT;/g, '') // Remove COMMIT
+			.replace(/SET [^;]+;/g, ''); // Remove all SET commands
+
+		// Split the SQL script into individual commands and execute each
+		const commands = sql.split(';').filter(cmd => cmd.trim() !== '');
+		for (const command of commands) {
+			await sequelize.query(command);
+		}
+
 		console.log('SQL script executed successfully.');
 	} catch (error) {
 		console.error('Error executing SQL script:', error.message);
