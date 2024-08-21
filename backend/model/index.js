@@ -1,14 +1,18 @@
+require('dotenv').config(); // Betölti a .env fájl tartalmát a process.env-be
 const {
     Sequelize,
     DataTypes
 } = require('sequelize');
-const config = require('config');
 
-const sequelize = new Sequelize(config.get('database.database'), config.get('database.username'), config.get('database.password'), {
-    host: config.get('database.host'),
-    dialect: config.get('database.dialect'),
-    logging: false,
-});
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD, {
+        host: process.env.DB_HOST,
+        dialect: 'mysql',
+        logging: false,
+    }
+);
 
 const db = {};
 
