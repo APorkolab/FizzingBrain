@@ -4,7 +4,8 @@
   "description": "The guess quiz app",
   "main": "index.js",
   "scripts": {
-    "start": "node wait-for-db.js"
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ádám Dr. Porkoláb",
   "license": "ISC",
