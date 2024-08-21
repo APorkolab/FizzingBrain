@@ -32,14 +32,13 @@ const sqlUploader = async (model, fileName) => {
 
 const seedDatabase = async () => {
 	try {
-		await db.sequelize.authenticate();
-		console.log('Connection has been established successfully.');
-
+		// Táblák létrehozása, ha nem léteznek
 		await db.sequelize.sync({
 			force: false
 		});
 		console.log('All tables have been created.');
 
+		// Adatok feltöltése
 		await sqlUploader(Question, 'question');
 		await sqlUploader(User, 'user');
 
@@ -47,11 +46,6 @@ const seedDatabase = async () => {
 	} catch (error) {
 		console.error('Unable to connect to the database or seed data:', error.message);
 		throw error;
-	} finally {
-		if (process.env.NODE_ENV !== 'development') {
-			await db.sequelize.close();
-			console.log('Database connection closed.');
-		}
 	}
 };
 

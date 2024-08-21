@@ -2,7 +2,7 @@ require('dotenv').config();
 const logger = require('./logger/logger');
 const mysql = require('mysql2/promise');
 const seedDatabase = require('./seed/seeder');
-const app = require('./server'); // Az alkalmazás helyes importálása
+const app = require('./server');
 
 const dbConfig = {
   host: process.env.DB_HOST,
@@ -22,16 +22,17 @@ async function checkDatabaseConnection() {
       await connection.end();
       logger.info('Database connection established.');
 
-      // Táblák létrehozása és adatbázis feltöltése
+      // Ha az adatbázis kapcsolat sikeres, feltöltjük az adatokat.
       await seedDatabase();
 
+      // Indítjuk az alkalmazást, miután a seedelés befejeződött.
       app.listen(port, () => {
         logger.info(`App listening at http://localhost:${port}`);
       });
       break;
     } catch (err) {
       logger.error('Unable to connect to the database. Retrying in 5 seconds...');
-      logger.error(err.message); // Részletes hibaüzenet
+      logger.error(err.stack); // Részletes hibaüzenet stack trace-szel
       retries -= 1;
       await new Promise(res => setTimeout(res, 5000));
     }
