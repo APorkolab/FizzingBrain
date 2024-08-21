@@ -19,30 +19,6 @@ const sequelize = new Sequelize(
 	}
 );
 
-const runSqlScript = async (filePath) => {
-	try {
-		let sql = await fsp.readFile(filePath, 'utf8');
-
-		// Remove problematic lines from the SQL script
-		sql = sql
-			.replace(/\/\*![^*]*\*\//g, '') // Remove MySQL specific comments
-			.replace(/START TRANSACTION;/g, '') // Remove START TRANSACTION
-			.replace(/COMMIT;/g, '') // Remove COMMIT
-			.replace(/SET [^;]+;/g, ''); // Remove all SET commands
-
-		// Split the SQL script into individual commands and execute each
-		const commands = sql.split(';').filter(cmd => cmd.trim() !== '');
-		for (const command of commands) {
-			await sequelize.query(command);
-		}
-
-		console.log('SQL script executed successfully.');
-	} catch (error) {
-		console.error('Error executing SQL script:', error.message);
-		throw error;
-	}
-};
-
 const sqlUploader = async (model, fileName) => {
 	try {
 		const filePath = path.resolve(__dirname, `../seed/${fileName}.json`);
@@ -74,19 +50,6 @@ const seedDatabase = async () => {
 	try {
 		await sequelize.authenticate();
 		console.log('Connection has been established successfully.');
-
-		// Run the SQL script to create the tables
-		const scriptPath = path.resolve(__dirname, '../SQL database scripts/fkbpanik_fizzingbrain_onlyStructure.sql');
-		await runSqlScript(scriptPath);
-
-		// Optionally, synchronize the Sequelize models with the database
-		if (process.env.NODE_ENV === 'development') {
-			await sequelize.sync({
-				force: true
-			}); // Only force sync in development mode
-		} else {
-			await sequelize.sync(); // In production, avoid force syncing
-		}
 
 		// Run the seeder for each model
 		await sqlUploader(Question, 'question');
