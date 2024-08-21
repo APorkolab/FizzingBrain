@@ -3,12 +3,18 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('./logger/logger');
-require("dotenv").config();
 
 const app = express();
 
 // Cross Origin Resource Sharing
 app.use(cors());
+
+// Morgan middleware - log kérések a logger segítségével
+app.use(morgan('combined', {
+	stream: {
+		write: message => logger.info(message.trim())
+	}
+}));
 
 app.use(bodyParser.urlencoded({
 	extended: false
@@ -23,14 +29,16 @@ app.use('/question', require('./controller/question/router'));
 app.use('/user', authenticateJwt, require('./controller/user/router'));
 app.use('/login', require('./controller/login/router'));
 
+// Root route
 app.use('/', (req, res, next) => {
-	console.log(req.url);
+	logger.info(`Request to ${req.url}`);
 	res.send('The Fizzingbrain v.1.0.0 backend is working!');
 });
 
+// Error handling
 app.use((err, req, res, next) => {
-	res.status(500);
-	res.json({
+	logger.error(`Error: ${err.message}`);
+	res.status(500).json({
 		hasError: true,
 		message: err.message,
 	});
