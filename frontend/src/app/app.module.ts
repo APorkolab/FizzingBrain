@@ -1,12 +1,14 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { provideHttpClient } from '@angular/common/http';
+import { DataTableModule } from './common/data-table/data-table.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,12 +28,6 @@ import { AuthService } from './service/auth.service';
 import { ConfigService } from './service/config.service';
 import { JwtInterceptor } from './service/jwt.interceptor';
 
-// Ha van DataTableModule, importálja azt is
-// import { JwtInterceptor } from './interceptors/jwt.interceptor';
-// import { DataTableModule } from './path/to/data-table.module';
-
-// Ha van TooltipModule, importálja azt is
-// import { TooltipModule } from 'ngx-bootstrap/tooltip';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -64,14 +60,11 @@ export function initializeApp(translateService: TranslateService) {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    // DataTableModule, // Ha van ilyen modul, vegye ki a megjegyzésből
     IconModule,
-    HttpClientModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    // TooltipModule.forRoot(), // Ha van ilyen modul, vegye ki a megjegyzésből
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -87,18 +80,19 @@ export function initializeApp(translateService: TranslateService) {
       timeOut: 5000,
       extendedTimeOut: 3000,
     }),
+    DataTableModule,
   ],
   exports: [FormsModule],
   providers: [
+    provideHttpClient(),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
-      deps: [AuthService],
       multi: true,
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: (translateService: TranslateService) => initializeApp(translateService),
+      useFactory: initializeApp,
       deps: [TranslateService],
       multi: true
     },

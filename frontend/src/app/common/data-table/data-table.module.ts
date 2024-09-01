@@ -12,13 +12,12 @@ import { SorterPipe } from 'src/app/pipe/sorter.pipe';
 @NgModule({
   declarations: [NgxDataTableComponent, FilterPipe, SorterPipe],
   imports: [
-    AppRoutingModule,
-    RouterModule,
     CommonModule,
-    BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule,
+    AppRoutingModule
   ],
-  exports: [NgxDataTableComponent, FilterPipe, SorterPipe],
+  exports: [NgxDataTableComponent, FilterPipe, SorterPipe, FormsModule],
 })
 export class DataTableModule { }
