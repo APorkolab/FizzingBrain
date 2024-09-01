@@ -22,13 +22,28 @@ module.exports = (model, populateList = []) => {
 		findRandom: async (limit = 6) => {
 			const count = await model.count();
 			if (count === 0) return [];
-			
-			const randomOffset = Math.floor(Math.random() * count);
-			return model.findAll({
-				offset: randomOffset,
-				limit: limit,
-				include: populateList
-			});
+
+			const selectedIds = new Set();
+			const randomQuestions = [];
+
+			while (randomQuestions.length < limit && selectedIds.size < count) {
+				const randomOffset = Math.floor(Math.random() * count);
+				const question = await model.findOne({
+					offset: randomOffset,
+					include: populateList,
+					where: {
+						id: {
+							[Op.notIn]: Array.from(selectedIds)
+						}
+					}
+				});
+				if (question) {
+					randomQuestions.push(question);
+					selectedIds.add(question.id);
+				}
+			}
+
+			return randomQuestions;
 		},
 		
 		findOne: (id) => model.findByPk(id, {

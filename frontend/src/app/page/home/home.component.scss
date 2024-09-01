@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+	  font-family: "Advent Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+.tm-site-header {
+    background: linear-gradient(135deg, #141414, #2e2e2e); /* Sötétebb árnyalatú, dinamikusabb kontraszt */
+    color: #ffffff; /* Tiszta fehér szöveg */
+    text-align: center;
+    padding: 60px;
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #6c757d; /* Markánsabb keret */
+}
+
+.tm-site-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, #141414, #6c757d);
+    animation: rotateBackground 8s linear infinite; /* Gyorsabb forgás */
+    z-index: 0;
+    opacity: 0.3; /* Hatásosabb háttér */
+}
+
+@keyframes rotateBackground {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.tm-logo {
+    width: 25rem;
+    margin-bottom: 1rem;
+    z-index: 1;
+    position: relative;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
+}
+
+.tm-title {
+    font-size: 3.5rem;
+    margin-bottom: 25px;
+    text-shadow: 5px 5px #212529;
+    z-index: 1;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.tm-lboi {
+    margin-bottom: 40px;
+    width: 100%;
+    text-align: center;
+    color: #dee2e6;
+    z-index: 1;
+    position: relative;
+    font-size: 1.2rem;
+}
+
+.tm-contact-card {
+    background: rgba(52, 58, 64, 0.9); /* Erősebb sötét háttér */
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 550px;
+    z-index: 1;
+    position: relative;
+    border: 2px solid #6c757d; /* Vastagabb keret a határozottabb megjelenésért */
+}
+
+.tm-contact-header {
+    font-size: 2.2rem;
+    color: #ced4da; /* Kiemelő szürke */
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: 3px;
+}
+
+.tm-contact-card h3 {
+    margin: 0 0 25px;
+    font-size: 2.5rem;
+    color: #f8f9fa;
+    text-shadow: 3px 3px #212529;
+}
+
+.tm-contact-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tm-contact-links li {
+    margin-bottom: 18px;
+}
+
+.tm-contact-links a {
+    color: #17c0eb; /* Élénk cian kék */
+    text-decoration: none;
+    font-size: 1.4rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+    position: relative;
+    z-index: 1;
+    font-weight: bold;
+}
+
+.tm-contact-links a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: 3px;
+    background-color: #17c0eb;
+    transform: translateX(-50%) scaleX(0);
+    transition: transform 0.2s ease;
+    z-index: -1;
+}
+
+.tm-contact-links a:hover {
+    color: #00b4d8; /* Élénkebb kék, ha felette van az egér */
+    transform: scale(1.1);
+}
+
+.tm-contact-links a:hover::before {
+    transform: translateX(-50%) scaleX(1);
+}

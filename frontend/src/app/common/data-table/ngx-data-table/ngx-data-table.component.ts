@@ -55,7 +55,7 @@ export class NgxDataTableComponent<T extends { [key: string]: any }> implements 
   ngOnInit(): void {
     this.auth.user$.subscribe(user => {
       this.isLoggedIn = !!user;
-      console.log('isLoggedIn:', this.isLoggedIn);
+      // console.log('isLoggedIn:', this.isLoggedIn);
     });
   }
 

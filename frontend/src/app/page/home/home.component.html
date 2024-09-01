@@ -1,14 +1,33 @@
-<section class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
-	<img src="../../../assets/img/FizzingBrain.png" lass="img-fluid" alt="logo">
-	<h1>FizzingBrain v.1.0.0</h1>
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&display=swap"
+		rel="stylesheet">
+</head>
 
-	<div class="tg-lboi"><label>
+<section class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
+	<img src="../../../assets/img/FizzingBrain.png" class="img-fluid tm-logo" alt="FizzingBrain Logo">
+	<h1 class="tm-title">FizzingBrain v.1.0.0</h1>
+
+	<div class="tm-lboi">
+		<label>
 			{{ 'FIZZINGBRAIN.SELECT' | translate }}
 			<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
-				<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{
-					lang
-					}}</option>
+				<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">
+					{{ lang }}
+				</option>
 			</select>
-		</label></div>
+		</label>
+	</div>
 
+	<div class="tm-contact-card">
+		<h2 class="tm-contact-header">{{ 'contact.header' | translate }}</h2>
+		<h3>{{ 'contact.name' | translate }}</h3>
+		<ul class="tm-contact-links">
+			<li><a href="https://slumbersolver.medium.com/" target="_blank">{{ 'contact.links.mind' | translate }}</a></li>
+			<li><a href="https://www.adamporkolab.hu/" target="_blank">{{ 'contact.links.domain' | translate }}</a></li>
+			<li><a href="https://github.com/APorkolab" target="_blank">{{ 'contact.links.creations' | translate }}</a></li>
+			<li><a
+					href="&#109;a&#105;l&#116;&#111;:&#97;&#100;&#97;&#109;&#64;&#112;&#111;&#114;&#107;&#111;&#108;&#97;&#98;&#46;&#104;&#117;">{{
+					'contact.links.ping' | translate }}</a></li>
+		</ul>
+	</div>
 </section>

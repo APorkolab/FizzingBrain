@@ -36,12 +36,12 @@ export class AuthService {
 
     this.user$.subscribe({
       next: (user) => {
-        console.log('AuthService user$ subscription:', user);
+        // console.log('AuthService user$ subscription:', user);
         if (user) {
-          console.log('User logged in, navigating to home');
+          // console.log('User logged in, navigating to home');
           this.router.navigate(['/']);
         } else {
-          console.log('User logged out');
+          // console.log('User logged out');
           this.access_token$.next('');
           sessionStorage.removeItem('login');
         }
@@ -56,9 +56,9 @@ export class AuthService {
       )
       .subscribe({
         next: (response: IAuthModel) => {
-          console.log('Login response:', response);
+          // console.log('Login response:', response);
           if (response.success) {
-            console.log('Setting user in AuthService:', response.user); // Ellenőrizd, hogy itt kisbetűs 'user' van, nem 'User'
+            // console.log('Setting user in AuthService:', response.user);
             this.user$.next(response.user); // Helyes kulcs használata
             this.access_token$.next(response.accessToken);
             sessionStorage.setItem('login', JSON.stringify(response));
@@ -94,9 +94,9 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log('Logging out...');
+    // console.log('Logging out...');
     sessionStorage.removeItem('login');
     this.user$.next(null);
-    console.log('User after logout:', this.user$.value);
+    // console.log('User after logout:', this.user$.value);
   }
 }

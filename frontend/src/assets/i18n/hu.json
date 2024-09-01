@@ -83,5 +83,40 @@
   },
   "HEADBAR": {
     "SELECT": "Válassza ki az alkalmazás nyelvét!"
+  },
+  "header": {
+    "title": "FizzingBrain v.1.0.0"
+  },
+  "game": {
+    "aim": {
+      "title": "A játék célja",
+      "description": "A Fizzingbrain koncepciója az, hogy a felhasználó és a számítógép találgató párbajt vív."
+    },
+    "difficulty": {
+      "title": "A nehézségi szint",
+      "description": "A program lehetőséget biztosít a nehézségi szint kiválasztására, amelyek befolyásolja a kérdések megválaszolásának idejét és a számítógép találgatásainak pontosságát."
+    },
+    "score": {
+      "title": "A pontozás",
+      "description": "A program a találgatásokat a találatok abszolút értéke alapján pontozza és pontot ad annak, aki közelebb van a megoldáshoz. Ha mindketten eltalálják a helyes megoldást, mindketten kapnak egy pontot. Minden helyesen megválaszolt kérdésért 5 pont jár."
+    },
+    "end": {
+      "title": "Egy mérkőzés vége",
+      "description": "A játék 6 kérdés után ér véget, és a program a megszerzett pontok alapján hirdet győztest: döntetlen esetén a program döntetlent hirdet."
+    }
+  },
+  "footer": {
+    "copyright": "Copyright 2020 Nano Folio - Áttervezés: Dr. Porkoláb Ádám (www.adamporkolab.hu)",
+    "design": "Tooplate"
+  },
+  "contact": {
+  "header": "Érj el, több platformon is",
+  "name": "Dr. Porkoláb Ádám",
+  "links": {
+    "mind": "Merülj el az IT-világomban",
+    "domain": "Barangolj a portfóliómban",
+    "creations": "Fejtsd meg az alkotásaimat",
+    "ping": "Vedd fel velem a kapcsolatot"
+    }
   }
 }

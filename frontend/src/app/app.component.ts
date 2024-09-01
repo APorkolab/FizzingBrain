@@ -8,10 +8,12 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent implements OnInit {
   constructor(private translate: TranslateService) {
+    translate.addLangs(['hu', 'en']);
     translate.setDefaultLang('hu');
   }
 
   ngOnInit() {
-    this.translate.use('hu');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/hu|en/) ? browserLang : 'hu');
   }
 }
