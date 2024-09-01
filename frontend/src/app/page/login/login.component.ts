@@ -16,6 +16,13 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    this.auth.login(this.loginData);
+    console.log('Attempting login with:', this.loginData);
+    // Ellenőrizzük, hogy az email és jelszó nem üres-e
+    if (this.loginData.email && this.loginData.password) {
+      this.auth.login(this.loginData);
+    } else {
+      console.error('Email vagy jelszó hiányzik');
+      // Itt jelenítsen meg egy hibaüzenetet a felhasználónak
+    }
   }
 }

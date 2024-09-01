@@ -3,39 +3,22 @@ const router = express.Router();
 const {
 	Question
 } = require('../../model'); // Helyes modell importálása
-
+const authenticateJwt = require('../../model/auth/authenticate');
 const controller = require('../base/controller')(Question);
 
 // Create
-router.post('/', (req, res, next) => {
-	return controller.create(req, res, next).then(data => res.json(data)).catch(next);
-});
+router.post('/', authenticateJwt, controller.create);
 
 // Read
-router.get('/rand', (req, res, next) => {
-	return controller.findRandom(req, res, next).then(data => res.json(data)).catch(next);
-});
-
-router.get('/', (req, res, next) => {
-	return controller.findAll(req, res, next).then(data => res.json(data)).catch(next);
-});
-
-router.get('/:id', (req, res, next) => {
-	return controller.findOne(req, res, next).then(data => res.json(data)).catch(next);
-});
+router.get('/rand', controller.findRandom);
+router.get('/', controller.findAll);
+router.get('/:id', controller.findOne);
 
 // Update
-router.put('/:id', (req, res, next) => {
-	return controller.update(req, res, next).then(data => res.json(data)).catch(next);
-});
-
-router.patch('/:id', (req, res, next) => {
-	return controller.update(req, res, next).then(data => res.json(data)).catch(next);
-});
+router.put('/:id', authenticateJwt, controller.replace);
+router.patch('/:id', authenticateJwt, controller.update);
 
 // Delete 
-router.delete('/:id', (req, res, next) => {
-	return controller.delete(req, res, next).then(() => res.json({ success: true })).catch(next);
-});
+router.delete('/:id', authenticateJwt, controller.delete);
 
 module.exports = router;

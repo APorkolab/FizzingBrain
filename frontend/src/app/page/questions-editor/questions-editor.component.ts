@@ -31,7 +31,7 @@ export class QuestionsEditorComponent implements OnInit {
     this.initForm();
     this.route.params.subscribe({
       next: (param) => {
-        if (param['id'] == '0') {
+        if (param['id'] === '0') {
           this.questionForm.reset(new Question());
           this.actionText = this.translate.instant('createquestion');
         } else {
@@ -53,7 +53,7 @@ export class QuestionsEditorComponent implements OnInit {
       hungarianQuestion: ['', [Validators.required, Validators.minLength(3)]],
       englishQuestion: ['', [Validators.required, Validators.minLength(3)]],
       hungarianAnswer: ['', [Validators.required, Validators.minLength(2)]],
-      englishAnswer: ['', [Validators.required, Validators.minLength(3)]],
+      englishAnswer: ['', [Validators.required, Validators.minLength(2)]],
       descriptionHungarian: ['', [Validators.minLength(3)]],
       descriptionEnglish: ['', [Validators.minLength(3)]],
     });

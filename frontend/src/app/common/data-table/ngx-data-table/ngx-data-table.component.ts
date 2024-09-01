@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { NotificationService } from 'src/app/service/notification.service';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/model/user';
 
 export interface INgxTableColumn {
   title: string;
@@ -30,6 +32,7 @@ export class NgxDataTableComponent<T extends { [key: string]: any }> implements 
   startSlice = 0;
   endSlice = 25;
   page = 1;
+  isLoggedIn: boolean = false;
 
   get pageList(): number[] {
     const pageCount = Math.ceil(this.list.length / this.pageSize);
@@ -39,18 +42,23 @@ export class NgxDataTableComponent<T extends { [key: string]: any }> implements 
   columnKey: string = '';
   sortDir = -1;
 
-  onColumnSelect(key: string): void {
-    this.columnKey = key;
-    this.sortDir = -1 * this.sortDir;
-  }
+  user$: BehaviorSubject<User | null>;
 
   constructor(
     private notifyService: NotificationService,
     public auth: AuthService,
     public router: Router
-  ) { }
+  ) {
+    this.user$ = this.auth.user$;
+  }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.auth.user$.subscribe(user => {
+      this.isLoggedIn = !!user;
+      console.log('isLoggedIn:', this.isLoggedIn);
+    });
+  }
+
 
   onSelect(entity: T): void {
     this.selectOne.emit(entity);

@@ -1,93 +1,83 @@
 const {
-	Sequelize
-} = require("sequelize");
+	Op
+} = require('sequelize');
 
 module.exports = (model, populateList = []) => {
 	return {
-		findAll: async () => {
-			try {
-				const options = {};
-				if (populateList.length) {
-					options.include = populateList;
-				}
-				return await model.findAll(options);
-			} catch (error) {
-				console.error(`Failed to retrieve data in ${model.name}.findAll:`, error);
-				throw error;
-			}
-		},
-		findOne: async (id) => {
-			try {
-				return await model.findOne({
-					where: {
-						id
-					},
-					include: populateList
+		findAll: async (params = {}) => {
+			const searchParams = {
+				...params
+			};
+			if (Object.keys(searchParams).length) {
+				Object.keys(searchParams).forEach(key => {
+					searchParams[key] = {
+						[Op.like]: `%${searchParams[key]}%`
+					};
 				});
-			} catch (error) {
-				console.error(`Failed to retrieve data in ${model.name}.findOne:`, error);
-				throw error;
 			}
+			return model.findAll({
+				where: searchParams,
+				include: populateList,
+			});
 		},
-		findRandom: async () => {
-			try {
-				return await model.findAll({
-					order: Sequelize.literal('RAND()'),
-					limit: 6,
-					include: populateList
-				});
-			} catch (error) {
-				console.error(`Failed to retrieve data in ${model.name}.findRandom:`, error);
-				throw error;
+		findOne: (id) => model.findByPk(id, {
+			include: populateList,
+		}),
+
+		// PUT: Teljes erőforrás csere
+		replace: async (id, updateData) => {
+			const entity = await model.findByPk(id);
+			if (!entity) {
+				throw new Error('Not found');
 			}
+
+			// Az összes mező frissítése a kérésben érkező adatokkal
+			Object.keys(updateData).forEach(key => {
+				entity[key] = updateData[key];
+			});
+
+			await entity.save();
+
+			return model.findByPk(id, {
+				include: populateList
+			});
 		},
+
+		// PATCH: Részleges frissítés
 		update: async (id, updateData) => {
-			try {
-				await model.update(updateData, {
-					where: {
-						id
-					},
-					individualHooks: true,
-				});
-				return await model.findOne({
-					where: {
-						id
-					},
-					include: populateList
-				});
-			} catch (error) {
-				console.error(`Failed to update record in ${model.name}.update:`, error);
-				throw error;
+			const entity = await model.findByPk(id);
+			if (!entity) {
+				throw new Error('Not found');
 			}
+
+			// Csak a meglévő mezők frissítése
+			Object.keys(updateData).forEach(key => {
+				entity[key] = updateData[key];
+			});
+
+			await entity.save();
+
+			return model.findByPk(id, {
+				include: populateList
+			});
 		},
+
 		create: async (body) => {
-			try {
-				const saved = await model.create(body);
-				return await model.findOne({
-					where: {
-						id: saved.id
-					},
-					include: populateList
-				});
-			} catch (error) {
-				console.error(`Failed to create record in ${model.name}.create:`, error);
-				throw error;
-			}
+				const newEntity = await model.create(body);
+				// Csak az új entitást küldjük vissza, nem az összes elemet
+				return newEntity;
 		},
+
 		delete: async (id) => {
-			try {
-				const result = await model.destroy({
-					where: {
-						id
-					}
-				});
-				if (!result) {
-					throw new Error("Not found");
-				}
-			} catch (error) {
-				console.error(`Failed to delete record in ${model.name}.delete:`, error);
-				throw error;
+			const result = await model.destroy({
+				where: {
+					id
+				},
+			});
+			if (!result) {
+				throw new Error('Not found');
 			}
-		}
+			return result;
+		},
 	};
 }
