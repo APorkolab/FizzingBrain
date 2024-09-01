@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
 		email: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			unique: true
+			unique: true,
+			validate: {
+				isEmail: true // Ellenőrizzük, hogy az email formátum helyes-e
+			}
 		},
 		password: {
 			type: DataTypes.STRING,

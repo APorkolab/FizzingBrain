@@ -1,5 +1,13 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ForbiddenComponent } from './page/forbidden/forbidden.component';
@@ -12,25 +20,30 @@ import { QuestionsComponent } from './page/questions/questions.component';
 import { UsersEditorComponent } from './page/users-editor/users-editor.component';
 import { QuestionsEditorComponent } from './page/questions-editor/questions-editor.component';
 import { FizzingbrainComponent } from './page/fizzingbrain/fizzingbrain.component';
-import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
-import { AuthService } from './service/auth.service';
-import { JwtInterceptor } from './service/jwt.interceptor';
-import { ConfigService, IMenuItem } from './service/config.service';
-import { DataTableModule } from './common/data-table/data-table.module';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HeadbarComponent } from './common/headbar/headbar.component';
-import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
-import { ToastrModule } from 'ngx-toastr';
 import { IconModule } from './common/icon/icon.module';
+import { AuthService } from './service/auth.service';
+import { ConfigService } from './service/config.service';
+import { JwtInterceptor } from './service/jwt.interceptor';
 
-export function HttpLoaderFactory(httpBackend: HttpBackend) {
-  return new MultiTranslateHttpLoader(httpBackend, [
-    { prefix: './assets/translate/shared/', suffix: '.json' }
-  ]);
+// Ha van DataTableModule, importálja azt is
+// import { JwtInterceptor } from './interceptors/jwt.interceptor';
+// import { DataTableModule } from './path/to/data-table.module';
+
+// Ha van TooltipModule, importálja azt is
+// import { TooltipModule } from 'ngx-bootstrap/tooltip';
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function initializeApp(translateService: TranslateService) {
+  return () => new Promise<void>(resolve => {
+    translateService.setDefaultLang('hu');
+    translateService.use('hu').subscribe(() => {
+      console.log('Translations loaded');
+      resolve();
+    });
+  });
 }
 
 @NgModule({
@@ -51,19 +64,19 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DataTableModule,
+    // DataTableModule, // Ha van ilyen modul, vegye ki a megjegyzésből
     IconModule,
     HttpClientModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    TooltipModule.forRoot(),
+    // TooltipModule.forRoot(), // Ha van ilyen modul, vegye ki a megjegyzésből
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpBackend]
+        deps: [HttpClient]
       }
     }),
     ToastrModule.forRoot({
@@ -83,15 +96,16 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
       deps: [AuthService],
       multi: true,
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (translateService: TranslateService) => initializeApp(translateService),
+      deps: [TranslateService],
+      multi: true
+    },
+    ConfigService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  sidebar: IMenuItem[];
-
-  constructor(private config: ConfigService, private translate: TranslateService) {
-    this.sidebar = this.config.sidebarMenu;
-    this.translate.setDefaultLang('hu'); // Alapértelmezett nyelv beállítása
-    this.translate.use('hu'); // Alapértelmezett nyelv használata
-  }
+  constructor(private config: ConfigService) { }
 }

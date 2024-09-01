@@ -32,7 +32,7 @@ app.use('/login', require('./controller/login/router'));
 // Root route
 app.use('/', (req, res, next) => {
 	logger.info(`Request to ${req.url}`);
-	res.send('The Fizzingbrain v.1.0.0 backend is working!');
+	res.send('Üdvözöljük a Fizzingbrain v.1.0.0 backend oldalon!');
 });
 
 // Error handling
