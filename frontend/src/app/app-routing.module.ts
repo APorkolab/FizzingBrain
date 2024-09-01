@@ -57,7 +57,7 @@ const routes: Routes = [{
 {
   path: 'question',
   component: QuestionsComponent,
-
+  canActivate: [AuthGuardService],
 },
 {
   path: 'rules',

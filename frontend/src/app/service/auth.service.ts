@@ -31,7 +31,7 @@ export class AuthService {
     if (loginInfo) {
       const loginObject = JSON.parse(loginInfo);
       this.access_token$.next(loginObject.accessToken);
-      this.user$.next(loginObject.User);
+      this.user$.next(loginObject.user);
     }
 
     this.user$.subscribe({

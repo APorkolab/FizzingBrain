@@ -16,9 +16,7 @@ app.use(morgan('combined', {
 	}
 }));
 
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
@@ -29,13 +27,13 @@ app.use('/question', require('./controller/question/router'));
 app.use('/user', authenticateJwt, require('./controller/user/router'));
 app.use('/login', require('./controller/login/router'));
 
-// Root route
+// Root route - az összes route kezelése után
 app.use('/', (req, res, next) => {
 	logger.info(`Request to ${req.url}`);
 	res.send('Üdvözöljük a Fizzingbrain v.1.0.0 backend oldalon!');
 });
 
-// Error handling
+// Error handling - az összes route kezelése után
 app.use((err, req, res, next) => {
 	logger.error(`Error: ${err.message}`);
 	res.status(500).json({

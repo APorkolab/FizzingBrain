@@ -65,7 +65,7 @@ export class NgxDataTableComponent<T extends { [key: string]: any }> implements 
   }
 
   onDelete(entity: T): void {
-    if (this.auth.user$) {
+    if (this.auth.user$.getValue()) {
       const confirmed = confirm('Do you really want to delete this record? This process cannot be undone.');
       if (!confirmed) {
         return;

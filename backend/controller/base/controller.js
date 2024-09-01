@@ -1,109 +1,101 @@
 const express = require('express');
 const createError = require('http-errors');
-const sequelizeService = require('../base/service');
+const sequelizeService = require('./service');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 
 module.exports = (model, populateList = []) => {
 	const service = sequelizeService(model, populateList);
 	const hashPassword = async (user) => {
-    if (user.password) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(user.password, salt);
-    }
-    return user;
-  };
+		if (user.password) {
+			const salt = await bcrypt.genSalt(10);
+			user.password = await bcrypt.hash(user.password, salt);
+		}
+		return user;
+	};
 
 	return {
-    findAll: asyncHandler(async (req, res, next) => {
-      try {
-        const list = await service.findAll(req.query);
-        res.json(list);
-      } catch (err) {
-        next(new createError.InternalServerError(err.message));
-      }
-    }),
-   findOne: async (req, res, next) => {
-      try {
-        const entity = await service.findOne(req.params.id);
-        if (!entity) {
-          return next(new createError.NotFound("Entity not found"));
-        }
-        res.json(entity);
-      } catch (err) {
-        next(new createError.InternalServerError(err.message));
-      }
-    },   
-		findRandom: async (req, res, next) => {
-      try {
-        const entity = await service.findRandom(req.params.id);
-        if (!entity) {
-          return next(new createError.NotFound("Entity not found"));
-        }
-        res.json(entity);
-      } catch (err) {
-        next(new createError.InternalServerError(err.message));
-      }
-    },
- // PUT: Teljes erőforrás csere
-    replace: async (req, res, next) => {
-      try {
-        const user = await hashPassword(req.body);
-        const entity = await service.replace(req.params.id, user);
+		findAll: asyncHandler(async (req, res, next) => {
+			try {
+				const list = await service.findAll(req.query);
+				res.json(list);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		}),
 
-        if (!entity) {
-          return next(new createError.NotFound("Entity not found"));
-        }
-        res.json(entity);
-      } catch (err) {
-        next(new createError.InternalServerError(err.message));
-      }
-    },
-
-    // PATCH: Részleges frissítés
-    update: async (req, res, next) => {
-      try {
-        const user = await hashPassword(req.body); // Hasheljük a jelszót
-        const entity = await service.update(req.params.id, user);
-
-        if (!entity) {
-          return next(new createError.NotFound("Entity not found"));
-        }
-        res.json(entity);
-      } catch (err) {
-        next(new createError.InternalServerError(err.message));
-      }
-    },
-
-		create(req, res, next) {
-			return service.create(req.body)
-				.then(entity => res.json(entity))
-				.catch(err => {
-					res.status(500).json({
-						error: err.message
-					});
-				});
+		findOne: async (req, res, next) => {
+			try {
+				const entity = await service.findOne(req.params.id);
+				if (!entity) {
+					return next(new createError.NotFound("Entity not found"));
+				}
+				res.json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
 		},
-	 create: async (req, res, next) => {
-      try {
-        const user = await hashPassword(req.body);
-        const entity = await service.create(user);
-        res.status(201).json(entity);
-      } catch (err) {
-        next(new createError.InternalServerError(err.message));
-      }
-    },
 
-    delete: async (req, res, next) => {
-      try {
-        await service.delete(req.params.id);
-        res.status(204).json({});
-      } catch (err) {
-        if (err.message === "Not found") {
-          return next(new createError.NotFound(err.message));
-        }
-        next(new createError.InternalServerError(err.message));
-      }
-    }
-  };
+		findRandom: async (req, res, next) => {
+			try {
+				const entities = await service.findRandom();
+				if (!entities || entities.length === 0) {
+					return next(new createError.NotFound("No entities found"));
+				}
+				res.json(entities);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		replace: async (req, res, next) => {
+			try {
+				const user = await hashPassword(req.body);
+				const entity = await service.replace(req.params.id, user);
+
+				if (!entity) {
+					return next(new createError.NotFound("Entity not found"));
+				}
+				res.json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		update: async (req, res, next) => {
+			try {
+				const user = await hashPassword(req.body);
+				const entity = await service.update(req.params.id, user);
+
+				if (!entity) {
+					return next(new createError.NotFound("Entity not found"));
+				}
+				res.json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		create: async (req, res, next) => {
+			try {
+				const user = await hashPassword(req.body);
+				const entity = await service.create(user);
+				res.status(201).json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		delete: async (req, res, next) => {
+			try {
+				await service.delete(req.params.id);
+				res.status(204).json({});
+			} catch (err) {
+				if (err.message === "Not found") {
+					return next(new createError.NotFound(err.message));
+				}
+				next(new createError.InternalServerError(err.message));
+			}
+		}
+	};
 };

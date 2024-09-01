@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {
-	Question
-} = require('../../model'); // Helyes modell importálása
+const { Question } = require('../../model'); // Helyes modell importálása
 const authenticateJwt = require('../../model/auth/authenticate');
 const controller = require('../base/controller')(Question);
 
@@ -11,8 +9,8 @@ router.post('/', authenticateJwt, controller.create);
 
 // Read
 router.get('/rand', controller.findRandom);
-router.get('/', controller.findAll);
-router.get('/:id', controller.findOne);
+router.get('/', authenticateJwt, controller.findAll);
+router.get('/:id', authenticateJwt, controller.findOne);
 
 // Update
 router.put('/:id', authenticateJwt, controller.replace);

@@ -1,6 +1,4 @@
-const {
-	Op
-} = require('sequelize');
+const { Op } = require('sequelize');
 
 module.exports = (model, populateList = []) => {
 	return {
@@ -20,6 +18,19 @@ module.exports = (model, populateList = []) => {
 				include: populateList,
 			});
 		},
+		
+		findRandom: async (limit = 6) => {
+			const count = await model.count();
+			if (count === 0) return [];
+			
+			const randomOffset = Math.floor(Math.random() * count);
+			return model.findAll({
+				offset: randomOffset,
+				limit: limit,
+				include: populateList
+			});
+		},
+		
 		findOne: (id) => model.findByPk(id, {
 			include: populateList,
 		}),
@@ -63,9 +74,9 @@ module.exports = (model, populateList = []) => {
 		},
 
 		create: async (body) => {
-				const newEntity = await model.create(body);
-				// Csak az új entitást küldjük vissza, nem az összes elemet
-				return newEntity;
+			const newEntity = await model.create(body);
+			// Csak az új entitást küldjük vissza, nem az összes elemet
+			return newEntity;
 		},
 
 		delete: async (id) => {
@@ -80,4 +91,4 @@ module.exports = (model, populateList = []) => {
 			return result;
 		},
 	};
-}
+};
