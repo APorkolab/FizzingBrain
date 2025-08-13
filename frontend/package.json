@@ -27,15 +27,15 @@
     "ngx-toastr": "^15.2.1",
     "ngx-translate-multi-http-loader": "^9.3.2",
     "rxjs": "^6.5.3",
-    "sqlite3": "^5.1.2",
+    "sqlite3": "^5.1.7",
     "tiny-slider": "^2.9.4",
     "toastr": "^2.1.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.2.6",
-    "@angular/cli": "~15.2.6",
+    "@angular-devkit/build-angular": "^20.1.5",
+    "@angular/cli": "~20.1.5",
     "@angular/compiler-cli": "^15.2.7",
     "@types/jasmine": "~4.0.0",
     "@types/jquery": "^3.5.14",
