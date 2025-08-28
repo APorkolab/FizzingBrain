@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { IconModule } from 'src/app/icon/icon.module';
 import { AuthService, ILoginData } from 'src/app/service/auth.service';
 
 @Component({
@@ -8,7 +7,7 @@ import { AuthService, ILoginData } from 'src/app/service/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginData: ILoginData = {};
+  loginData: ILoginData = { email: '', password: '' };
 
   constructor(private auth: AuthService) { }
 
@@ -17,6 +16,13 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    this.auth.login(this.loginData);
+    console.log('Attempting login with:', this.loginData);
+    // Ellenőrizzük, hogy az email és jelszó nem üres-e
+    if (this.loginData.email && this.loginData.password) {
+      this.auth.login(this.loginData);
+    } else {
+      console.error('Email vagy jelszó hiányzik');
+      // Itt jelenítsen meg egy hibaüzenetet a felhasználónak
+    }
   }
 }

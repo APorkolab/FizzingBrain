@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { NotificationService } from 'src/app/service/notification.service';
 import { UserService } from 'src/app/service/user.service';
+import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-users-editor',
@@ -12,43 +14,100 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UsersEditorComponent implements OnInit {
   user$!: Observable<User>;
-  user: User = new User();
+  userForm!: FormGroup;
   entity = 'User';
+  actionText!: string;
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private translate: TranslateService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.initForm();
+    console.log('Form initialized:', this.userForm);
     this.route.params.subscribe({
       next: (param) => {
-        if (param['id'] == '0') {
-          return of(new User());
+        if (param['id'] === '0') {
+          this.userForm.reset(new User());
+          this.actionText = this.translate.instant('createUser');
+          this.addPasswordValidators();
+          console.log('Form reset for new user:', this.userForm);
+        } else {
+          this.user$ = this.userService.getOne(param['id']);
+          this.user$.subscribe({
+            next: (user) => {
+              if (user) {
+                this.userForm.patchValue(user);
+                this.actionText = this.translate.instant('updateUser');
+                this.removePasswordValidators();
+                console.log('Form patched with existing user:', this.userForm);
+              }
+            },
+          });
         }
-        this.user$ = this.userService.getOne(param['id']);
-        return this.userService.getOne(param['id']);
       },
-    });
-    this.user$.subscribe({
-      next: (user) =>
-        (this.user = user ? user : this.user),
     });
   }
 
-  onUpdate(user: User) {
-    this.userService.update(user).subscribe({
-      next: (category) => this.router.navigate(['/', 'user']),
+  initForm() {
+    this.userForm = this.fb.group({
+      id: [null],
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['']
+    });
+  }
+
+  addPasswordValidators() {
+    this.userForm.get('password')?.setValidators([Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{7,}$')]);
+    this.userForm.get('password')?.updateValueAndValidity();
+  }
+
+  removePasswordValidators() {
+    this.userForm.get('password')?.clearValidators();
+    this.userForm.get('password')?.updateValueAndValidity();
+  }
+
+  onSubmit() {
+    console.log('Form submitted:', this.userForm);
+    console.log('Form status:', this.userForm.status);
+    console.log('Form errors:', this.userForm.errors);
+
+    for (const control in this.userForm.controls) {
+      if (this.userForm.controls.hasOwnProperty(control)) {
+        console.log(`${control} validity:`, this.userForm.get(control)?.valid);
+        console.log(`${control} errors:`, this.userForm.get(control)?.errors);
+      }
+    }
+
+    if (this.userForm.valid) {
+      if (this.userForm.get('id')?.value) {
+        this.onUpdate();
+      } else {
+        this.onCreate();
+      }
+    } else {
+      console.log('Form is invalid:', this.userForm);
+    }
+  }
+
+  onUpdate() {
+    this.userService.update(this.userForm.value).subscribe({
+      next: () => this.router.navigate(['/', 'user']),
       error: (err) => this.showError(err),
       complete: () => this.showSuccessEdit(),
     });
   }
 
-  onCreate(user: User) {
-    this.userService.create(user).subscribe({
-      next: (category) => this.router.navigate(['/', 'user']),
+  onCreate() {
+    this.userService.create(this.userForm.value).subscribe({
+      next: () => this.router.navigate(['/', 'user']),
       error: (err) => this.showError(err),
       complete: () => this.showSuccessCreate(),
     });
@@ -56,22 +115,22 @@ export class UsersEditorComponent implements OnInit {
 
   showSuccessEdit() {
     this.notifyService.showSuccess(
-      `${this.entity} edited successfully!`,
-      'FizzingBrain v.1.0.0'
+      this.translate.instant(`${this.entity} edited successfully!`),
+      this.translate.instant('FizzingBrain v.1.0.0')
     );
   }
 
   showSuccessCreate() {
     this.notifyService.showSuccess(
-      `${this.entity} created successfully!`,
-      'FizzingBrain v.1.0.0'
+      this.translate.instant(`${this.entity} created successfully!`),
+      this.translate.instant('FizzingBrain v.1.0.0')
     );
   }
 
-  showError(err: String) {
+  showError(err: string) {
     this.notifyService.showError(
-      'Something went wrong. Details:' + err,
-      'FizzingBrain v.1.0.0'
+      this.translate.instant('Something went wrong. Details:') + err,
+      this.translate.instant('FizzingBrain v.1.0.0')
     );
   }
 }

@@ -1,7 +1,6 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,12 +12,12 @@ import { SorterPipe } from 'src/app/pipe/sorter.pipe';
 @NgModule({
   declarations: [NgxDataTableComponent, FilterPipe, SorterPipe],
   imports: [
-    AppRoutingModule,
-    RouterModule,
     CommonModule,
-    BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    AppRoutingModule
   ],
-  exports: [NgxDataTableComponent, FilterPipe, SorterPipe],
+  exports: [NgxDataTableComponent, FilterPipe, SorterPipe, FormsModule],
 })
 export class DataTableModule { }

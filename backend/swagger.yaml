@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: FizzingBrain API
+  description: API documentation for the FizzingBrain quiz application.
+  version: 1.1.0
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+
+paths:
+  /user:
+    get:
+      summary: Retrieve a list of users
+      description: Returns a list of all registered users.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The user ID.
+          example: 1
+        name:
+          type: string
+          description: The user's name.
+          example: John Doe
+        email:
+          type: string
+          description: The user's email address.
+          example: john.doe@example.com
+        role:
+          type: integer
+          description: The user's role (0 for user, 1 for admin).
+          example: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

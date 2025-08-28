@@ -1,60 +1,101 @@
 const express = require('express');
-const baseService = require('../base/service');
 const createError = require('http-errors');
+const sequelizeService = require('./service');
+const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcrypt');
 
 module.exports = (model, populateList = []) => {
-	const service = baseService(model, populateList);
-	return {
-		findAll(req, res, next) {
-			return service.findAll()
-				.then(list => res.json(list));
-		},
-		findOne(req, res, next) {
-			return service.findOne(req.params.id)
-				.then(entity => {
-					// if (!entity) {
-					// 	return next(new createError.NotFound("Entity has not found"));
-					// }
-					return res.json(entity);
-				});
-		},
-		findRandom(req, res, next) {
-			return service.findRandom()
-				.then(entity => {
-					// if (!entity) {
-					// 	return next(new createError.NotFound("Entity has not found"));
-					// }
-					return res.json(entity);
-				});
-		},
-		update(req, res, next) {
-			return service.update(req.params.id, req.body)
-				.then(entity => res.json(entity))
-				.catch(err => {
-					res.statusCode = 501;
-					res.json(err);
-				});
-		},
-		create(req, res, next) {
-			return service.create(req.body)
-				.then(entity => res.json(entity))
-				.catch(err => {
-					res.statusCode = 501;
-					res.json(err);
-				});
-		},
-		delete(req, res, next) {
-			return service.delete(req.params.id)
-				.then(() => res.json({}))
-				.catch(err => {
-
-					if (err.message === "Not found") {
-						return next(
-							new createError.NotFound(err.message)
-						)
-					}
-					next(new createError.InternalServerError(err.message));
-				});
+	const service = sequelizeService(model, populateList);
+	const hashPassword = async (user) => {
+		if (user.password) {
+			const salt = await bcrypt.genSalt(10);
+			user.password = await bcrypt.hash(user.password, salt);
 		}
-	}
-}
+		return user;
+	};
+
+	return {
+		findAll: asyncHandler(async (req, res, next) => {
+			try {
+				const list = await service.findAll(req.query);
+				res.json(list);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		}),
+
+		findOne: async (req, res, next) => {
+			try {
+				const entity = await service.findOne(req.params.id);
+				if (!entity) {
+					return next(new createError.NotFound("Entity not found"));
+				}
+				res.json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		findRandom: async (req, res, next) => {
+			try {
+				const entities = await service.findRandom();
+				if (!entities || entities.length === 0) {
+					return next(new createError.NotFound("No entities found"));
+				}
+				res.json(entities);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		replace: async (req, res, next) => {
+			try {
+				const user = await hashPassword(req.body);
+				const entity = await service.replace(req.params.id, user);
+
+				if (!entity) {
+					return next(new createError.NotFound("Entity not found"));
+				}
+				res.json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		update: async (req, res, next) => {
+			try {
+				const user = await hashPassword(req.body);
+				const entity = await service.update(req.params.id, user);
+
+				if (!entity) {
+					return next(new createError.NotFound("Entity not found"));
+				}
+				res.json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		create: async (req, res, next) => {
+			try {
+				const user = await hashPassword(req.body);
+				const entity = await service.create(user);
+				res.status(201).json(entity);
+			} catch (err) {
+				next(new createError.InternalServerError(err.message));
+			}
+		},
+
+		delete: async (req, res, next) => {
+			try {
+				await service.delete(req.params.id);
+				res.status(204).json({});
+			} catch (err) {
+				if (err.message === "Not found") {
+					return next(new createError.NotFound(err.message));
+				}
+				next(new createError.InternalServerError(err.message));
+			}
+		}
+	};
+};

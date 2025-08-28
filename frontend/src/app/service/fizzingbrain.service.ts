@@ -1,4 +1,3 @@
-import { IfStmt } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -6,22 +5,23 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class FizzingbrainService {
+  private gameStartingState = new BehaviorSubject<boolean>(false);
+  private gameEndingState = new BehaviorSubject<boolean>(false);
 
-  private gameHasStarted = new BehaviorSubject<boolean>(false);
-  currentGameStartingState = this.gameHasStarted.asObservable();
+  currentGameStartingState = this.gameStartingState.asObservable();
+  currentGameEndingState = this.gameEndingState.asObservable();
 
-  private gameHasEnded = new BehaviorSubject<boolean>(false);
-  currentGameEndingState = this.gameHasEnded.asObservable();
-
-  constructor() { }
-
-  changeGameEndingState(value: boolean) {
-    this.gameHasEnded.next(value);
+  changeGameStartingState(state: boolean): void {
+    if (this.gameStartingState.getValue() !== state) {
+      //  console.log('changeGameStartingState called with state:', state);
+      this.gameStartingState.next(state);
+    }
   }
 
-  changeGameStartingState(value: boolean) {
-    this.gameHasStarted.next(value);
+  changeGameEndingState(state: boolean): void {
+    if (this.gameEndingState.getValue() !== state) {
+      //  console.log('changeGameEndingState called with state:', state);
+      this.gameEndingState.next(state);
+    }
   }
-
-
 }

@@ -37,6 +37,8 @@
   "editquestion": "Kérdés szerkesztése",
   "loginEmail": "A felhasználó e-mail címének érvényesnek és egyedinek kell lennie!",
   "loginPassword": "Biztonsági okokból a felhasználó jelszavának legalább 8 karakteresnek kell lennie, és legalább 1 betűt és 1 számot kell tartalmaznia!.",
+  "successfully": "Sikeres volt!",
+  "somethingWentWrong": "Valami hiba történt.",
   "FIZZINGBRAIN": {
     "TITLE": "Hallo Angular mit ngx-translate !",
     "SELECT": "Válassza ki az alkalmazás nyelvét!",
@@ -55,7 +57,7 @@
     "COMPUTERGETSPOINT": "A SZÁMÍTÓGÉP tippje jobb volt. Ő kap pontot.",
     "PLAYERGETSPOINT": "A JÁTÉKOS tippje jobb volt. Ő kap pontot.",
     "PLEASECHOOSEDIFFICULTY": "Kérem, válasszon nehézséget!",
-    "THEEND": "The játék véget ért.",
+    "THEEND": "A játék véget ért.",
     "WINNER": "És a győztes...",
     "PLAYERRES": "A játékosnak",
     "COMPRES": "pontja van és a computer",
@@ -75,9 +77,46 @@
     "Rules": "Szabályok",
     "Contact": "Kapcsolat",
     "Login": "Bejelentkezés",
-    "Logout": "Kijelentkezés"
+    "Logout": "Kijelentkezés",
+    "ANSWER": "A helyes válasz",
+    "FIZZINGBRAIN_TITLE": "FizzingBrain v.1.0.0."
   },
   "HEADBAR": {
     "SELECT": "Válassza ki az alkalmazás nyelvét!"
+  },
+  "header": {
+    "title": "FizzingBrain v.1.0.0"
+  },
+  "game": {
+    "aim": {
+      "title": "A játék célja",
+      "description": "A Fizzingbrain koncepciója az, hogy a felhasználó és a számítógép találgató párbajt vív."
+    },
+    "difficulty": {
+      "title": "A nehézségi szint",
+      "description": "A program lehetőséget biztosít a nehézségi szint kiválasztására, amelyek befolyásolja a kérdések megválaszolásának idejét és a számítógép találgatásainak pontosságát."
+    },
+    "score": {
+      "title": "A pontozás",
+      "description": "A program a találgatásokat a találatok abszolút értéke alapján pontozza és pontot ad annak, aki közelebb van a megoldáshoz. Ha mindketten eltalálják a helyes megoldást, mindketten kapnak egy pontot. Minden helyesen megválaszolt kérdésért 5 pont jár."
+    },
+    "end": {
+      "title": "Egy mérkőzés vége",
+      "description": "A játék 6 kérdés után ér véget, és a program a megszerzett pontok alapján hirdet győztest: döntetlen esetén a program döntetlent hirdet."
+    }
+  },
+  "footer": {
+    "copyright": "Copyright 2020 Nano Folio - Áttervezés: Dr. Porkoláb Ádám (www.adamporkolab.hu)",
+    "design": "Tooplate"
+  },
+  "contact": {
+  "header": "Érj el, több platformon is",
+  "name": "Dr. Porkoláb Ádám",
+  "links": {
+    "mind": "Merülj el az IT-világomban",
+    "domain": "Barangolj a portfóliómban",
+    "creations": "Fejtsd meg az alkotásaimat",
+    "ping": "Vedd fel velem a kapcsolatot"
+    }
   }
 }

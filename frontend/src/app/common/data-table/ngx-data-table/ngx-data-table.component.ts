@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { NotificationService } from 'src/app/service/notification.service';
-import { RouterModule } from '@angular/router';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/model/user';
 
 export interface INgxTableColumn {
   title: string;
@@ -14,62 +15,65 @@ export interface INgxTableColumn {
   templateUrl: './ngx-data-table.component.html',
   styleUrls: ['./ngx-data-table.component.scss'],
 })
-export class NgxDataTableComponent<T extends { [x: string]: any }>
-  implements OnInit {
-  @Input() list: T[] | any[] = [];
+export class NgxDataTableComponent<T extends { [key: string]: any }> implements OnInit {
+  @Input() list: T[] = [];
   @Input() columns: INgxTableColumn[] = [];
   @Input() entity: string = '';
 
-  @Output() selectOne: EventEmitter<T> = new EventEmitter<T>();
-  @Output() deleteOne: EventEmitter<T> = new EventEmitter<T>();
+  @Output() selectOne = new EventEmitter<T>();
+  @Output() deleteOne = new EventEmitter<T>();
 
-  keys: { [x: string]: string } = {};
+  keys: { [key: string]: string } = {};
   phrase: string = '';
   filterKey: string = '';
   changeText = true;
-  pageSize: number = 25;
+  pageSize = 25;
 
-  startSlice: number = 0;
-  endSlice: number = 25;
-  page: number = 1;
+  startSlice = 0;
+  endSlice = 25;
+  page = 1;
+  isLoggedIn: boolean = false;
 
   get pageList(): number[] {
-    const pageSize = Math.ceil(this.list.length / this.pageSize);
-    return new Array(pageSize).fill(1).map((x, i) => i + 1);
+    const pageCount = Math.ceil(this.list.length / this.pageSize);
+    return Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
   columnKey: string = '';
-  sortDir: number = -1;
+  sortDir = -1;
 
-  onColumnSelect(key: string): void {
-    this.columnKey = key;
-    this.sortDir = this.sortDir * -1;
-  }
+  user$: BehaviorSubject<User | null>;
 
   constructor(
     private notifyService: NotificationService,
     public auth: AuthService,
     public router: Router
-  ) { }
+  ) {
+    this.user$ = this.auth.user$;
+  }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.auth.user$.subscribe(user => {
+      this.isLoggedIn = !!user;
+      // console.log('isLoggedIn:', this.isLoggedIn);
+    });
+  }
+
 
   onSelect(entity: T): void {
     this.selectOne.emit(entity);
   }
 
-  onDelete(entity: T) {
-    if (this.auth.user$) {
-      if (
-        !confirm(
-          'Do you really want to delete this record? This process cannot be undone.'
-        )
-      ) {
-        return false;
+  onDelete(entity: T): void {
+    if (this.auth.user$.getValue()) {
+      const confirmed = confirm('Do you really want to delete this record? This process cannot be undone.');
+      if (!confirmed) {
+        return;
       }
-      return this.deleteOne.emit(entity);
+      this.deleteOne.emit(entity);
+    } else {
+      this.router.navigate(['forbidden']);
     }
-    this.router.navigate(['forbidden']);
   }
 
   jumptoPage(pageNum: number): void {
@@ -78,10 +82,10 @@ export class NgxDataTableComponent<T extends { [x: string]: any }>
     this.endSlice = this.startSlice + this.pageSize;
   }
 
-  showInfoAboutSorting() {
+  showInfoAboutSorting(): void {
     this.notifyService.showInfo(
       'Click the icons next to the column titles to sort the entire table by this column.',
-      'FaMoBase v.1.0.0'
+      'Fizzingbrain v.1.0.0'
     );
   }
 }

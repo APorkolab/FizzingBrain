@@ -1,5 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { provideHttpClient } from '@angular/common/http';
+import { DataTableModule } from './common/data-table/data-table.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,29 +22,24 @@ import { QuestionsComponent } from './page/questions/questions.component';
 import { UsersEditorComponent } from './page/users-editor/users-editor.component';
 import { QuestionsEditorComponent } from './page/questions-editor/questions-editor.component';
 import { FizzingbrainComponent } from './page/fizzingbrain/fizzingbrain.component';
-import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-
-import { AuthService } from './service/auth.service';
-import { JwtInterceptor } from './service/jwt.interceptor';
-import { ConfigService, IMenuItem } from './service/config.service';
-import { DataTableModule } from './common/data-table/data-table.module';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeadbarComponent } from './common/headbar/headbar.component';
-import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
-import { ToastrModule } from 'ngx-toastr';
 import { IconModule } from './common/icon/icon.module';
-import { forwardRef } from '@angular/core';
+import { AuthService } from './service/auth.service';
+import { ConfigService } from './service/config.service';
+import { JwtInterceptor } from './service/jwt.interceptor';
 
-export function HttpLoaderFactory(httpBackend: HttpBackend) {
-  return new MultiTranslateHttpLoader(httpBackend, [
-    './assets/translate/core/',
-    './assets/translate/shared/',
-  ]);
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function initializeApp(translateService: TranslateService) {
+  return () => new Promise<void>(resolve => {
+    translateService.setDefaultLang('hu');
+    translateService.use('hu').subscribe(() => {
+      console.log('Translations loaded');
+      resolve();
+    });
+  });
 }
 
 @NgModule({
@@ -56,24 +60,16 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DataTableModule,
     IconModule,
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    TooltipModule.forRoot(),
-    // FontAwesomeModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpBackend]
+        deps: [HttpClient]
       }
     }),
     ToastrModule.forRoot({
@@ -84,20 +80,26 @@ export function HttpLoaderFactory(httpBackend: HttpBackend) {
       timeOut: 5000,
       extendedTimeOut: 3000,
     }),
+    DataTableModule,
   ],
   exports: [FormsModule],
   providers: [
+    provideHttpClient(),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
-      deps: [AuthService],
       multi: true,
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [TranslateService],
+      multi: true
+    },
+    ConfigService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  sidebar: IMenuItem[] = this.config.sidebarMenu;
-
   constructor(private config: ConfigService) { }
 }

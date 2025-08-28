@@ -1,14 +1,26 @@
-<section class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
-	<img src="../../../assets/img/FizzingBrain.png" lass="img-fluid" alt="logo">
-	<h1>FizzingBrain v.1.0.0</h1>
+<div class="container py-4">
+  <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+      <h1 class="display-5 fw-bold">{{ 'FIZZINGBRAIN.Title' | translate }}</h1>
+      <p class="col-md-8 fs-4">{{ 'FIZZINGBRAIN.Description' | translate }}</p>
+      <button class="btn btn-primary btn-lg" type="button" routerLink="/fizzingbrain">{{ 'FIZZINGBRAIN.Start' | translate }}</button>
+    </div>
+  </div>
 
-	<div class="tg-lboi"><label>
-			{{ 'FIZZINGBRAIN.SELECT' | translate }}
-			<select #langSelect class="form-select form-select-lg mb-3" (change)="translate.use(langSelect.value)">
-				<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{
-					lang
-					}}</option>
-			</select>
-		</label></div>
-
-</section>
+  <div class="row align-items-md-stretch">
+    <div class="col-md-6">
+      <div class="h-100 p-5 text-white bg-dark rounded-3">
+        <h2>{{ 'FIZZINGBRAIN.Rules' | translate }}</h2>
+        <p>{{ 'FIZZINGBRAIN.RulesSummary' | translate }}</p>
+        <button class="btn btn-outline-light" type="button" routerLink="/rules">{{ 'FIZZINGBRAIN.LearnMore' | translate }}</button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="h-100 p-5 bg-light border rounded-3">
+        <h2>{{ 'FIZZINGBRAIN.Contact' | translate }}</h2>
+        <p>{{ 'FIZZINGBRAIN.ContactSummary' | translate }}</p>
+        <button class="btn btn-outline-secondary" type="button" routerLink="/contact">{{ 'FIZZINGBRAIN.GetInTouch' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

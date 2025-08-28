@@ -37,6 +37,9 @@
   "editquestion": "Edit question",
   "loginEmail": "The email of the user must be valid and unique!",
   "loginPassword": "For security reasons, the password of the user must be minimum 8 characters, must contains at least 1 letter and 1 number!",
+  "successfully": "Successfully!",
+  "somethingWentWrong": "Something went wrong.",
+  "details": "Details",
   "FIZZINGBRAIN": {
     "SELECT": "Please select the language of the application!",
     "BUTTONTITLE": "It is up to you to choose the difficulty level!",
@@ -74,9 +77,46 @@
     "Rules": "Rules",
     "Contact": "Contact",
     "Login": "Login",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "ANSWER": "The correct answer is",
+    "FIZZINGBRAIN_TITLE": "FizzingBrain v.1.0.0."
   },
   "HEADBAR": {
     "SELECT": "Please select the language of the application!"
+  },
+    "header": {
+    "title": "FizzingBrain v.1.0.0"
+  },
+  "game": {
+    "aim": {
+      "title": "The aim of the game",
+      "description": "The idea of Fizzingbrain is that the user and the computer fight a guessing duel."
+    },
+    "difficulty": {
+      "title": "The level of difficulty",
+      "description": "The program allows you to choose the level of difficulty, which affects the time to answer the questions and the accuracy of the computer's guessing."
+    },
+    "score": {
+      "title": "The score",
+      "description": "The program scores the guesses based on the absolute value of the guesses and gives points to the one who is closest to the solution. If they both hit the correct solution, they both get a point. For each question answered correctly, 5 points are awarded."
+    },
+    "end": {
+      "title": "End of one match",
+      "description": "The game ends after 6 questions and the program will declare a winner on the basis of the points scored: in case of a tie, the program will declare a draw."
+    }
+  },
+  "footer": {
+    "copyright": "Copyright 2020 Nano Folio - Re-design: Dr. Porkoláb Ádám (www.adamporkolab.hu)",
+    "design": "Tooplate"
+  },
+  "contact": {
+    "header": "Connect Like a Pro",
+    "name": "Dr. Ádám Porkoláb",
+    "links": {
+      "mind": "Dive into My IT Mind",
+      "domain": "Venture into My Portfolio",
+      "creations": "Decode My Creations",
+      "ping": "Ping me"
+    }
   }
 }

@@ -1,50 +1,58 @@
-const {
-	Sequelize,
-	DataTypes,
-	QueryInterface
-} = require('sequelize');
-const sql = require('sequelize');
 const fsp = require('fs').promises;
-const user = require('../model/user');
-const question = require('../model/question');
-const {
-	once
-} = require('events');
-
-
-
-// // mongoose.connection.dropDatabase();
-
+const path = require('path');
+const db = require('../model/index');
+const User = db.User;
+const Question = db.Question;
+const bcrypt = require('bcrypt');
+const userData = require('./user.json');
 
 const sqlUploader = async (model, fileName) => {
-
 	try {
-		const exists = await model.find().count();
-		if (!exists) {
-			throw new Error();
+		const filePath = path.resolve(__dirname, `../seed/${fileName}.json`);
+		const source = await fsp.readFile(filePath, 'utf8');
+
+		if (!source) {
+			console.error(`File ${fileName}.json is empty or missing`);
+			return;
 		}
-	} catch (e) {
-		const source = await fsp.readFile(
-			`./seed/${fileName}.json`,
-			'utf8'
-		);
-		const list = Array.from(JSON.parse(source));
-		if (model && model.create) {
-			await list.map(item => model.create(item));
-			await QueryInterface.bulkInsert(fileName, list);
+
+		const list = JSON.parse(source);
+
+		for (const item of list) {
+			await model.create(item, {
+				individualHooks: true
+			});
 		}
+
+		console.log(`${model.name} records have been recreated.`);
+	} catch (error) {
+		console.error(`Error processing ${model.name}:`, error.message);
+		console.error(error); // Részletes hibaüzenet
 	}
-	sql.close();
 };
 
-(async () => {
+async function seedDatabase() {
 	try {
-		// Please run the seeder line by line, but run every line once!
+		// Táblák létrehozása, ha nem léteznek
+		await db.sequelize.sync({
+			force: false
+		});
+		console.log('All tables have been created.');
 
-		// await sqlUploader(question, 'question');
-		// await sqlUploader(user, 'user');
+		// Töröljük a meglévő rekordokat a User táblából
+		await User.destroy({ where: {}, truncate: true });
+		console.log('All existing User records have been deleted.');
+
+		// Adatok feltöltése
+		await sqlUploader(Question, 'question');
+		await sqlUploader(User, 'user');
+
 		console.log("Every file has been processed by the seeder!");
 	} catch (error) {
-		console.error(error);
+		console.error('Unable to connect to the database or seed data:', error.message);
+		console.error(error); // Részletes hibaüzenet
+		throw error;
 	}
-})();
+}
+
+module.exports = seedDatabase;

@@ -1,44 +1,37 @@
-const sequelize = require("sequelize");
-const db = require("../config/database");
-
-
-const question = db.define(
-	"question", {
+module.exports = (sequelize, DataTypes) => {
+	const Question = sequelize.define('Question', {
 		id: {
-			type: sequelize.INTEGER,
+			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 			allowNull: false
 		},
 		hungarianQuestion: {
-			type: sequelize.STRING,
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		englishQuestion: {
-			type: sequelize.STRING,
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		hungarianAnswer: {
-			type: sequelize.STRING,
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		englishAnswer: {
-			type: sequelize.STRING,
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		descriptionHungarian: {
-			type: sequelize.STRING,
+			type: DataTypes.STRING,
 		},
 		descriptionEnglish: {
-			type: sequelize.STRING,
+			type: DataTypes.STRING,
 		}
 	}, {
-		// freeze name table not using *s on name
 		freezeTableName: true,
-		// dont use createdAt/update
-		timestamps: false,
-	}
-);
+		timestamps: false
+	});
 
-module.exports = question;
-// module.exports = sql.models.question;
+	return Question;
+};

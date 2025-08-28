@@ -2,7 +2,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
 import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 import { Subscription } from 'rxjs';
-import { RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
@@ -16,16 +15,24 @@ export class HeadbarComponent implements OnInit {
   gameHasEndedSubscription!: Subscription;
   gameHasStarted!: boolean;
   gameHasStartedSubscription!: Subscription;
+
   constructor(public translate: TranslateService, protected data: FizzingbrainService, private auth: AuthService) {
+    this.user$.subscribe(user => {
+      console.log('User observable changed:', user);
+    });
   }
 
   ngOnInit(): void {
     this.gameHasStartedSubscription = this.data.currentGameStartingState.subscribe((current) => {
-      this.gameHasStarted = current
+      this.gameHasStarted = current;
     });
     this.gameHasEndedSubscription = this.data.currentGameEndingState.subscribe((current) => {
-      this.gameHasEnded = current
+      this.gameHasEnded = current;
     });
+  }
 
+  logout() {
+    console.log('Logging out...');
+    this.auth.logout();
   }
 }

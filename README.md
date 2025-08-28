@@ -63,7 +63,7 @@ The contents of the file are as follows, please use proper data of your database
 
 ## **3. Version history**
 
-Technologies used: Angular 14 and Bootstrap 5, other NPM libraries (see _package.json_ for the exact list).
+Technologies used: Angular 18 and Bootstrap 5. The project is undergoing a senior-level refactor to improve code quality, remove legacy dependencies like jQuery, and establish a modern, testable architecture. For an exact list of dependencies, see the `package.json` files.
 
 ### v.1.0.0 (2022-11-11)
 
@@ -195,7 +195,7 @@ A fájl tartalma a következő, kérlek, használd a saját adatbázisod megfele
 
 ## **3. Version history**
 
-Alkalmazott technológiák: Angular 14 és Bootstrap 5, egyéb NPM könyvtárak (a pontos listát lásd a _package.json_-ban).
+Alkalmazott technológiák: Angular 18 és Bootstrap 5. A projekt egy senior szintű refaktoráláson megy keresztül a kódminőség javítása, az elavult függőségek (mint a jQuery) eltávolítása és egy modern, tesztelhető architektúra kialakítása érdekében. A pontos függőségi listáért lásd a `package.json` fájlokat.
 
 ### v.1.0.0 (2022-11-11)
 

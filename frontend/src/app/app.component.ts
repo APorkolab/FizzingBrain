@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -6,19 +6,14 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'FizzingBrain';
-  constructor(public translate: TranslateService) {
+export class AppComponent implements OnInit {
+  constructor(private translate: TranslateService) {
+    translate.addLangs(['hu', 'en']);
+    translate.setDefaultLang('hu');
+  }
 
-    translate.addLangs(['en', 'hu']);
-    translate.setDefaultLang('en');
-
-    const browserLang = translate.getBrowserLang();
-
-    try {
-      translate.use(browserLang?.match(/en|hu/) ? browserLang : 'en');
-    } catch (error) {
-      console.log(error);
-    }
+  ngOnInit() {
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/hu|en/) ? browserLang : 'hu');
   }
 }

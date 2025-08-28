@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Question } from 'src/app/model/question';
 import { NotificationService } from 'src/app/service/notification.service';
 import { QuestionService } from 'src/app/service/question.service';
+import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-questions-editor',
@@ -12,42 +14,68 @@ import { QuestionService } from 'src/app/service/question.service';
 })
 export class QuestionsEditorComponent implements OnInit {
   question$!: Observable<Question>;
-  question: Question = new Question();
+  questionForm!: FormGroup;
   entity = 'Question';
+  actionText!: string;
 
   constructor(
     private questionService: QuestionService,
     private route: ActivatedRoute,
     private router: Router,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private translate: TranslateService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.initForm();
     this.route.params.subscribe({
       next: (param) => {
-        if (param['id'] == '0') {
-          return of(new Question());
+        if (param['id'] === '0') {
+          this.questionForm.reset(new Question());
+          this.actionText = this.translate.instant('createquestion');
+        } else {
+          this.question$ = this.questionService.getOne(param['id']);
+          this.question$.subscribe({
+            next: (question) => {
+              this.questionForm.patchValue(question ? question : new Question());
+              this.actionText = this.translate.instant('updatequestion');
+            },
+          });
         }
-        this.question$ = this.questionService.getOne(param['id']);
-        return this.questionService.getOne(param['id']);
       },
-    });
-    this.question$.subscribe({
-      next: (question) => (this.question = question ? question : this.question),
     });
   }
 
-  onUpdate(question: Question) {
-    this.questionService.update(question).subscribe({
-      next: (category) => this.router.navigate(['/', 'question']),
+  initForm() {
+    this.questionForm = this.fb.group({
+      id: [null],
+      hungarianQuestion: ['', [Validators.required, Validators.minLength(3)]],
+      englishQuestion: ['', [Validators.required, Validators.minLength(3)]],
+      hungarianAnswer: ['', [Validators.required, Validators.minLength(2)]],
+      englishAnswer: ['', [Validators.required, Validators.minLength(2)]],
+      descriptionHungarian: ['', [Validators.minLength(3)]],
+      descriptionEnglish: ['', [Validators.minLength(3)]],
+    });
+  }
+
+  onUpdate() {
+    if (this.questionForm.invalid) {
+      return;
+    }
+    this.questionService.update(this.questionForm.value).subscribe({
+      next: () => this.router.navigate(['/', 'question']),
       error: (err) => this.showError(err),
       complete: () => this.showSuccessEdit(),
     });
   }
 
-  onCreate(question: Question) {
-    this.questionService.create(question).subscribe({
-      next: (category) => this.router.navigate(['/', 'question']),
+  onCreate() {
+    if (this.questionForm.invalid) {
+      return;
+    }
+    this.questionService.create(this.questionForm.value).subscribe({
+      next: () => this.router.navigate(['/', 'question']),
       error: (err) => this.showError(err),
       complete: () => this.showSuccessCreate(),
     });
@@ -55,26 +83,22 @@ export class QuestionsEditorComponent implements OnInit {
 
   showSuccessEdit() {
     this.notifyService.showSuccess(
-      `${this.entity} edited successfully!`,
-      'FizzingBrain v.1.0.0'
+      this.translate.instant('editquestion') + ' ' + this.translate.instant('successfully'),
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
     );
   }
 
   showSuccessCreate() {
     this.notifyService.showSuccess(
-      `${this.entity} created successfully!`,
-      'FizzingBrain v.1.0.0'
+      this.translate.instant('createquestion') + ' ' + this.translate.instant('successfully'),
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
     );
   }
 
   showError(err: String) {
     this.notifyService.showError(
-      'Something went wrong. Details:' + err,
-      'FizzingBrain v.1.0.0'
+      this.translate.instant('somethingWentWrong') + ' ' + this.translate.instant('details') + ': ' + err,
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
     );
   }
 }
-function of(arg0: Question): void {
-  throw new Error('Function not implemented.');
-}
-
