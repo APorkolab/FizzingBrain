@@ -1,9 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/model/user';
+import { FilterPipe } from 'src/app/pipe/filter.pipe';
+import { SorterPipe } from 'src/app/pipe/sorter.pipe';
 import { AuthService } from 'src/app/service/auth.service';
 import { NotificationService } from 'src/app/service/notification.service';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { User } from 'src/app/model/user';
 
 export interface INgxTableColumn {
   title: string;
@@ -11,11 +16,22 @@ export interface INgxTableColumn {
 }
 
 @Component({
+  standalone: true,
   selector: 'ngx-data-table',
   templateUrl: './ngx-data-table.component.html',
   styleUrls: ['./ngx-data-table.component.scss'],
+  imports: [
+    CommonModule, // ngIf, ngFor
+    FormsModule, // ngModel
+    RouterModule, // routerLink
+    TranslateModule, // | translate
+    FilterPipe,
+    SorterPipe,
+  ],
 })
-export class NgxDataTableComponent<T extends { [key: string]: any }> implements OnInit {
+export class NgxDataTableComponent<T extends { [key: string]: any }>
+  implements OnInit
+{
   @Input() list: T[] = [];
   @Input() columns: INgxTableColumn[] = [];
   @Input() entity: string = '';
@@ -47,18 +63,17 @@ export class NgxDataTableComponent<T extends { [key: string]: any }> implements 
   constructor(
     private notifyService: NotificationService,
     public auth: AuthService,
-    public router: Router
+    public router: Router,
   ) {
     this.user$ = this.auth.user$;
   }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.subscribe((user) => {
       this.isLoggedIn = !!user;
       // console.log('isLoggedIn:', this.isLoggedIn);
     });
   }
-
 
   onSelect(entity: T): void {
     this.selectOne.emit(entity);
@@ -66,7 +81,9 @@ export class NgxDataTableComponent<T extends { [key: string]: any }> implements 
 
   onDelete(entity: T): void {
     if (this.auth.user$.getValue()) {
-      const confirmed = confirm('Do you really want to delete this record? This process cannot be undone.');
+      const confirmed = confirm(
+        'Do you really want to delete this record? This process cannot be undone.',
+      );
       if (!confirmed) {
         return;
       }
@@ -85,7 +102,7 @@ export class NgxDataTableComponent<T extends { [key: string]: any }> implements 
   showInfoAboutSorting(): void {
     this.notifyService.showInfo(
       'Click the icons next to the column titles to sort the entire table by this column.',
-      'Fizzingbrain v.1.0.0'
+      'Fizzingbrain v.1.0.0',
     );
   }
 }

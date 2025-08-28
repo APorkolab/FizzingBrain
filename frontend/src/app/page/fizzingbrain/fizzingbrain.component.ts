@@ -1,16 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule, DecimalPipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { IconModule } from 'src/app/common/icon/icon.module';
 import { Question } from 'src/app/model/question';
 import { ConfigService } from 'src/app/service/config.service';
+import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 import { NotificationService } from 'src/app/service/notification.service';
 import { QuestionService } from 'src/app/service/question.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
-import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 
 @Component({
+  standalone: true,
   selector: 'app-fizzingbrain',
   templateUrl: './fizzingbrain.component.html',
-  styleUrls: ['./fizzingbrain.component.scss']
+  styleUrls: ['./fizzingbrain.component.scss'],
+  imports: [
+    CommonModule, // ngIf, ngFor, ngClass, number pipe alapok
+    DecimalPipe, // hibaüzenet ezt külön kérte
+    FormsModule, // ngModel
+    TranslateModule, // | translate
+    IconModule, // <i-feather>
+  ],
 })
 export class FizzingbrainComponent implements OnInit, OnDestroy {
   questions: Question[] = [];
@@ -40,7 +51,7 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
     private questionService: QuestionService,
     private translate: TranslateService,
     private notifyService: NotificationService,
-    private data: FizzingbrainService
+    private data: FizzingbrainService,
   ) {
     this.language = this.translate.currentLang || 'hu';
   }
@@ -59,12 +70,12 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
 
   private initializeSubscriptions(): void {
     this.subscriptions.add(
-      this.questionService.getRandomQuestions().subscribe(response => {
+      this.questionService.getRandomQuestions().subscribe((response) => {
         if (response) {
           this.questions = response;
           this.maxRound = Math.max(this.questions.length, 6);
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -72,7 +83,7 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
         if (!this.gameHasStarted && current) {
           this.gameHasStarted = current;
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
@@ -81,13 +92,13 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
           this.gameHasEnded = current;
           this.evaluateGame();
         }
-      })
+      }),
     );
 
     this.subscriptions.add(
-      this.translate.onLangChange.subscribe(event => {
+      this.translate.onLangChange.subscribe((event) => {
         this.language = event.lang;
-      })
+      }),
     );
   }
 
@@ -126,7 +137,7 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
       computerPoint: 0,
       playerGuess: 0,
       gameHasEnded: false,
-      isRevealAnswer: false
+      isRevealAnswer: false,
     });
   }
 
@@ -179,10 +190,10 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculateRange(solution: number): { min: number, max: number } {
+  private calculateRange(solution: number): { min: number; max: number } {
     return {
       min: Math.ceil(solution * ((100 - this.errorMargin) / 100)),
-      max: Math.floor(solution * ((100 + this.errorMargin) / 100))
+      max: Math.floor(solution * ((100 + this.errorMargin) / 100)),
     };
   }
 
@@ -205,10 +216,13 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculateDifferences(solution: number): { diffComp: number, diffPlayer: number } {
+  private calculateDifferences(solution: number): {
+    diffComp: number;
+    diffPlayer: number;
+  } {
     return {
       diffComp: Math.abs(solution - this.computerGuess),
-      diffPlayer: Math.abs(solution - this.playerGuess)
+      diffPlayer: Math.abs(solution - this.playerGuess),
     };
   }
 
@@ -235,7 +249,10 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
     const question = this.questions[this.counter];
     if (question) {
       const answerText = this.translate.instant('FIZZINGBRAIN.ANSWER');
-      const answer = this.language === 'hu' ? question.hungarianAnswer : question.englishAnswer;
+      const answer =
+        this.language === 'hu'
+          ? question.hungarianAnswer
+          : question.englishAnswer;
       this.showNotification('info', `${answerText}: ${answer}`);
     } else {
       console.error('Question is undefined at counter:', this.counter);
@@ -293,11 +310,14 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
   }
 
   private applyDifficultySettings(value: string): void {
-    const difficultySettings: Record<string, { timeLeft: number, timeStandard: number, errorMargin: number }> = {
+    const difficultySettings: Record<
+      string,
+      { timeLeft: number; timeStandard: number; errorMargin: number }
+    > = {
       easy: { timeLeft: 20, timeStandard: 20, errorMargin: 30 },
       medium: { timeLeft: 15, timeStandard: 15, errorMargin: 20 },
       hard: { timeLeft: 10, timeStandard: 10, errorMargin: 10 },
-      impossible: { timeLeft: 5, timeStandard: 5, errorMargin: 5 }
+      impossible: { timeLeft: 5, timeStandard: 5, errorMargin: 5 },
     };
 
     if (value === 'random') {
@@ -310,19 +330,26 @@ export class FizzingbrainComponent implements OnInit, OnDestroy {
 
   private randomizeDifficulty(): void {
     const difficulties = ['easy', 'medium', 'hard', 'impossible'];
-    this.gameDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
-    this.showNotification('info', `FIZZINGBRAIN.CHOSEN_DIFFICULTY: ${this.gameDifficulty}`);
+    this.gameDifficulty =
+      difficulties[Math.floor(Math.random() * difficulties.length)];
+    this.showNotification(
+      'info',
+      `FIZZINGBRAIN.CHOSEN_DIFFICULTY: ${this.gameDifficulty}`,
+    );
     this.applyDifficultySettings(this.gameDifficulty);
   }
 
-  private showNotification(type: 'info' | 'error' | 'success' | 'warning', messageKey: string): void {
+  private showNotification(
+    type: 'info' | 'error' | 'success' | 'warning',
+    messageKey: string,
+  ): void {
     const message = this.translate.instant(messageKey);
     const title = this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE');
     const notificationFunctions = {
       info: () => this.notifyService.showInfo(message, title),
       warning: () => this.notifyService.showWarning(message, title),
       error: () => this.notifyService.showError(message, title),
-      success: () => this.notifyService.showSuccess(message, title)
+      success: () => this.notifyService.showSuccess(message, title),
     };
     notificationFunctions[type]();
   }

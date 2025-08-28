@@ -1,13 +1,21 @@
-import { TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
+import { RouterModule } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
+import { FizzingbrainService } from 'src/app/service/fizzingbrain.service';
 
 @Component({
+  standalone: true,
   selector: 'app-headbar',
   templateUrl: './headbar.component.html',
-  styleUrls: ['./headbar.component.scss']
+  styleUrls: ['./headbar.component.scss'],
+  imports: [
+    CommonModule, // ngIf, ngFor
+    RouterModule, // routerLink
+    TranslatePipe, // | translate
+  ],
 })
 export class HeadbarComponent implements OnInit {
   user$ = this.auth.user$;
@@ -16,23 +24,35 @@ export class HeadbarComponent implements OnInit {
   gameHasStarted!: boolean;
   gameHasStartedSubscription!: Subscription;
 
-  constructor(public translate: TranslateService, protected data: FizzingbrainService, private auth: AuthService) {
-    this.user$.subscribe(user => {
+  constructor(
+    public translate: TranslateService,
+    protected data: FizzingbrainService,
+    private auth: AuthService,
+  ) {
+    this.user$.subscribe((user) => {
       console.log('User observable changed:', user);
     });
+    this.translate.addLangs(['hu', 'en']);
   }
 
   ngOnInit(): void {
-    this.gameHasStartedSubscription = this.data.currentGameStartingState.subscribe((current) => {
-      this.gameHasStarted = current;
-    });
-    this.gameHasEndedSubscription = this.data.currentGameEndingState.subscribe((current) => {
-      this.gameHasEnded = current;
-    });
+    this.gameHasStartedSubscription =
+      this.data.currentGameStartingState.subscribe((current) => {
+        this.gameHasStarted = current;
+      });
+    this.gameHasEndedSubscription = this.data.currentGameEndingState.subscribe(
+      (current) => {
+        this.gameHasEnded = current;
+      },
+    );
   }
 
   logout() {
     console.log('Logging out...');
     this.auth.logout();
+  }
+
+  switchLanguage(lang: string) {
+    this.translate.use(lang);
   }
 }

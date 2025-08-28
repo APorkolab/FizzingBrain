@@ -1,16 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { Question } from 'src/app/model/question';
 import { NotificationService } from 'src/app/service/notification.service';
 import { QuestionService } from 'src/app/service/question.service';
-import { TranslateService } from '@ngx-translate/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-questions-editor',
   templateUrl: './questions-editor.component.html',
-  styleUrls: ['./questions-editor.component.scss']
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule],
 })
 export class QuestionsEditorComponent implements OnInit {
   question$!: Observable<Question>;
@@ -24,8 +31,8 @@ export class QuestionsEditorComponent implements OnInit {
     private router: Router,
     private notifyService: NotificationService,
     private translate: TranslateService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -38,7 +45,9 @@ export class QuestionsEditorComponent implements OnInit {
           this.question$ = this.questionService.getOne(param['id']);
           this.question$.subscribe({
             next: (question) => {
-              this.questionForm.patchValue(question ? question : new Question());
+              this.questionForm.patchValue(
+                question ? question : new Question(),
+              );
               this.actionText = this.translate.instant('updatequestion');
             },
           });
@@ -83,22 +92,30 @@ export class QuestionsEditorComponent implements OnInit {
 
   showSuccessEdit() {
     this.notifyService.showSuccess(
-      this.translate.instant('editquestion') + ' ' + this.translate.instant('successfully'),
-      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+      this.translate.instant('editquestion') +
+        ' ' +
+        this.translate.instant('successfully'),
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE'),
     );
   }
 
   showSuccessCreate() {
     this.notifyService.showSuccess(
-      this.translate.instant('createquestion') + ' ' + this.translate.instant('successfully'),
-      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+      this.translate.instant('createquestion') +
+        ' ' +
+        this.translate.instant('successfully'),
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE'),
     );
   }
 
   showError(err: String) {
     this.notifyService.showError(
-      this.translate.instant('somethingWentWrong') + ' ' + this.translate.instant('details') + ': ' + err,
-      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE')
+      this.translate.instant('somethingWentWrong') +
+        ' ' +
+        this.translate.instant('details') +
+        ': ' +
+        err,
+      this.translate.instant('FIZZINGBRAIN.FIZZINGBRAIN_TITLE'),
     );
   }
 }

@@ -1,19 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HeadbarComponent } from './common/headbar/headbar.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  imports: [RouterOutlet, HeadbarComponent],
 })
-export class AppComponent implements OnInit {
-  constructor(private translate: TranslateService) {
-    translate.addLangs(['hu', 'en']);
-    translate.setDefaultLang('hu');
-  }
-
-  ngOnInit() {
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang?.match(/hu|en/) ? browserLang : 'hu');
-  }
-}
+export class AppComponent {}

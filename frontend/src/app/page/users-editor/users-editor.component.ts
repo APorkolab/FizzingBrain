@@ -1,16 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { NotificationService } from 'src/app/service/notification.service';
 import { UserService } from 'src/app/service/user.service';
-import { TranslateService } from '@ngx-translate/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-users-editor',
   templateUrl: './users-editor.component.html',
-  styleUrls: ['./users-editor.component.scss']
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule],
 })
 export class UsersEditorComponent implements OnInit {
   user$!: Observable<User>;
@@ -24,8 +31,8 @@ export class UsersEditorComponent implements OnInit {
     private router: Router,
     private notifyService: NotificationService,
     private translate: TranslateService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -60,12 +67,17 @@ export class UsersEditorComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['']
+      password: [''],
     });
   }
 
   addPasswordValidators() {
-    this.userForm.get('password')?.setValidators([Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{7,}$')]);
+    this.userForm
+      .get('password')
+      ?.setValidators([
+        Validators.required,
+        Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{7,}$'),
+      ]);
     this.userForm.get('password')?.updateValueAndValidity();
   }
 
@@ -116,21 +128,21 @@ export class UsersEditorComponent implements OnInit {
   showSuccessEdit() {
     this.notifyService.showSuccess(
       this.translate.instant(`${this.entity} edited successfully!`),
-      this.translate.instant('FizzingBrain v.1.0.0')
+      this.translate.instant('FizzingBrain v.1.0.0'),
     );
   }
 
   showSuccessCreate() {
     this.notifyService.showSuccess(
       this.translate.instant(`${this.entity} created successfully!`),
-      this.translate.instant('FizzingBrain v.1.0.0')
+      this.translate.instant('FizzingBrain v.1.0.0'),
     );
   }
 
   showError(err: string) {
     this.notifyService.showError(
       this.translate.instant('Something went wrong. Details:') + err,
-      this.translate.instant('FizzingBrain v.1.0.0')
+      this.translate.instant('FizzingBrain v.1.0.0'),
     );
   }
 }

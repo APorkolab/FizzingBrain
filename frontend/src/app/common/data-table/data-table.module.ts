@@ -1,23 +1,29 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from 'src/app/app-routing.module';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FilterPipe } from 'src/app/pipe/filter.pipe';
 
-import { NgxDataTableComponent } from './ngx-data-table/ngx-data-table.component';
+import { FilterPipe } from 'src/app/pipe/filter.pipe';
 import { SorterPipe } from 'src/app/pipe/sorter.pipe';
+import { NgxDataTableComponent } from './ngx-data-table/ngx-data-table.component';
 
 @NgModule({
-  declarations: [NgxDataTableComponent, FilterPipe, SorterPipe],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    AppRoutingModule
+    NgxDataTableComponent,
+    FilterPipe,
+    SorterPipe,
   ],
-  exports: [NgxDataTableComponent, FilterPipe, SorterPipe, FormsModule],
+  exports: [
+    NgxDataTableComponent,
+    FilterPipe,
+    SorterPipe,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
-export class DataTableModule { }
+export class DataTableModule {}
