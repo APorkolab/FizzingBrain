@@ -20,7 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mariadb": "^3.3.1",
     "morgan": "^1.10.0",
-    "mysql2": "^3.11.0",
+    "mysql2": "^3.14.3",
     "sequelize": "^6.37.3",
     "sequelize-bcrypt": "^1.2.0",
     "swagger-ui-express": "^5.0.1",
